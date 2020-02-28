@@ -22,8 +22,6 @@ public class JDBCConnectionPool {
 		} catch (Exception e){}
 	}
 	
-//public load(InputStream inStream) 
-	
 
 	public Connection take() { 		// To take a object of the attribut
 		Connection cp = a.get(0);
