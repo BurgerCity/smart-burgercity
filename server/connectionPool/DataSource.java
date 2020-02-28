@@ -5,15 +5,15 @@ import java.sql.SQLException;
 
 
 public class DataSource {
-	private static JDBCConnectionPool connection;
+	private static JDBCConnectionPool pool = new JDBCConnectionPool();
 	
-	public static Connection returnConnection() {
-		return connection.take();
+	public static Connection takeConnection() {
+		return pool.take();
 	}
 	 public static void addConnection(Connection c) {
-		 connection.restore(c);
+		 pool.restore(c);
 	 }
 	 public static void closeC() throws SQLException{
-		 connection.closeConnection();
+		 pool.closeConnection();
 	 }
 }
