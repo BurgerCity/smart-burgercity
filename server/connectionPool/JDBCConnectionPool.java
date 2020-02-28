@@ -17,7 +17,6 @@ public class JDBCConnectionPool {
 			Class.forName("127.0.0.1"); // driver chargé 
 			for(int i = 1 ; i <= 10 ; i++) {
 				a.add(DriverManager.getConnection("127.0.0.1", "user" + i, "password" + i)); // connexion
-				Statement s = a.get(i).createStatement(); // statement créé
 			}
 		} catch (Exception e){}
 	}
