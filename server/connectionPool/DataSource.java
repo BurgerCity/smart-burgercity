@@ -10,11 +10,10 @@ public class DataSource {
 	
 	public static Connection takeConnection() {
 		return pool.take();
-
-	private static JDBCConnectionPool connection;
+	}
 
 	public static Connection returnConnection() {
-		return connection.take();
+		return pool.take();
 	}
 	 public static void addConnection(Connection c) {
 		 pool.restore(c);

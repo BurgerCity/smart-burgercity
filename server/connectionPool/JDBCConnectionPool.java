@@ -17,7 +17,7 @@ public class JDBCConnectionPool {
 		try {
 			Class.forName("com.postgre.jdbc.driver"); // loaded the driver (use properties)
 			for(int i = 1 ; i <= 10 ; i++) {
-				a.add(DriverManager.getConnection(/*OBJET_PROPERTIES.getProperties(url)*/ "url", "user", "password")); // connexion
+				a.add(DriverManager.getConnection(/*OBJET_PROPERTIES.getProperties(url)*/ "url", "user", "password")); // connection
 			}
 		} catch (Exception e){}
 	}
