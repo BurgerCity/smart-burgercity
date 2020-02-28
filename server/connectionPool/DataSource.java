@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DataSource {
 	private static JDBCConnectionPool connection;
-	
+
 	public static Connection returnConnection() {
 		return connection.take();
 	}
