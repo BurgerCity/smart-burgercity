@@ -9,7 +9,6 @@ import java.sql.Statement;
 
 public class JDBCConnectionPool {
 
-	
 
 	private ArrayList<Connection> a;
 
