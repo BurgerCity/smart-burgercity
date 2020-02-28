@@ -12,7 +12,7 @@ public class JDBCConnectionPool {
 
 	private ArrayList<Connection> a;
 
-	public void fill() throws SQLException { 		// remplir l'attribut
+	public void fill() throws SQLException { 		// remplir l'attribut //URL A CHANGER
 		try {
 			Class.forName("127.0.0.1"); // driver chargé 
 			for(int i = 1 ; i <= 10 ; i++) {
@@ -22,7 +22,6 @@ public class JDBCConnectionPool {
 	}
 	
 	public Connection take() { 		// prend un objet de l'attribut
-	
 		Connection cp = a.get(0);
 		a.remove(0);
 		return cp;
@@ -30,7 +29,7 @@ public class JDBCConnectionPool {
 
 	void restore(Connection cp) {		// rendre la connexion
 		a.add(cp);
-	} 
+	}
 
 	void closeConnection() throws SQLException {
 		for(Connection y : a) {
