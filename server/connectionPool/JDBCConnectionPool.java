@@ -5,7 +5,6 @@ import java.sql.*;
 
 public class JDBCConnectionPool {
 
-	
 
 	private ArrayList<Connection> a;
 
