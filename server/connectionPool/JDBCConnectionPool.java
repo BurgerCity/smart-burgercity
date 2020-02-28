@@ -1,7 +1,11 @@
 package connectionPool;
 
 import java.util.ArrayList;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 public class JDBCConnectionPool {
 
@@ -10,11 +14,13 @@ public class JDBCConnectionPool {
 	private ArrayList<Connection> a;
 
 	public void fill() throws SQLException { 		// remplir l'attribut
-		//try {Class.forName("url");} // driver chargé 
-		for(int i = 1 ; i <= 10 ; i++) {
-			a.add(DriverManager.getConnection("url", "user" + i, "password" + i)); // connexion
-			Statement s = a.get(i).createStatement (); // statement créé
-		} 
+		try {
+			Class.forName("127.0.0.1"); // driver chargé 
+			for(int i = 1 ; i <= 10 ; i++) {
+				a.add(DriverManager.getConnection("127.0.0.1", "user", "password")); // connexion
+				Statement s = a.get(i).createStatement(); // statement créé
+			}
+		} catch (Exception e){}
 	}
 	
 	public Connection take(int i) { 		// prend un objet de l'attribut
@@ -24,9 +30,9 @@ public class JDBCConnectionPool {
 		return cp;
 	} 
 
-	void restore(Connection cp) {
+	void restore(Connection cp) {		// rendre la connexion
 		a.add(cp);
-	} // rendre la connexion
+	} 
 
 	void closeConnection() throws SQLException {
 		for(Connection y : a) {
