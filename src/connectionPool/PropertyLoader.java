@@ -17,4 +17,8 @@ public class PropertyLoader {
 	public static String getProperty( String propertyName ) {
 		return "";	//
 	}
+	/*public static String getProperty( String propertyName ) {
+		
+	}*/ // Not finish
+:server/connectionPool/PropertyLoader.java
 }
