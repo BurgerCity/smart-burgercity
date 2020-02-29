@@ -15,6 +15,6 @@ public class PropertyLoader {
 		} catch (Exception e) {}
 	}
 	public static String getProperty( String propertyName ) {
-		
+		return "";	//
 	}
 }
