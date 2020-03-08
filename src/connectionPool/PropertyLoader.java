@@ -11,9 +11,9 @@ public class PropertyLoader {
 	}
 	public void load(InputStream input) throws IOException 	{
 		try {
-			input = new FileInputStream("C:\\Users\\mathi\\Documents\\GitHub\\smart-burgercity\\src\\connectionPool\\ressources.properties");
+			input = new url ("https://github.com/BurgerCity/smart-burgercity/blob/master/src/connectionPool/ressources.properties").openStream();
 			prop.load(input);
-			
+
 		} catch (Exception e) {}
 		finally {
 			if (input != null) {
