@@ -5,20 +5,31 @@ import java.io.IOException;
 import java.io.*;
 
 public class PropertyLoader {
-	Properties prop = new Properties();
-	InputStream input = null;
-	public void load(InputStream inStream) throws IOException 	{
+	Properties prop;
+	PropertyLoader() {
+		prop = new Properties();
+	}
+	public void load(InputStream input) throws IOException 	{
 		try {
-			input = new FileInputStream("/smart-burgercity/server/connectionPool/ressources.properties");
+			input = new FileInputStream("C:\\Users\\mathi\\Documents\\GitHub\\smart-burgercity\\src\\connectionPool\\ressources.properties");
 			prop.load(input);
 			
 		} catch (Exception e) {}
+		finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
-	public static String getProperty( String propertyName ) {
-		return "";	//
+	public void loaded() throws  IOException {
+		InputStream in = null;
+		this.load(in);
 	}
-	/*public static String getProperty( String propertyName ) {
-		
-	}*/ // Not finish
-:server/connectionPool/PropertyLoader.java
+	public String getProperty(String key) {
+		return prop.getProperty(key);
+	}
 }

@@ -5,25 +5,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.io.*;
-import java.util.Properties;
 
 
 
 public class JDBCConnectionPool {
 	
 	private ArrayList<Connection> a = new ArrayList<Connection>();
-	
-	JDBCConnectionPool(){
+	JDBCConnectionPool() {
+		PropertyLoader prop = new PropertyLoader();
 		try {
-			Class.forName("com.postgre.jdbc.driver"); // loaded the driver (use properties)
+			prop.loaded();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 			for(int i = 1 ; i <= 10 ; i++) {
-				a.add(DriverManager.getConnection(/*OBJET_PROPERTIES.getProperties(url)*/ "url", "user", "password")); // connection
+				a.add(DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"))); //connection
 			}
 		} catch (Exception e){}
 	}
 	
 
-	public Connection take() { 		// To take a object of the attribut
+	public Connection take() { 		// To take a object of the attribute
 		Connection cp = a.get(0);
 		a.remove(0);
 		return cp;
@@ -33,9 +38,14 @@ public class JDBCConnectionPool {
 		a.add(cp);
 	}
 
-	void closeConnection() throws SQLException { // Close connection of the attribut
+	void closeConnection() throws SQLException { // Close connection of the attribute
 		for(Connection y : a) {
 			y.close();
 		}
-	} 
+	}
+	public static void main(String[] args) throws IOException {
+		PropertyLoader prop = new PropertyLoader();
+		prop.loaded();
+		System.out.println(prop.getProperty("url"));
+	}
 }
