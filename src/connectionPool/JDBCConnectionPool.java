@@ -43,9 +43,4 @@ public class JDBCConnectionPool {
 			y.close();
 		}
 	}
-	public static void main(String[] args) throws IOException {
-		PropertyLoader prop = new PropertyLoader();
-		prop.loaded();
-		System.out.println(prop.getProperty("url"));
-	}
 }
