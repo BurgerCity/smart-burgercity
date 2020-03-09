@@ -1,7 +1,6 @@
 package connectionPool;
 
 import java.util.Properties;
-import java.io.IOException;
 import java.io.*;
 
 public class PropertyLoader {
@@ -9,25 +8,11 @@ public class PropertyLoader {
 	PropertyLoader() {
 		prop = new Properties();
 	}
-	public void load(InputStream input) throws IOException 	{
+	public void loaded() throws IOException {
 		try {
-			input = new url ("https://github.com/BurgerCity/smart-burgercity/blob/master/src/connectionPool/ressources.properties").openStream();
-			prop.load(input);
-
+			InputStream in = getClass().getClassLoader().getResourceAsStream("connectionPool/ressources.properties");
+			prop.load(in);
 		} catch (Exception e) {}
-		finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	public void loaded() throws  IOException {
-		InputStream in = null;
-		this.load(in);
 	}
 	public String getProperty(String key) {
 		return prop.getProperty(key);
