@@ -21,3 +21,24 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/bin/
+.classpath
+.project
+src/connectionPool/connectionPool/DataSource.java
+src/connectionPool/connectionPool/JDBCConnectionPool.java
+server/ert.java
+src/connectionPool/DataSource.java
+src/connectionPool/JDBCConnectionPool.java
+server/ert.java
+server/ert.java
+server/ert.java
+server/connectionPool/DataSource.java
+server/connectionPool/ressources
+server/ert.java
+server/test4
+server/ert.java
+server/connectionPool/DataSource.java
+server/connectionPool/JDBCConnectionPool.java
+server/connectionPool/ressources.properties
+server/test4
+server/test4

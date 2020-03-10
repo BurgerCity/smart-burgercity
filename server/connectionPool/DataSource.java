@@ -12,13 +12,11 @@ public class DataSource {
 		return pool.take();
 	}
 
-	public static Connection returnConnection() {
-		return pool.take();
-	}
-	 public static void addConnection(Connection c) {
+	public static void addConnection(Connection c) {
 		 pool.restore(c);
-	 }
-	 public static void closeC() throws SQLException{
+	}
+	
+	public static void closeC() throws SQLException{
 		 pool.closeConnection();
-	 }
+	}
 }
