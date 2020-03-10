@@ -27,7 +27,6 @@ public class JDBCConnectionPool {
 		} catch (Exception e){}
 	}
 	
-
 	public Connection take() { 		// To take a object of the attribute
 		Connection cp = a.get(0);
 		a.remove(0);
