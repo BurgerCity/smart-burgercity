@@ -36,7 +36,6 @@ public class JDBCConnectionPool {
 	void restore(Connection cp) {		// return the connection
 		a.add(cp);
 	}
-
 	void closeConnection() throws SQLException { // Close connection of the attribute
 		for(Connection y : a) {
 			y.close();
