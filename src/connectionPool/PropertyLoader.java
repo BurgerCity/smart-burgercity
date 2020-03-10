@@ -16,6 +16,5 @@ public class PropertyLoader {
 	}
 	public String getProperty(String key) {
 		return prop.getProperty(key);
-	}
-	
+	}	
 }
