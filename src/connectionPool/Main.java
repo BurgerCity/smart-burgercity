@@ -3,7 +3,7 @@ package connectionPool;
 public class Main {
 	//JDBCConnectionPool pool;
 
-	Main(){
+	Main()
 		//pool = new JDBCConnectionPool();
 	}
 	
