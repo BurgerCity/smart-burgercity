@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DataSource {
+
 	private static JDBCConnectionPool pool;
 	DataSource() {
 		pool = new JDBCConnectionPool();
 	}
+
 	public static Connection takeConnection() {
 		return pool.take();
 	}
