@@ -27,6 +27,14 @@ public class JDBCConnectionPool {
 		} catch (Exception e){}
 	}
 	
+	public ArrayList<Connection> getA() {
+		return a;
+	}
+
+	public void setA(ArrayList<Connection> a) {
+		this.a = a;
+	}
+
 	public Connection take() { 		// To take a object of the attribute
 		Connection cp = a.get(0);
 		a.remove(0);
