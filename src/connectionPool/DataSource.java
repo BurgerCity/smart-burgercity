@@ -4,19 +4,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DataSource {
+	
 	private static JDBCConnectionPool pool = new JDBCConnectionPool();
 	
 	public static Connection takeConnection() {
 		return pool.take();
 	}
-
-	public static Connection returnConnection() {
-		return pool.take();
-	}
-	 public static void addConnection(Connection c) {
+	
+	public static void returnConnection(Connection c) {
 		 pool.restore(c);
-	 }
-	 public static void closeC() throws SQLException{
+	}
+	public static void closeC() throws SQLException{
 		 pool.closeConnection();
-	 }	
+	}	
 }
