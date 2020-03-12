@@ -1,12 +1,7 @@
 package connectionPool;
 
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.io.*;
 
 
@@ -25,12 +20,12 @@ public class JDBCConnectionPool {
 			System.out.println("error properties");
 		}
 		try {
-			Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 			for(int i = 1 ; i <= 10 ; i++) {
+				Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 				cn=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
-				a.add(cn);} //connection
-			
-		} catch (Exception e){
+				a.add(cn); //connection
+				}
+			} catch (Exception e){
 			System.out.println("erreur for");
 		}
 	}
@@ -48,7 +43,6 @@ public class JDBCConnectionPool {
 		if(!a.isEmpty()) {
 			cp= a.get(0);
 			a.remove(0);
-			System.out.println(cp);
 			return cp;
 			}
 		else {
