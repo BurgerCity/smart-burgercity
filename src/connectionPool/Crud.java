@@ -1,17 +1,14 @@
 package connectionPool;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.*;
 
 public class Crud {
-	private JDBCConnectionPool jdbc;
 	private DataSource data;
 	private Connection c;
 	private Scanner sc;
 	Crud() {
 		try {
-			jdbc = new JDBCConnectionPool();
 			data = new DataSource();
 			c = data.takeConnection();
 		} catch(Exception e) {}
@@ -55,17 +52,36 @@ public class Crud {
 		String pren = sc.nextLine();
 		System.out.println("Vous avez saisi : " + pren);
 		System.out.println("Veuillez saisir l'identifiant de la personne :");
-		String id = sc.nextLine();
+		int id = sc.nextInt();
+		if(testId(id) == 0) {
+			System.out.println("L'identifiant n'existe pas");
+		} else {
 		stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
+		}
 	}
 	
 	public void delete() throws SQLException {
 		Statement st = c.createStatement();
-		sc = new Scanner(System.in);
+
 		System.out.println("Choisissez l'id de la personne a supprimer :");
 		int str = sc.nextInt();
-		st.executeUpdate("DELETE FROM test1 WHERE id =" + str + ";");
+		if(testId(str) == 0) {
+			System.out.println("L'identifiant n'existe pas");
+		} else {
+			st.executeUpdate("DELETE FROM test1 WHERE id =" + str + ";");
+		}
 		st.close();
+	}
+	
+	public int testId(int str) throws SQLException {
+		Statement st = c.createStatement();
+		ResultSet rs = st.executeQuery("SELECT id FROM test1 WHERE id = " + str + ";" );
+		if(rs.next()) {
+			return rs.getInt(1);
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	public void choice() throws SQLException {
