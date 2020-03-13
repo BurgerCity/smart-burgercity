@@ -32,36 +32,46 @@ public class Crud {
 	public void select() throws SQLException {
 		PreparedStatement stmt = c.prepareStatement("Select ? FROM test1");
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir soit nom, prenom ou *");
-		int str = sc.nextInt();
+		System.out.println("Veuillez saisir 1 pour nom, 2 pour prenom ou 0 pour *");
+		int n = sc.nextInt();
 		//System.out.println("Vous avez saisi : " + str);
-		stmt.setString(1, "lastname");
-		ResultSet rs =	stmt.executeQuery();
-
-			if(str==1) {
-				while(rs.next()) {
-				System.out.println("salut");
-				String noms=rs.getString("lastname");
+		if(n==1) {
+			stmt.setString(1,"lastname");
+			ResultSet rsp= stmt.executeQuery();
+			System.out.println(rsp.next());
+			while(rsp.next()) {
+				String noms=rsp.getString(1);
 				System.out.println(noms);
-				}
 			}
-			else if(str==2) {
-				while(rs.next()) {
-				
-				String prenoms=rs.getString("firstname");
+			rsp.close();
+			stmt.close();
+		}
+		else if(n==2) {
+			stmt.setString(1, "firstname");
+			ResultSet rsp=stmt.executeQuery();
+			while(rsp.next()) {
+				String prenoms=rsp.getString("firstname");
 				System.out.println(prenoms);
-				}
 			}
-			else if(str==0){
-				while(rs.next()) {
-					
-					String prenoms=rs.getString("firstname");
-					String noms=rs.getString("lastname");
-					int ids=rs.getInt("id");
-					System.out.println(ids + ""+prenoms+""+noms);
-				}
+			rsp.close();
+			stmt.close();
+		}
+		else if(n==0) {
+			stmt.setString(1, "*");
+			ResultSet rsp=stmt.executeQuery();
+			while(rsp.next()) {
+				String noms=rsp.getString("lastname");
+				String prenoms=rsp.getString("firstname");
+				int ids=rsp.getInt("id");
+				System.out.println(ids +" "+prenoms+" "+noms);
 			}
-			else {System.out.println("vous etes trompés!");}
+			rsp.close();
+			stmt.close();
+		}
+		else {
+			System.out.println("error typo");
+			stmt.close();
+		}
 	}
 	
 	public void update() throws SQLException {
