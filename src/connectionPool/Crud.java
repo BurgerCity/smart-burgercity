@@ -1,5 +1,6 @@
 package connectionPool;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -7,7 +8,7 @@ public class Crud {
 	private JDBCConnectionPool jdbc;
 	private DataSource data;
 	private Connection c;
-	private Scanner sc = new Scanner(System.in);
+	private Scanner sc;
 	Crud() {
 		try {
 			jdbc = new JDBCConnectionPool();
@@ -17,21 +18,43 @@ public class Crud {
 	}
 	
 	public void insert() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("INSERT INTO test1(lastname, firstname) values('?','?')");
-		Scanner sc = new Scanner(System.in);
+		PreparedStatement stmt = c.prepareStatement("INSERT INTO test1(id, lastname, firstname) values('?','?');");
+		sc = new Scanner(System.in);
 		System.out.println("Veuillez saisir un nom :");
 		String str = sc.nextLine();
 		System.out.println("Vous avez saisi : " + str);
 		System.out.println("Veuillez saisir un prenom :");
 		String pren = sc.nextLine();
 		System.out.println("Vous avez saisi : " + pren);
-		stmt.setString(1, str);
-		stmt.setString(2, pren);	
+		stmt.setString(2, str);
+		stmt.setString(3, pren);
+		ResultSet rs = stmt.executeQuery();
+		rs.close();
+		
 	}
 	
 	public void select() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("Select ? FROM test1");
-		Scanner sc = new Scanner(System.in);
+		Statement st = c.createStatement();
+		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM test1;");
+		ResultSetMetaData rd = rs.getMetaData();
+		/*String s = "";
+		int n = rd.getColumnCount();
+		for(int i = 1; i <= n; i++) {
+			s = rd.getColumnName(i);
+			s = s + " ";
+		}
+		System.out.println(s);*/
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String last = rs.getString("lastname");
+			String first = rs.getString("firstname");
+			System.out.println(id + " " + last + " " + first);
+		}
+		rs.close();
+		st.close();
+		
+	/*	PreparedStatement stmt = c.prepareStatement("Select ? FROM test1");
+		sc = new Scanner(System.in);
 		System.out.println("Veuillez saisir 1 pour nom, 2 pour prenom ou 0 pour *");
 		int n = sc.nextInt();
 		//System.out.println("Vous avez saisi : " + str);
@@ -40,7 +63,7 @@ public class Crud {
 			ResultSet rsp= stmt.executeQuery();
 			while(rsp.next()) {
 				ResultSetMetaData rsmd=rsp.getMetaData();
-				rsp.getObjet(i);
+				//rsp.getObjet(i);
 				String noms=rsp.getString(1);
 				System.out.println(noms);
 			}
@@ -72,11 +95,11 @@ public class Crud {
 		else {
 			System.out.println("error typo");
 			stmt.close();
-		}
+		}*/
 	}
 	
 	public void update() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("UPDATE test1 SET lastname = '?', firstname = '?' WHERE id = ?");
+		PreparedStatement stmt = c.prepareStatement("UPDATE test1 SET lastname = '?', firstname = '?' WHERE id = ?;");
 		System.out.println("Veuillez saisir le nom modifié :");
 		String str = sc.nextLine();
 		System.out.println("Veuillez saisir le prenom modifié :");
@@ -89,28 +112,41 @@ public class Crud {
 	}
 	
 	public void delete() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("DELETE FROM test1 WHERE id = ?");
+		PreparedStatement stmt = c.prepareStatement("DELETE FROM test1 WHERE id = ?;");
 		System.out.println("Veuillez saisir l'identifiant de la personne :");
-		String id = sc.nextLine();
-		stmt.setString(1, id);
+		int id = sc.nextInt();
+		stmt.setInt(1, id);
 	}
 	
 	public void choice() throws SQLException {
 		boolean b = true;
-		System.out.println("Tapez 1 pour Insert, 2 pour Select, 3 pour Update, 4 pour Delete, 5 pour arreter : ");
-		int str = sc.nextInt();
+		sc = new Scanner(System.in);
+		int str = 0;
 		while(b == true)
-			
-			if(str==1) {
+		    if(str == 0 ) {
+				System.out.println("Tapez 1 pour Insert, 2 pour Select, 3 pour Update, 4 pour Delete, 5 pour arreter : ");
+				str = sc.nextInt();
+			}
+			else if(str==1) {
 					System.out.println("hi");
-					this.insert();}
+					this.insert();
+					str = 0;		
+			}
 				
-			else if(str==2){this.select();}
+			else if(str==2){
+				this.select();
+				str = 0;
+			}
 				
-			else if(str==3){this.update();}
+			else if(str==3){this.update();
+			str = 0;
+			}
 				
-			else if(str==4){this.delete();}
+			else if(str==4){this.delete();
+			str = 0;}
 				
 			else		{b = false;}
+		data.returnConnection(c);
+		data.closeC();
 	}
 }
