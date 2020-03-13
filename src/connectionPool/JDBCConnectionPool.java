@@ -14,9 +14,9 @@ import java.io.*;
 public class JDBCConnectionPool {
 	
 	private ArrayList<Connection> a = new ArrayList<Connection>();
-	JDBCConnectionPool() {
+	JDBCConnectionPool() throws ClassNotFoundException {
 		PropertyLoader prop = new PropertyLoader();
-		Connection cn=null;
+		Connection cn;
 		try {
 			prop.loaded();
 		} catch (IOException e1) {
@@ -28,8 +28,10 @@ public class JDBCConnectionPool {
 			Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 			for(int i = 1 ; i <= 10 ; i++) {
 				cn=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
-				a.add(cn);} //connection
-			
+				a.add(cn);
+				System.out.println(cn);
+			} //connection
+					
 		} catch (Exception e){
 			System.out.println("erreur for");
 		}
@@ -53,8 +55,8 @@ public class JDBCConnectionPool {
 			}
 		else {
 			return cp;
-	} 
-}
+		} 
+	}
 
 	void restore(Connection cp) {		// return the connection
 		a.add(cp);
