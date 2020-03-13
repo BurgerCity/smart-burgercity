@@ -34,6 +34,7 @@ public class Crud {
 	public void select() throws SQLException {
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM test1;");
+		sc = new Scanner(System.in);
 		while(rs.next()) {
 			int id = rs.getInt("id");
 			String last = rs.getString("lastname");
@@ -46,10 +47,13 @@ public class Crud {
 	
 	public void update() throws SQLException {
 		Statement stmt = c.createStatement();
+		sc = new Scanner(System.in);
 		System.out.println("Veuillez saisir le nom modifié :");
 		String str = sc.nextLine();
+		System.out.println("Vous avez saisi : " + str);
 		System.out.println("Veuillez saisir le prenom modifié :");
 		String pren = sc.nextLine();
+		System.out.println("Vous avez saisi : " + pren);
 		System.out.println("Veuillez saisir l'identifiant de la personne :");
 		String id = sc.nextLine();
 		stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
@@ -57,6 +61,7 @@ public class Crud {
 	
 	public void delete() throws SQLException {
 		Statement st = c.createStatement();
+		sc = new Scanner(System.in);
 		System.out.println("Choisissez l'id de la personne a supprimer :");
 		int str = sc.nextInt();
 		st.executeUpdate("DELETE FROM test1 WHERE id =" + str + ";");
@@ -73,7 +78,6 @@ public class Crud {
 				str = sc.nextInt();
 			}
 			else if(str==1) {
-					System.out.println("hi");
 					this.insert();
 					str = 0;		
 			}
