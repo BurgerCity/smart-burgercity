@@ -38,8 +38,9 @@ public class Crud {
 		if(n==1) {
 			stmt.setString(1,"lastname");
 			ResultSet rsp= stmt.executeQuery();
-			System.out.println(rsp.next());
 			while(rsp.next()) {
+				ResultSetMetaData rsmd=rsp.getMetaData();
+				rsp.getObjet(i);
 				String noms=rsp.getString(1);
 				System.out.println(noms);
 			}
