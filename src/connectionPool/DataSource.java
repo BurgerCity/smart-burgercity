@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DataSource {
 
 	private static JDBCConnectionPool pool;
-	DataSource() {
+	DataSource() throws ClassNotFoundException {
 		pool = new JDBCConnectionPool();
 	}
 

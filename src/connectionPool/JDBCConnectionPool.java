@@ -9,9 +9,9 @@ import java.io.*;
 public class JDBCConnectionPool {
 	
 	private ArrayList<Connection> a = new ArrayList<Connection>();
-	JDBCConnectionPool() {
+	JDBCConnectionPool() throws ClassNotFoundException {
 		PropertyLoader prop = new PropertyLoader();
-		Connection cn=null;
+		Connection cn;
 		try {
 			prop.loaded();
 		} catch (IOException e1) {
@@ -47,8 +47,8 @@ public class JDBCConnectionPool {
 			}
 		else {
 			return cp;
-	} 
-}
+		} 
+	}
 
 	void restore(Connection cp) {		// return the connection
 		a.add(cp);

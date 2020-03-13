@@ -98,7 +98,6 @@ public class Crud {
 	public void choice() throws SQLException {
 		boolean b = true;
 		System.out.println("Tapez 1 pour Insert, 2 pour Select, 3 pour Update, 4 pour Delete, 5 pour arreter : ");
-
 		int str = sc.nextInt();
 		while(b == true)
 			
@@ -112,8 +111,6 @@ public class Crud {
 				
 			else if(str==4){this.delete();}
 				
-			else		{b = false;}			
-		
-		
+			else		{b = false;}
 	}
 }
