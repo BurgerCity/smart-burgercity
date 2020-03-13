@@ -45,16 +45,14 @@ public class Crud {
 	}
 	
 	public void update() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("UPDATE test1 SET lastname = '?', firstname = '?' WHERE id = ?;");
+		Statement stmt = c.createStatement();
 		System.out.println("Veuillez saisir le nom modifié :");
 		String str = sc.nextLine();
 		System.out.println("Veuillez saisir le prenom modifié :");
 		String pren = sc.nextLine();
 		System.out.println("Veuillez saisir l'identifiant de la personne :");
 		String id = sc.nextLine();
-		stmt.setString(1, str);
-		stmt.setString(2, pren);
-		stmt.setString(3, id);
+		stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
 	}
 	
 	public void delete() throws SQLException {
