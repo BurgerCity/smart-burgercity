@@ -30,6 +30,7 @@ public class Crud {
 		stmt.setString(3, pren);
 		ResultSet rs = stmt.executeQuery();
 		rs.close();
+		stmt.close();
 		
 	}
 	
@@ -112,10 +113,11 @@ public class Crud {
 	}
 	
 	public void delete() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("DELETE FROM test1 WHERE id = ?;");
-		System.out.println("Veuillez saisir l'identifiant de la personne :");
-		int id = sc.nextInt();
-		stmt.setInt(1, id);
+		Statement st = c.createStatement();
+		System.out.println("Choisissez l'id de la personne a supprimer :");
+		int str = sc.nextInt();
+		st.executeUpdate("DELETE FROM test1 WHERE id =" + str + ";");
+		st.close();
 	}
 	
 	public void choice() throws SQLException {
