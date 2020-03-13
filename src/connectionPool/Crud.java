@@ -30,14 +30,38 @@ public class Crud {
 	}
 	
 	public void select() throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("Select ? FROM test1;");
+		PreparedStatement stmt = c.prepareStatement("Select ? FROM test1");
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Veuillez saisir soit nom, prenom ou *");
-		String str = sc.nextLine();
-		System.out.println("Vous avez saisi : " + str);
-		stmt.setString(1, str);
-		
-		
+		int str = sc.nextInt();
+		//System.out.println("Vous avez saisi : " + str);
+		stmt.setString(1, "lastname");
+		ResultSet rs =	stmt.executeQuery();
+
+			if(str==1) {
+				while(rs.next()) {
+				System.out.println("salut");
+				String noms=rs.getString("lastname");
+				System.out.println(noms);
+				}
+			}
+			else if(str==2) {
+				while(rs.next()) {
+				
+				String prenoms=rs.getString("firstname");
+				System.out.println(prenoms);
+				}
+			}
+			else if(str==0){
+				while(rs.next()) {
+					
+					String prenoms=rs.getString("firstname");
+					String noms=rs.getString("lastname");
+					int ids=rs.getInt("id");
+					System.out.println(ids + ""+prenoms+""+noms);
+				}
+			}
+			else {System.out.println("vous etes trompés!");}
 	}
 	
 	public void update() throws SQLException {
@@ -66,18 +90,16 @@ public class Crud {
 		int str = sc.nextInt();
 		while(b == true)
 			
-			switch(str) {
-				case '1':
-					this.insert();
-				case '2':
-					this.select();
-				case '3':
-					this.update();
-				case '4':
-					this.delete();
-				case '5':
-					b = false;			
-			}
-		
+			if(str==1) {
+					System.out.println("hi");
+					this.insert();}
+				
+			else if(str==2){this.select();}
+				
+			else if(str==3){this.update();}
+				
+			else if(str==4){this.delete();}
+				
+			else		{b = false;}
 	}
 }
