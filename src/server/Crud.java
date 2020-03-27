@@ -1,4 +1,4 @@
-package connectionPool;
+package server;
 
 import java.util.Scanner;
 import java.sql.*;
