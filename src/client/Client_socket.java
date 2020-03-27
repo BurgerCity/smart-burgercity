@@ -32,8 +32,7 @@ public class Client_socket {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		Client_socket c = new Client_socket();
 		RequestJSON rj = new RequestJSON();
-		c.startConnection("172.31.249.164", 1099);
-		
+		c.startConnection("172.31.249.164", 1099);		
 		rj.choice();
 		c.close();
 	}
