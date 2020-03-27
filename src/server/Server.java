@@ -30,6 +30,8 @@ public class Server {
 		c = s.accept();
 		out = new PrintWriter(c.getOutputStream(), true);
 		in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+		objectMapper = new ObjectMapper();
+		crud = new Crud();
 		String json = in.readLine();
 		Request rq =  objectMapper.readValue(json, Request.class);
 		if(rq.getOperation_type().equals("SELECT")) {
@@ -65,7 +67,7 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		Server s = new Server();
 		try {
-			int c = 1099;
+			int c = 2004;
 			s.start(c);
 		} catch (Exception e) {
 			s.close();

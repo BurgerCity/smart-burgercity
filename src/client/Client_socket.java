@@ -48,27 +48,35 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 1099);		
+		c.startConnection("127.0.0.1", 2004);
 		c.Communiquer(c.serialize());
 		c.close();
 	}
 	
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		ObjectMapper objectMapper = new ObjectMapper();
-		this.choice();
-		objectMapper.writeValue(new File("request.json"), this.choice());
-		String rqAsString = objectMapper.writeValueAsString(this.choice());
+		//Request rq = this.choice();
+		
+		sc = new Scanner(System.in);
+		System.out.println("Veuillez saisir une table :");
+		String table = sc.nextLine();
+		
+		Request rq = new Request("SELECT");
+		rq.setTable(table);
+		
+		objectMapper.writeValue(new File("request.json"), rq);
+		String rqAsString = objectMapper.writeValueAsString(rq);
 		return rqAsString;
 	}
 	public Request choice() throws SQLException {
 		boolean b = true;
 		sc = new Scanner(System.in);
 		int str = 0;
-		//while(b == true)
-		    if(str == 0 ) {
+		while(b == true) {
+		   if(str == 0 ) {
 				System.out.println("Tapez 1 pour Insert, 2 pour Select, 3 pour Update, 4 pour Delete, 5 pour arreter : ");
 				str = sc.nextInt();
-			}
+		   }
 			else if(str==1) {
 				sc = new Scanner(System.in);
 				System.out.println("Veuillez saisir un nom :");
@@ -123,9 +131,10 @@ public class Client_socket {
 				str = 0;
 				return rq;
 			}
-			else	{
+			else if(str >= 5 )	{
 				b = false;
 			}
+		}
 		Request rq = new Request("STOP");
 		return rq;
 	}
