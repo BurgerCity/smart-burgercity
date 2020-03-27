@@ -2,7 +2,7 @@ package client;
 
 public class Delete {
 	private int id;
-
+	Delete() {}
 	public int getId() {
 		return id;
 	}

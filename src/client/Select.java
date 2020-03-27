@@ -2,7 +2,7 @@ package client;
 
 public class Select {
 	private String table;
-
+	Select(){}
 	public String getTable() {
 		return table;
 	}

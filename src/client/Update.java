@@ -5,6 +5,7 @@ public class Update {
 	private String lastname;
 	private int id;
 	
+	Update() {}
 	public String getFirstname() {
 		return firstname;
 	}

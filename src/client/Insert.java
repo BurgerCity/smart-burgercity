@@ -1,9 +1,10 @@
 package client;
 
 public class Insert {
-	private String table;
 	private String firstname;
 	private String lastname;
+	
+	Insert() {}
 	public String getFirstname() {
 		return firstname;
 	}
@@ -15,13 +16,6 @@ public class Insert {
 	}
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-	public String getTable() {
-		return table;
-	}
-
-	public void setTable(String table) {
-		this.table = table;
 	}
 	
 }
