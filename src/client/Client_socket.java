@@ -1,6 +1,7 @@
 package client;
 
 import java.net.*;
+import java.sql.SQLException;
 import java.io.*;
 
 public class Client_socket {
@@ -8,6 +9,7 @@ public class Client_socket {
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
+	private RequestJSON rj;
 	
 	public void startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
@@ -29,13 +31,10 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		Client_socket c = new Client_socket();
+		RequestJSON rj = new RequestJSON();
 		c.startConnection("172.31.249.164", 1099);
-		String str = c.Communiquer("Bonjour server");
-		if(str.equals("Enchanter cher client")) {
-			System.out.println("Enchanter cher client");
-		} else {
-			System.out.println("Client inconnu");
-		}
+		
+		rj.choice();
 		c.close();
 	}
 

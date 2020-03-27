@@ -82,6 +82,10 @@ public class Crud {
 		}
 	}
 	
+	public void closeConnection() throws SQLException {
+		data.returnConnection(c);
+		data.closeC();
+	}
 	public void choice() throws SQLException {
 		boolean b = true;
 		sc = new Scanner(System.in);
