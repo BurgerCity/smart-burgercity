@@ -14,59 +14,42 @@ public class Crud {
 		} catch(Exception e) {}
 	}
 	
-	public void insert() throws SQLException {
+	public void insert(String firstname, String lastname) throws SQLException {
 		Statement stmt = c.createStatement();
-		sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir un nom :");
-		String str = sc.nextLine();
-		System.out.println("Vous avez saisi : " + str);
-		System.out.println("Veuillez saisir un prenom :");
-		String pren = sc.nextLine();
-		System.out.println("Vous avez saisi : " + pren);
-		stmt.executeUpdate("INSERT INTO test1(lastname, firstname) values('" + str + "','" + pren + "');");
-		stmt.close();
-		
+		stmt.executeUpdate("INSERT INTO test1(lastname, firstname) values('" + firstname + "','" + lastname + "');");
+		stmt.close();		
 	}
 	
-	public void select() throws SQLException {
+	public String select(String table) throws SQLException {
 		Statement st = c.createStatement();
-		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM test1;");
+		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM " + table + ";");
+		String s = "";
 		while(rs.next()) {
 			int id = rs.getInt("id");
 			String last = rs.getString("lastname");
 			String first = rs.getString("firstname");
-			System.out.println(id + " " + last + " " + first);
+			s = id + " " + last + " " + first +"\n";
 		}
 		rs.close();
 		st.close();
+		return s;
 	}
 	
-	public void update() throws SQLException {
+	public void update(String lastname, String firstname, int id) throws SQLException {
 		Statement stmt = c.createStatement();
-		sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir le nom modifié :");
-		String str = sc.nextLine();
-		System.out.println("Vous avez saisi : " + str);
-		System.out.println("Veuillez saisir le prenom modifié :");
-		String pren = sc.nextLine();
-		System.out.println("Vous avez saisi : " + pren);
-		System.out.println("Veuillez saisir l'identifiant de la personne :");
-		int id = sc.nextInt();
 		if(testId(id) == 0) {
 			System.out.println("L'identifiant n'existe pas");
 		} else {
-			stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
+			stmt.executeUpdate("UPDATE test1 SET lastname = '" + lastname + "', firstname = '" + firstname + "' WHERE id = " + id + " ;");
 		}
 	}
 	
-	public void delete() throws SQLException {
+	public void delete(int id) throws SQLException {
 		Statement st = c.createStatement();
-		System.out.println("Choisissez l'id de la personne a supprimer :");
-		int str = sc.nextInt();
-		if(testId(str) == 0) {
+		if(testId(id) == 0) {
 			System.out.println("L'identifiant n'existe pas");
 		} else {
-			st.executeUpdate("DELETE FROM test1 WHERE id =" + str + ";");
+			st.executeUpdate("DELETE FROM test1 WHERE id =" + id + ";");
 		}
 		st.close();
 	}
@@ -83,40 +66,6 @@ public class Crud {
 	}
 	
 	public void closeConnection() throws SQLException {
-		data.returnConnection(c);
-		data.closeC();
-	}
-	public void choice() throws SQLException {
-		boolean b = true;
-		sc = new Scanner(System.in);
-		int str = 0;
-		while(b == true)
-		    if(str == 0 ) {
-				System.out.println("Tapez 1 pour Insert, 2 pour Select, 3 pour Update, 4 pour Delete, 5 pour arreter : ");
-				str = sc.nextInt();
-			}
-			else if(str==1) {
-					this.insert();
-					str = 0;		
-			}
-				
-			else if(str==2)	{
-				this.select();
-				str = 0;
-			}
-				
-			else if(str==3)	{
-				this.update();
-				str = 0;
-			}
-				
-			else if(str==4)	{
-				this.delete();
-				str = 0;
-			}
-			else	{
-				b = false;
-			}
 		data.returnConnection(c);
 		data.closeC();
 	}
