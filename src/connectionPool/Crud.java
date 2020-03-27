@@ -31,7 +31,6 @@ public class Crud {
 	public void select() throws SQLException {
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM test1;");
-		sc = new Scanner(System.in);
 		while(rs.next()) {
 			int id = rs.getInt("id");
 			String last = rs.getString("lastname");
@@ -56,13 +55,12 @@ public class Crud {
 		if(testId(id) == 0) {
 			System.out.println("L'identifiant n'existe pas");
 		} else {
-		stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
+			stmt.executeUpdate("UPDATE test1 SET lastname = '" + str + "', firstname = '" + pren + "' WHERE id = " + id + " ;");
 		}
 	}
 	
 	public void delete() throws SQLException {
 		Statement st = c.createStatement();
-
 		System.out.println("Choisissez l'id de la personne a supprimer :");
 		int str = sc.nextInt();
 		if(testId(str) == 0) {
@@ -98,19 +96,23 @@ public class Crud {
 					str = 0;		
 			}
 				
-			else if(str==2){
+			else if(str==2)	{
 				this.select();
 				str = 0;
 			}
 				
-			else if(str==3){this.update();
-			str = 0;
+			else if(str==3)	{
+				this.update();
+				str = 0;
 			}
 				
-			else if(str==4){this.delete();
-			str = 0;}
-				
-			else		{b = false;}
+			else if(str==4)	{
+				this.delete();
+				str = 0;
+			}
+			else	{
+				b = false;
+			}
 		data.returnConnection(c);
 		data.closeC();
 	}
