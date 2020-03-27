@@ -1,11 +1,11 @@
-package connectionPool;
+package server;
 
 import java.util.Properties;
 import java.io.*;
 
 public class PropertyLoader {
 	Properties prop;
-	InputStream in = getClass().getClassLoader().getResourceAsStream("connectionPool/ressources.properties");
+	InputStream in = getClass().getClassLoader().getResourceAsStream("server/ressources.properties");
 	PropertyLoader() {
 		prop = new Properties();
 	}
