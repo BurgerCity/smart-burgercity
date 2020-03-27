@@ -29,7 +29,7 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 1099);
+		c.startConnection("172.31.249.164", 1099);
 		String str = c.Communiquer("Bonjour server");
 		if(str.equals("Enchanter cher client")) {
 			System.out.println("Enchanter cher client");
