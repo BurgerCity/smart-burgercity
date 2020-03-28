@@ -24,6 +24,7 @@ public class Server {
 	ObjectMapper objectMapper;
 	Crud crud;
 	String select;
+	Request rq;
 	int k = 0;
 	public void start(int port) throws IOException, SQLException {
 		s = new ServerSocket(port);
@@ -33,7 +34,7 @@ public class Server {
 		objectMapper = new ObjectMapper();
 		crud = new Crud();
 		String json = in.readLine();
-		Request rq =  objectMapper.readValue(json, Request.class);
+		rq =  objectMapper.readValue(json, Request.class);
 		if(rq.getOperation_type().equals("SELECT")) {
 			k = 1;
 			String select = crud.select(rq.getTable());
@@ -67,7 +68,7 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		Server s = new Server();
 		try {
-			int c = 2010;
+			int c = 2011;
 			s.start(c);
 		} catch (Exception e) {
 			s.close();
@@ -83,6 +84,6 @@ public class Server {
 
 		//objectMapper.writeValue(new File("response.json"), rp);
 		String rpAsString = objectMapper.writeValueAsString(rp);
-		out.println(rpAsString + "\n");
+		out.write(rpAsString + "\n");
 	}
 }

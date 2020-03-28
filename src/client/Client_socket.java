@@ -19,7 +19,7 @@ public class Client_socket {
 	private PrintWriter out;
 	private BufferedReader in;
 	private Scanner sc;
-	private ObjectMapper mapper;
+	private ObjectMapper objectMapper;
 	
 	public void startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
@@ -28,9 +28,9 @@ public class Client_socket {
 	}
 	
 	public void Communiquer(String msg) throws IOException {
-		out.println(msg + "\n");
+		out.write(msg + "\n");
 		String respJson = in.readLine();
-		Response rp =  mapper.readValue(respJson, Response.class);
+		Response rp =  objectMapper.readValue(respJson, Response.class);
 		if(rp.getTypeOperation().equals("SELECT")) {
 			System.out.println(rp.getTypeOperation());
 			System.out.println(rp.getSuccessfulOperation());
@@ -49,13 +49,13 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 2010);
+		c.startConnection("172.31.249.164", 2011);
 		c.Communiquer(c.serialize());
 		c.close();
 	}
 	
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
-		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper = new ObjectMapper();
 		sc = new Scanner(System.in);
 		System.out.println("Veuillez saisir une table :");
 		String table = sc.nextLine();
