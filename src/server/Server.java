@@ -67,7 +67,7 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		Server s = new Server();
 		try {
-			int c = 2004;
+			int c = 2010;
 			s.start(c);
 		} catch (Exception e) {
 			s.close();
@@ -81,8 +81,8 @@ public class Server {
 			rp.setSelect(select);
 		}
 
-		objectMapper.writeValue(new File("response.json"), rp);
+		//objectMapper.writeValue(new File("response.json"), rp);
 		String rpAsString = objectMapper.writeValueAsString(rp);
-		out.println(rpAsString);
+		out.println(rpAsString + "\n");
 	}
 }

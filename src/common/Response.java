@@ -1,13 +1,14 @@
 package common;
 
 public class Response {
-	private Boolean successfulOperation = true;
-	private String typeOperation;
-	private String select;
+	Boolean successfulOperation = true;
+	String typeOperation;
+	String select;
 	
 	public Response(Boolean b, String t) {
 		successfulOperation = b;
 		typeOperation = t;
+		select = "";
 	}
 	
 	public Boolean getSuccessfulOperation() {

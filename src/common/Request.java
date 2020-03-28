@@ -1,14 +1,18 @@
 package common;
 
 public class Request {
-	private String operation_type;
-	private String table;
-	private String firstname;
-	private String lastname;
-	private int id ;
+	String operation_type;
+	String table;
+	String firstname;
+	String lastname;
+	int id ;
 	
 	public Request(String op) {
 		operation_type = op;
+		table = "";
+		firstname = "";
+		lastname = "";
+		id = 0;
 	}
 	
 	public String getOperation_type() {
