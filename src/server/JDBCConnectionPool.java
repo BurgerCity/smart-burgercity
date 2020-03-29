@@ -26,7 +26,7 @@ public class JDBCConnectionPool {
 			}
 			prop.close();
 		} catch (Exception e){
-			System.out.println("error connection");
+			System.out.println("Error Connection");
 		}
 	}
 	

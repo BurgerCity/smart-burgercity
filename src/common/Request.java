@@ -7,12 +7,16 @@ public class Request {
 	String lastname;
 	int id ;
 	
-	public Request(String op) {
-		operation_type = op;
+	public Request(/*String op*/) {
+		/*operation_type = op;
 		table = "";
 		firstname = "";
 		lastname = "";
-		id = 0;
+		id = 0;*/
+	}
+	
+	public String toString() {
+		return "Operation Type : " + operation_type;
 	}
 	
 	public String getOperation_type() {

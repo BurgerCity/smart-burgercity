@@ -5,10 +5,13 @@ public class Response {
 	String typeOperation;
 	String select;
 	
-	public Response(Boolean b, String t) {
-		successfulOperation = b;
+	public Response(/*Boolean b, String t*/) {
+		/*successfulOperation = b;
 		typeOperation = t;
-		select = "";
+		select = "";*/
+	}
+	public String toString() {
+		return "The operation " + typeOperation + " is successful : " + successfulOperation + "\n" + select;
 	}
 	
 	public Boolean getSuccessfulOperation() {

@@ -20,6 +20,15 @@ public class Client_socket {
 	private BufferedReader in;
 	private Scanner sc;
 	private ObjectMapper objectMapper;
+	private Request rq;
+	private Response rp;
+	private Boolean b = true;
+	private String msg;
+	private String rqAsString;
+	private String firstname;
+	private String lastname;
+	private String table;
+	private String respJson;
 	
 	public void startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
@@ -27,17 +36,26 @@ public class Client_socket {
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));	
 	}
 	
-	public void Communiquer(String msg) throws IOException {
-		out.write(msg + "\n");
-		String respJson = in.readLine();
-		Response rp =  objectMapper.readValue(respJson, Response.class);
-		if(rp.getTypeOperation().equals("SELECT")) {
-			System.out.println(rp.getTypeOperation());
-			System.out.println(rp.getSuccessfulOperation());
-			System.out.println(rp.getSelect());
-		} else {
-			System.out.println(rp.getTypeOperation());
-			System.out.println(rp.getSuccessfulOperation());
+	public void Communiquer() throws IOException, SQLException {
+		while(b == true) {
+			msg = this.serialize();
+			out.println(msg + "\n");
+			out.flush();
+			respJson = in.readLine();
+			objectMapper = new ObjectMapper();
+			rp =  objectMapper.readValue(respJson, Response.class);
+			
+			if(rp.getTypeOperation().equals("SELECT") || rp.getTypeOperation().equals("UPDATE")) {
+				System.out.println("Voici le type d'opération : " + rp.getTypeOperation());
+				System.out.println("Statut de l'operation : " + rp.getSuccessfulOperation());
+				System.out.println(rp.getSelect());
+			} else {
+				System.out.println("Voici le type d'opération : " + rp.getTypeOperation());
+				System.out.println(rp.getSuccessfulOperation());
+			}
+			if(rp.getTypeOperation().equals("STOP")) {
+				b = false;
+			}
 		}
 	}
 
@@ -49,23 +67,18 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
-		c.startConnection("172.31.249.164", 2011);
-		c.Communiquer(c.serialize());
+		c.startConnection("127.0.0.1", 2013);
+		c.Communiquer();
+		System.out.println("Fermeture de la socket");
 		c.close();
 	}
 	
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		objectMapper = new ObjectMapper();
-		sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir une table :");
-		String table = sc.nextLine();
-		
-		Request rq = new Request("SELECT");
-		rq.setTable(table);
-		
-		//Request rq = this.choice();
+		rq = this.choice();
 		//objectMapper.writeValue(new File("request.json"), rq);
-		String rqAsString = objectMapper.writeValueAsString(rq);
+		rqAsString = objectMapper.writeValueAsString(rq);
+		//Request request = objectMapper.readValue(rqAsString, Request.class);
 		return rqAsString;
 	}
 	public Request choice() throws SQLException {
@@ -79,14 +92,15 @@ public class Client_socket {
 		   }
 			else if(str==1) {
 				sc = new Scanner(System.in);
-				System.out.println("Veuillez saisir un nom :");
-				String firstname = sc.nextLine();
-				System.out.println("Vous avez saisi : " + firstname);
 				System.out.println("Veuillez saisir un prenom :");
-				String lastname = sc.nextLine();
+				firstname = sc.nextLine();
+				System.out.println("Vous avez saisi : " + firstname);
+				System.out.println("Veuillez saisir un nom :");
+				lastname = sc.nextLine();
 				System.out.println("Vous avez saisi : " + lastname);
 				
-				Request rq = new Request("INSERT");
+				rq = new Request();
+				rq.setOperation_type("INSERT");
 				rq.setFirstname(firstname);
 				rq.setLastname(lastname);
 					str = 0;	
@@ -96,9 +110,10 @@ public class Client_socket {
 			else if(str==2)	{
 				sc = new Scanner(System.in);
 				System.out.println("Veuillez saisir une table :");
-				String table = sc.nextLine();
+				table = sc.nextLine();
 				
-				Request rq = new Request("SELECT");
+				rq = new Request();
+				rq.setOperation_type("SELECT");
 				rq.setTable(table);
 				str = 0;
 				return rq;
@@ -107,15 +122,16 @@ public class Client_socket {
 			else if(str==3)	{
 				sc = new Scanner(System.in);
 				System.out.println("Veuillez saisir le nom modifié :");
-				String lastname = sc.nextLine();
+				lastname = sc.nextLine();
 				System.out.println("Vous avez saisi : " + lastname);
 				System.out.println("Veuillez saisir le prenom modifié :");
-				String firstname = sc.nextLine();
+				firstname = sc.nextLine();
 				System.out.println("Vous avez saisi : " + firstname);
 				System.out.println("Veuillez saisir l'identifiant de la personne :");
 				int id = sc.nextInt();
 				
-				Request rq = new Request("UPDATE");
+				rq = new Request();
+				rq.setOperation_type("UPDATE");
 				rq.setFirstname(firstname);
 				rq.setLastname(lastname);
 				rq.setId(id);
@@ -126,7 +142,8 @@ public class Client_socket {
 			else if(str==4)	{
 				System.out.println("Choisissez l'id de la personne a supprimer :");
 				int id = sc.nextInt();
-				Request rq = new Request("DELETE");
+				rq = new Request();
+				rq.setOperation_type("DELETE");
 				rq.setId(id);
 				str = 0;
 				return rq;
@@ -135,7 +152,8 @@ public class Client_socket {
 				b = false;
 			}
 		}
-		Request rq = new Request("STOP");
+		rq = new Request();
+		rq.setOperation_type("STOP");
 		return rq;
 	}
 }
