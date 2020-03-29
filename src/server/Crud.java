@@ -13,10 +13,11 @@ public class Crud {
 		} catch(Exception e) {}
 	}
 	
-	public void insert(String firstname, String lastname) throws SQLException {
+	public String insert(String firstname, String lastname) throws SQLException {
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("INSERT INTO test1(lastname, firstname) values('" + lastname + "','" + firstname + "');");
-		stmt.close();		
+		stmt.close();
+		return "Successful operation";
 	}
 	
 	public String select(String table) throws SQLException {
@@ -40,16 +41,14 @@ public class Crud {
 		Statement stmt = c.createStatement();
 		String s = "";
 		if(testId(id) == 0) {
-			s = "L'identifiant n'existe pas";
-			return s;
+			return "L'identifiant n'existe pas";
 		} else {
 			stmt.executeUpdate("UPDATE test1 SET lastname = '" + lastname + "', firstname = '" + firstname + "' WHERE id = " + id + " ;");
-			s = "Successful operation";
-			return s;
+			return "Successful operation";
 		}
 	}
 	
-	public void delete(int id) throws SQLException {
+	public String delete(int id) throws SQLException {
 		Statement st = c.createStatement();
 		if(testId(id) == 0) {
 			System.out.println("L'identifiant n'existe pas");
@@ -57,6 +56,7 @@ public class Crud {
 			st.executeUpdate("DELETE FROM test1 WHERE id =" + id + ";");
 		}
 		st.close();
+		return "Successful operation";
 	}
 	
 	public int testId(int str) throws SQLException {

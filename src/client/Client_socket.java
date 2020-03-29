@@ -1,6 +1,7 @@
 package client;
 
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -16,7 +17,8 @@ import java.io.*;
 public class Client_socket {
 
 	private Socket clientSocket;
-	private PrintWriter out;
+	//private PrintWriter out;
+	private OutputStreamWriter out;
 	private BufferedReader in;
 	private Scanner sc;
 	private ObjectMapper objectMapper;
@@ -32,29 +34,26 @@ public class Client_socket {
 	
 	public void startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
-		out = new PrintWriter(clientSocket.getOutputStream(), true);
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));	
+		out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
+		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));	
 	}
 	
 	public void Communiquer() throws IOException, SQLException {
 		while(b == true) {
 			msg = this.serialize();
-			out.println(msg + "\n");
+
+			out.write(msg + "\n");
 			out.flush();
 			respJson = in.readLine();
 			objectMapper = new ObjectMapper();
 			rp =  objectMapper.readValue(respJson, Response.class);
-			
-			if(rp.getTypeOperation().equals("SELECT") || rp.getTypeOperation().equals("UPDATE")) {
-				System.out.println("Voici le type d'opération : " + rp.getTypeOperation());
-				System.out.println("Statut de l'operation : " + rp.getSuccessfulOperation());
-				System.out.println(rp.getSelect());
-			} else {
-				System.out.println("Voici le type d'opération : " + rp.getTypeOperation());
-				System.out.println(rp.getSuccessfulOperation());
-			}
 			if(rp.getTypeOperation().equals("STOP")) {
 				b = false;
+				rp.getSelect();
+			} else {
+			System.out.println("RESPONSE \nVoici le type d'opération : " + rp.getTypeOperation() 
+				+ "\n" + "Statut de l'operation : " + rp.getSuccessfulOperation() 
+				+ "\n" + rp.getSelect());
 			}
 		}
 	}
@@ -76,9 +75,7 @@ public class Client_socket {
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		objectMapper = new ObjectMapper();
 		rq = this.choice();
-		//objectMapper.writeValue(new File("request.json"), rq);
 		rqAsString = objectMapper.writeValueAsString(rq);
-		//Request request = objectMapper.readValue(rqAsString, Request.class);
 		return rqAsString;
 	}
 	public Request choice() throws SQLException {

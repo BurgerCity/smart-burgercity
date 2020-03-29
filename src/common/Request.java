@@ -7,12 +7,7 @@ public class Request {
 	String lastname;
 	int id ;
 	
-	public Request(/*String op*/) {
-		/*operation_type = op;
-		table = "";
-		firstname = "";
-		lastname = "";
-		id = 0;*/
+	public Request() {
 	}
 	
 	public String toString() {

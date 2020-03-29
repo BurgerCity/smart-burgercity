@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -20,51 +23,39 @@ import common.Request;
 import common.Response;
 
 public class Server {
-	ServerSocket s;
-	Socket clientSocket;
-	PrintWriter out;
-	BufferedReader in;
-	Crud crud;
-	String select;
-	Request r;
-	Response rp;
-	ObjectMapper objectMapper;
-	String rpAsString;
-	String json;
-	int k = 0;
-	boolean b = true;
+	private ServerSocket s;
+	private Socket clientSocket;
+	//private PrintWriter out;
+	private OutputStreamWriter out;
+	private BufferedReader in;
+	private String select;
+	private Request r;
+	private Response rp;
+	private ObjectMapper objectMapper;
+	private String rpAsString;
+	private String json;
+	private boolean b = true;
+	
 	public void start(int port, Crud crud) throws IOException, SQLException, ClassNotFoundException {
 		s = new ServerSocket(port);
 		clientSocket = s.accept();
-		System.out.println("serveur en attente");
-		out = new PrintWriter(clientSocket.getOutputStream(), true);
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		System.out.println("serveur avant de lire");
+		out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
+		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
 		b = true;
 		while(b == true) {
-			clientSocket.setSoTimeout(100000);
+			System.out.println("serveur en attente");
 			json = in.readLine();
-			System.out.println(json);
 			
 			r = this.deserialize(json);
 			this.launchCrud(r, crud);
+			
+			out.write(this.serializeServeur(r.getOperation_type()) + "\n");
+			out.flush();
 			if(r.getOperation_type().equals("STOP")) {
-				b = false;
-				out.println(this.serializeServeur(r.getOperation_type()));
-				out.flush();
 				clientSocket.close();
-				
-			} else {
-				out.println(this.serializeServeur(r.getOperation_type()));
-				out.flush();
 			}
-
 		}
 		
-	}
-	
-	public void startServer(int port) throws IOException {
-
 	}
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Server s = new Server();
@@ -72,7 +63,7 @@ public class Server {
 		try {
 			s.start(2013, crud);
 		} catch (Exception e) {
-			//s.close();
+			s.close();
 		}
 	}
 	
@@ -80,30 +71,21 @@ public class Server {
 		
 		System.out.println(r.getOperation_type());
 		if(r.getOperation_type().equals("SELECT")) {
-			k = 1;
 			select = crud.select(r.getTable());
-			//this.serializeServeur("SELECT");
 		}
 		else if(r.getOperation_type().equals("INSERT")) {
-			crud.insert(r.getFirstname(), r.getLastname());
-			//this.serializeServeur("INSERT");
+			select = crud.insert(r.getFirstname(), r.getLastname());
+
 		}
 		else if(r.getOperation_type().equals("UPDATE")) {
-			k = 1;
 			select = crud.update(r.getLastname(), r.getFirstname(), r.getId());
-			//this.serializeServeur("UPDATE");
 		}
 		else if(r.getOperation_type().equals("DELETE")) {
-			crud.delete(r.getId());
-			//this.serializeServeur("DELETE");
+			select = crud.delete(r.getId());
 		}
 		else if(r.getOperation_type().equals("STOP")) {
 			crud.closeConnection();
-			//this.serializeServeur("STOP");
-			//data.returnConnection(c);
-			//data.closeC();
-		} else {
-			System.out.println("Crud ne se fait pas");
+			select = "operation ends";
 		}
 	}
 
@@ -126,14 +108,9 @@ public class Server {
 		rp = new Response();
 		rp.setSuccessfulOperation(true);
 		rp.setTypeOperation(type);
-		//objectMapper = new ObjectMapper();
 		if(select.equals("L'identifiant n'existe pas")) rp.setSuccessfulOperation(false);
-		if(k == 1) {
-			rp.setSelect(select);
-		}
-		//objectMapper.writeValue(new File("response.json"), rp);
+		rp.setSelect(select);
 		rpAsString = objectMapper.writeValueAsString(rp);
-		System.out.println(rpAsString);
 		return rpAsString;
 	}
 }
