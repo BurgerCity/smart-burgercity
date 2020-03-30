@@ -1,6 +1,5 @@
 package server;
 
-import java.util.Scanner;
 import java.sql.*;
 
 public class Crud {
@@ -21,11 +20,9 @@ public class Crud {
 	}
 	
 	public String select(String table) throws SQLException {
-		System.out.println("lance la methode select");
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery("SELECT id,lastname,firstname FROM " + table + ";");
 		String s = "";
-		System.out.println("Juste avant");
 		while(rs.next()) {
 			int id = rs.getInt("id");
 			String last = rs.getString("lastname");
@@ -39,9 +36,8 @@ public class Crud {
 	
 	public String update(String lastname, String firstname, int id) throws SQLException {
 		Statement stmt = c.createStatement();
-		String s = "";
 		if(testId(id) == 0) {
-			return "L'identifiant n'existe pas";
+			return "The identifier doesn't exist";
 		} else {
 			stmt.executeUpdate("UPDATE test1 SET lastname = '" + lastname + "', firstname = '" + firstname + "' WHERE id = " + id + " ;");
 			return "Successful operation";
@@ -51,7 +47,7 @@ public class Crud {
 	public String delete(int id) throws SQLException {
 		Statement st = c.createStatement();
 		if(testId(id) == 0) {
-			System.out.println("L'identifiant n'existe pas");
+			return "The identifier doesn't exist";
 		} else {
 			st.executeUpdate("DELETE FROM test1 WHERE id =" + id + ";");
 		}

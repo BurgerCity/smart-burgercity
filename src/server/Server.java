@@ -1,31 +1,26 @@
 package server;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import common.Message;
 import common.Request;
 import common.Response;
 
 public class Server {
 	private ServerSocket s;
 	private Socket clientSocket;
-	//private PrintWriter out;
 	private OutputStreamWriter out;
 	private BufferedReader in;
 	private String select;
@@ -33,24 +28,24 @@ public class Server {
 	private Response rp;
 	private ObjectMapper objectMapper;
 	private String rpAsString;
-	private String json;
 	private boolean b = true;
+	private Message msg;
+	private Crud crud; 
 	
-	public void start(int port, Crud crud) throws IOException, SQLException, ClassNotFoundException {
+	public void start(int port) throws IOException, SQLException, ClassNotFoundException {
 		s = new ServerSocket(port);
 		clientSocket = s.accept();
 		out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
+		msg = new Message();
 		b = true;
+		crud = new Crud();
 		while(b == true) {
-			System.out.println("serveur en attente");
-			json = in.readLine();
-			
-			r = this.deserialize(json);
+			System.out.println("server is waiting");
+			r = this.deserialize(msg.readMessage(in));
 			this.launchCrud(r, crud);
 			
-			out.write(this.serializeServeur(r.getOperation_type()) + "\n");
-			out.flush();
+			msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
 			if(r.getOperation_type().equals("STOP")) {
 				clientSocket.close();
 			}
@@ -59,9 +54,8 @@ public class Server {
 	}
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Server s = new Server();
-		Crud crud = new Crud();
 		try {
-			s.start(2013, crud);
+			while(true) s.start(2013);
 		} catch (Exception e) {
 			s.close();
 		}
@@ -108,7 +102,7 @@ public class Server {
 		rp = new Response();
 		rp.setSuccessfulOperation(true);
 		rp.setTypeOperation(type);
-		if(select.equals("L'identifiant n'existe pas")) rp.setSuccessfulOperation(false);
+		if(select.equals("The identifier doesn't exist")) rp.setSuccessfulOperation(false);
 		rp.setSelect(select);
 		rpAsString = objectMapper.writeValueAsString(rp);
 		return rpAsString;
