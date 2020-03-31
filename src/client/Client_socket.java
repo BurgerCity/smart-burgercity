@@ -43,22 +43,40 @@ public class Client_socket {
 	}
 	
 	public void Communiquer() throws IOException, SQLException {
-		while(b == true) {
-			msg.sendMessage(out, this.serialize());
-			this.deserialize(msg.readMessage(in));
-			if(rp.getTypeOperation().equals("STOP")) {
-				b = false;
-			} 
-			else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
+		/*msg.sendMessage(out, this.requestConnection());
+		String s = msg.readMessage(in);
+		System.out.println(s);
+		rp = this.deserialize(msg.readMessage(in));
+		System.out.println("bj");
+		rp = this.deserialize(s);
+		if(rp.getTypeOperation().equals("CONNECTION OK")) {*/
+			System.out.println("Connection completed");
+			while(b == true) {
+				msg.sendMessage(out, this.serialize());
+				this.deserialize(msg.readMessage(in));
+				if(rp.getTypeOperation().equals("STOP")) {
+					b = false;
+				} 
+				else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
+					System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
+					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
+					rp.getSelect());
+				}
+				else {
 				System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-				+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
-				rp.getSelect());
+					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
+				}
 			}
-			else {
-			System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-				+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
-			}
-		}
+		/*}else if(rp.getTypeOperation().equals("SERVER IS FULL")) {
+			System.out.println("Server is full");
+		}*/
+	}
+	
+	public String requestConnection() throws JsonProcessingException {
+		rq = new Request();
+		rq.setOperation_type("CONNECTION");
+		rqAsString = objectMapper.writeValueAsString(rq);
+		return rqAsString;
 	}
 
 	public void close() throws IOException {
@@ -82,7 +100,9 @@ public class Client_socket {
 	}
 	
 	public Response deserialize(String respJson) throws JsonMappingException, JsonProcessingException {
+		rp = new Response();
 		rp =  objectMapper.readValue(respJson, Response.class);
+		System.out.println(rp.getTypeOperation());
 		return rp;
 	}
 	public Request choice() throws SQLException {

@@ -19,7 +19,7 @@ public class JDBCConnectionPool {
 			System.out.println("error properties");
 		}
 		try {
-			for(int i = 1 ; i <= 10 ; i++) {
+			for(int i = 1 ; i <= 1 ; i++) {
 				Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 				cn=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
 				a.add(cn); //connection
@@ -30,20 +30,25 @@ public class JDBCConnectionPool {
 		}
 	}
 	
-	public Connection take()  { // To take an object of the attribute
+	public synchronized Connection take()  { // To take an object of the attribute
 		Connection cp=null;
-		if(!a.isEmpty()) {
-			cp= a.get(0);
-			a.remove(0);
+		while(a.isEmpty()) {
+			try {
+				System.out.println("Server is full");
+				wait();
+			} catch (Exception e) {}
 		}
+		cp = a.get(0);
+		a.remove(0);
+		notifyAll();
 		return cp;
 	}
 
-	void restore(Connection cp) {		// return the connection
+	public synchronized void restore(Connection cp) {		// return the connection
 		a.add(cp);
 	}
 
-	void closeConnection() throws SQLException { // Close connection of the attribute
+	public synchronized void closeConnection() throws SQLException { // Close connection of the attribute
 		for(Connection y : a) {
 			y.close();
 		}

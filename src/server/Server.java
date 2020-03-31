@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -30,65 +32,84 @@ public class Server {
 	private String rpAsString;
 	private boolean b = true;
 	private Message msg;
-	private Crud crud; 
+	private Crud crud;
+	private static DataSource data;
+	private Connection c;
 	
-	public void start(int port) throws IOException, SQLException, ClassNotFoundException {
-		s = new ServerSocket(port);
-		clientSocket = s.accept();
-		out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
-		msg = new Message();
-		b = true;
-		crud = new Crud();
-		while(b == true) {
-			System.out.println("server is waiting");
-			r = this.deserialize(msg.readMessage(in));
-			this.launchCrud(r, crud);
-			
-			msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
-			if(r.getOperation_type().equals("STOP")) {
-				clientSocket.close();
-			}
+	//public void run() {
+		public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
+			//s = new ServerSocket(port);
+			//clientSocket = s.accept();
+		while(!clientSocket.isClosed()) {
+			try {
+				out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
+				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
+				msg = new Message();
+				b = true;
+				crud = new Crud();
+				r = new Request();
+					while(b == true) {
+						r = this.deserialize(msg.readMessage(in));
+						this.launchCrud(r, crud, data);
+						
+						msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+						if(r.getOperation_type().equals("STOP")) {
+							this.closeClient();
+						}
+					}
+				
+			} catch(Exception e) {}
 		}
-		
 	}
+		
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Server s = new Server();
+		ServerSocket serverSocket = s.startServer(2013);
 		try {
-			while(true) s.start(2013);
+			while(true) {	
+				Socket clientSocket = serverSocket.accept();
+				new Thread(new ThreadClient(clientSocket)).start();
+			}
 		} catch (Exception e) {
-			s.close();
+			serverSocket.close();
 		}
 	}
 	
-	public void launchCrud(Request r, Crud crud) throws SQLException, JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException {
+	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
+		s = new ServerSocket(port);
+		data = new DataSource();
+		return s;
+	}
 		
-		System.out.println(r.getOperation_type());
+	public Socket openSocket(ServerSocket s) throws IOException {
+		clientSocket = s.accept();
+		return clientSocket;
+	}
+	public void launchCrud(Request r, Crud crud, DataSource data) throws SQLException, JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException {
+		
 		if(r.getOperation_type().equals("SELECT")) {
-			select = crud.select(r.getTable());
+			select = crud.select(r.getTable(), data);
 		}
 		else if(r.getOperation_type().equals("INSERT")) {
-			select = crud.insert(r.getFirstname(), r.getLastname());
+			select = crud.insert(r.getFirstname(), r.getLastname(), data);
 
 		}
 		else if(r.getOperation_type().equals("UPDATE")) {
-			select = crud.update(r.getLastname(), r.getFirstname(), r.getId());
+			select = crud.update(r.getLastname(), r.getFirstname(), r.getId(), data);
 		}
 		else if(r.getOperation_type().equals("DELETE")) {
-			select = crud.delete(r.getId());
+			select = crud.delete(r.getId(), data);
 		}
 		else if(r.getOperation_type().equals("STOP")) {
-			crud.closeConnection();
 			select = "operation ends";
 		}
 	}
 
 	
-	public void close() throws IOException {
+	public void closeClient() throws IOException {
 		in.close();
 		out.close();
 		clientSocket.close();
-		s.close();
 	}
 	
 	public Request deserialize(String json) throws JsonMappingException, JsonProcessingException {
