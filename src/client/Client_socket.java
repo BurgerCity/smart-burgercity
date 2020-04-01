@@ -53,40 +53,21 @@ public class Client_socket {
 			System.out.println("Connection completed");
 			while(b == true) {
 				msg.sendMessage(out, this.serialize());
-				rp = this.deserialize(msg.readMessage(in));
-				if(rp.getTypeOperation().equals("WAITING")) {
+				this.deserialize(msg.readMessage(in));
+				if(rp.getConnection_Status().equals("WAITING")) {
 					System.out.println("Wainting for connection please stand by");
-					while(rp.getTypeOperation().equals("WAITING")) {
-						if(!this.deserialize(msg.readMessage(in)).getTypeOperation().equals("WAITING")) {
-							if(rp.getTypeOperation().equals("STOP")) {
-								b = false;
-							} 
-							else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
-								System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-								+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
-								rp.getSelect());
-							}
-							else {
-							System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-								+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
-							}
-							break;
-						}
-					}
-				} else {
-					
-					if(rp.getTypeOperation().equals("STOP")) {
-						b = false;
-					} 
-					else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
-						System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-						+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
-						rp.getSelect());
-					}
-					else {
+				}
+				else if(rp.getTypeOperation().equals("STOP")) {
+					b = false;
+				} 
+				else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
 					System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-						+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
-					}
+					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
+					rp.getSelect());
+				}
+				else {
+				System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
+					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
 				}
 			}
 		/*}else if(rp.getTypeOperation().equals("SERVER IS FULL")) {

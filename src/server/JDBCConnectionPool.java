@@ -38,12 +38,13 @@ public class JDBCConnectionPool {
 		while(a.isEmpty()) {
 			try {
 				System.out.println("Server is full");
-				rsp.setTypeOperation("WAITING");
 				wait();
+				rsp.setConnection_Status("WAITING");
 			} catch (Exception e) {}
 		}
 		cp = a.get(0);
 		a.remove(0);
+		rsp.setConnection_Status("OK");
 		return cp;
 	}
 
