@@ -8,7 +8,7 @@ import java.io.*;
 
 public class JDBCConnectionPool {
 	
-	private ArrayList<Connection> a = new ArrayList<Connection>();
+	private static ArrayList<Connection> a = new ArrayList<Connection>();
 	JDBCConnectionPool() throws ClassNotFoundException {
 		PropertyLoader prop = new PropertyLoader();
 		Connection cn;
