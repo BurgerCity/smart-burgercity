@@ -87,7 +87,7 @@ public class Client_socket {
 	
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 2013);
+		c.startConnection("172.31.249.164", 2013);
 		c.Communiquer();
 		System.out.println("Fermeture de la socket");
 		c.close();

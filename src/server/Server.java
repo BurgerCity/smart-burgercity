@@ -7,8 +7,6 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -30,25 +28,20 @@ public class Server {
 	private Response rp;
 	private ObjectMapper objectMapper;
 	private String rpAsString;
-	private boolean b = true;
 	private Message msg;
 	private Crud crud;
 	private static DataSource data;
-	private Connection c;
 	
-	//public void run() {
-		public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
-			//s = new ServerSocket(port);
-			//clientSocket = s.accept();
+	public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
+
 		while(!clientSocket.isClosed()) {
 			try {
 				out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
 				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
 				msg = new Message();
-				b = true;
 				crud = new Crud();
 				r = new Request();
-					while(b == true) {
+					while(true) {
 						r = this.deserialize(msg.readMessage(in));
 						this.launchCrud(r, crud, data);
 						
