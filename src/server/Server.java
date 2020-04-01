@@ -42,13 +42,28 @@ public class Server {
 				crud = new Crud();
 				r = new Request();
 					while(true) {
-						r = this.deserialize(msg.readMessage(in));
-						this.launchCrud(r, crud, data);
-						
-						msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
-						if(r.getOperation_type().equals("STOP")) {
-							this.closeClient();
-						}
+							r = this.deserialize(msg.readMessage(in));
+							this.launchCrud(r, crud, data);
+							if(rp.getTypeOperation().equals("WAITING")) {
+								msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+							
+								while(rp.getTypeOperation().equals("WAITING"))	{
+										
+									if(!rp.getTypeOperation().equals("WAITING")) {
+										msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+										if(r.getOperation_type().equals("STOP")) {
+											this.closeClient();
+										}
+										break;
+									}
+										
+								}
+							} else {
+								msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+								if(r.getOperation_type().equals("STOP")) {
+									this.closeClient();
+								}
+							}
 					}
 				
 			} catch(Exception e) {}
