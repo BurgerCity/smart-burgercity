@@ -40,12 +40,12 @@ public class JDBCConnectionPool {
 		}
 		cp = a.get(0);
 		a.remove(0);
-		notifyAll();
 		return cp;
 	}
 
 	public synchronized void restore(Connection cp) {		// return the connection
 		a.add(cp);
+		notifyAll();
 	}
 
 	public synchronized void closeConnection() throws SQLException { // Close connection of the attribute
