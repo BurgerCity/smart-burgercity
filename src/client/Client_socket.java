@@ -54,10 +54,7 @@ public class Client_socket {
 			while(b == true) {
 				msg.sendMessage(out, this.serialize());
 				this.deserialize(msg.readMessage(in));
-				if(rp.getConnection_Status().equals("WAITING")) {
-					System.out.println("Wainting for connection please stand by");
-				}
-				else if(rp.getTypeOperation().equals("STOP")) {
+				if(rp.getTypeOperation().equals("STOP")) {
 					b = false;
 				} 
 				else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
