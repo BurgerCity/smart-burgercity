@@ -1,13 +1,16 @@
 package server;
 
 import java.util.ArrayList;
+
+import common.Response;
+
 import java.sql.*;
 import java.io.*;
 
 
 
 public class JDBCConnectionPool {
-	
+	Response rsp;
 	private static ArrayList<Connection> a = new ArrayList<Connection>();
 	JDBCConnectionPool() throws ClassNotFoundException {
 		PropertyLoader prop = new PropertyLoader();
@@ -36,10 +39,12 @@ public class JDBCConnectionPool {
 			try {
 				System.out.println("Server is full");
 				wait();
+				rsp.setConnection_Status("WAITING");
 			} catch (Exception e) {}
 		}
 		cp = a.get(0);
 		a.remove(0);
+		rsp.setConnection_Status("OK");
 		return cp;
 	}
 
