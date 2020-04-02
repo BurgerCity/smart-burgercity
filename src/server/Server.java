@@ -93,9 +93,6 @@ public class Server {
 		else if(r.getOperation_type().equals("DELETE")) {
 			select = crud.delete(r.getId(), data);
 		}
-		else if(r.getOperation_type().equals("STOP")) {
-			select = "operation ends";
-		}
 	}
 
 	

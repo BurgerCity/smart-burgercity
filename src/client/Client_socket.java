@@ -42,14 +42,7 @@ public class Client_socket {
 		objectMapper = new ObjectMapper();
 	}
 	
-	public void Communiquer() throws IOException, SQLException {
-		/*msg.sendMessage(out, this.requestConnection());
-		String s = msg.readMessage(in);
-		System.out.println(s);
-		rp = this.deserialize(msg.readMessage(in));
-		System.out.println("bj");
-		rp = this.deserialize(s);
-		if(rp.getTypeOperation().equals("CONNECTION OK")) {*/
+	public void communicate() throws IOException, SQLException {
 			System.out.println("Connection completed");
 			while(b == true) {
 				msg.sendMessage(out, this.serialize());
@@ -67,9 +60,6 @@ public class Client_socket {
 					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
 				}
 			}
-		/*}else if(rp.getTypeOperation().equals("SERVER IS FULL")) {
-			System.out.println("Server is full");
-		}*/
 	}
 	
 	public String requestConnection() throws JsonProcessingException {
@@ -88,8 +78,8 @@ public class Client_socket {
 	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
 		c.startConnection("172.31.249.164", 2013);
-		c.Communiquer();
-		System.out.println("Fermeture de la socket");
+		c.communicate();
+		System.out.println("Socket closed");
 		c.close();
 	}
 	
@@ -166,7 +156,7 @@ public class Client_socket {
 				return rq;
 			}
 			else if(str == 4) {
-				System.out.println("Enter the person's identifier to delete :");
+				System.out.println("Enter the id of the person you wish to delete :");
 				id = sc.nextInt();
 				rq = new Request();
 				rq.setOperation_type("DELETE");
