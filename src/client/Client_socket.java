@@ -33,6 +33,7 @@ public class Client_socket {
 	private String table;
 	private int id;
 	private int str = 0;
+	private String string;
 	
 	public void startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
@@ -53,23 +54,32 @@ public class Client_socket {
 			System.out.println("Connection completed");
 			while(b == true) {
 				msg.sendMessage(out, this.serialize());
-				this.deserialize(msg.readMessage(in));
-				if(rp.getTypeOperation().equals("STOP")) {
-					b = false;
-				} 
-				else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
-					System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
-					rp.getSelect());
-				}
-				else {
-				System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
-					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
+				string = msg.readMessage(in);
+				if(string.equals("WAIT")) {
+					this.deserialize(msg.readMessage(in));
+					this.display();
+				} else {
+					this.display();
 				}
 			}
 		/*}else if(rp.getTypeOperation().equals("SERVER IS FULL")) {
 			System.out.println("Server is full");
 		}*/
+	}
+	
+	public void display() {
+		if(rp.getTypeOperation().equals("STOP")) {
+			b = false;
+		} 
+		else if(rp.getTypeOperation().equals("SELECT") || rp.getSuccessfulOperation().equals(false)) {
+			System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
+			+ "\n" + "Successful operation : " + rp.getSuccessfulOperation() + "\n" +
+			rp.getSelect());
+		}
+		else {
+		System.out.println("RESPONSE \nType of operation : " + rp.getTypeOperation() 
+			+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
+		}
 	}
 	
 	public String requestConnection() throws JsonProcessingException {

@@ -68,6 +68,9 @@ public class Server {
 		}
 	}
 	
+	public OutputStreamWriter getOutPutStream() {
+		return out;
+	}
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
 		s = new ServerSocket(port);
 		data = new DataSource();
