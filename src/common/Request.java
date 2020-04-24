@@ -6,7 +6,16 @@ public class Request {
 	String firstname;
 	String lastname;
 	int id ;
+	Sensor poll = new Sensor();
 	
+	public Sensor getPoll() {
+		return poll;
+	}
+
+	public void setPoll(Sensor poll) {
+		this.poll = poll;
+	}
+
 	public Request() {
 	}
 	

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Message;
+import common.Sensor;
 import common.Request;
 import common.Response;
 
@@ -31,6 +32,7 @@ public class Server {
 	private Message msg;
 	private Crud crud;
 	private static DataSource data;
+	private Sensor sens;
 	
 	public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
 
@@ -41,6 +43,7 @@ public class Server {
 				msg = new Message();
 				crud = new Crud();
 				r = new Request();
+				sens = new Sensor();
 					while(true) {
 						r = this.deserialize(msg.readMessage(in));
 						this.launchCrud(r, crud, data);
@@ -83,12 +86,13 @@ public class Server {
 		if(r.getOperation_type().equals("SELECT")) {
 			select = crud.select(r.getTable(), data);
 		}
-		else if(r.getOperation_type().equals("INSERT")) {
-			select = crud.insert(r.getFirstname(), r.getLastname(), data);
-
+		else if(r.getOperation_type().equals("INSERTSENSOR")) {
+			select = crud.insertSensor(r, data);
 		}
 		else if(r.getOperation_type().equals("UPDATE")) {
 			select = crud.update(r.getLastname(), r.getFirstname(), r.getId(), data);
+		}else if(r.getOperation_type().equals("INSERT")) {
+			select = crud.insert(r.getFirstname(), r.getLastname(), data);
 		}
 		else if(r.getOperation_type().equals("DELETE")) {
 			select = crud.delete(r.getId(), data);
