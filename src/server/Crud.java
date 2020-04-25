@@ -104,14 +104,14 @@ public class Crud {
 			String s = "";
 			String k;
 			int i = 1;
-			while(i < n - 1) {
+			while(i <= n - 1) {
 				k = rmd.getColumnTypeName(i + 1);
 				if(k.equals("varchar")) {
-					if(i < n - 2) s = s + rmd.getColumnName(i + 2) + " = '" + r.getA().get(i) + "', ";
-					else  s = s + rmd.getColumnName(i + 2) + " = '" + r.getA().get(i) + "' ";
+					if(i < n - 1) s = s + rmd.getColumnName(i + 1) + " = '" + r.getA().get(i - 1) + "', ";
+					else  s = s + rmd.getColumnName(i + 1) + " = '" + r.getA().get(i - 1) + "' ";
 				} else {
-					if(i < n - 2) s = s + rmd.getColumnName(i + 2) + " = " + r.getA().get(i) + ", ";
-					else  s = s + rmd.getColumnName(i + 2) + " = " + r.getA().get(i) + " ";
+					if(i < n - 1) s = s + rmd.getColumnName(i + 1) + " = " + r.getA().get(i - 1) + ", ";
+					else  s = s + rmd.getColumnName(i + 1) + " = " + r.getA().get(i - 1) + " ";
 				}
 				i++;
 			}
