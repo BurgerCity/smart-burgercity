@@ -1,9 +1,18 @@
 package common;
 
+import java.util.ArrayList;
+
 public class Request {
 	String operation_type;
 	String table;
-	String firstname;
+	ArrayList<String> a = new ArrayList<>();
+	public ArrayList<String> getA() {
+		return a;
+	}
+	public void setA(ArrayList<String> a) {
+		this.a = a;
+	}
+	/*String firstname;
 	String lastname;
 	int id ;
 	Sensor poll = new Sensor();
@@ -23,7 +32,7 @@ public class Request {
 		return "Operation Type : " + operation_type;
 	}
 	
-	public String getOperation_type() {
+	*/public String getOperation_type() {
 		return operation_type;
 	}
 	public void setOperation_type(String operation_type) {
@@ -36,7 +45,7 @@ public class Request {
 
 	public void setTable(String table) {
 		this.table = table;
-	}
+	}/*
 
 	public String getFirstname() {
 		return firstname;
@@ -60,5 +69,5 @@ public class Request {
 
 	public void setId(int id) {
 		this.id = id;
-	}
+	}*/
 }

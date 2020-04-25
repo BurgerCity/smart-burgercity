@@ -46,8 +46,8 @@ public class Server {
 				sens = new Sensor();
 					while(true) {
 						r = this.deserialize(msg.readMessage(in));
+						System.out.println(r.getOperation_type());
 						this.launchCrud(r, crud, data);
-						
 						msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
@@ -86,16 +86,13 @@ public class Server {
 		if(r.getOperation_type().equals("SELECT")) {
 			select = crud.select(r.getTable(), data);
 		}
-		else if(r.getOperation_type().equals("INSERTSENSOR")) {
-			select = crud.insertSensor(r, data);
+		else if(r.getOperation_type().equals("INSERT")) {
+			select = crud.insert(r, data);
 		}
 		else if(r.getOperation_type().equals("UPDATE")) {
-			select = crud.update(r.getLastname(), r.getFirstname(), r.getId(), data);
-		}else if(r.getOperation_type().equals("INSERT")) {
-			select = crud.insert(r.getFirstname(), r.getLastname(), data);
-		}
-		else if(r.getOperation_type().equals("DELETE")) {
-			select = crud.delete(r.getId(), data);
+			select = crud.update(r, data);
+		} else if(r.getOperation_type().equals("DELETE")) {
+			select = crud.delete(r, data);
 		}
 	}
 

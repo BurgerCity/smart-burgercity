@@ -1,20 +1,22 @@
 package server;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import common.Request;
 
 public class Crud {
 	Crud() {}
 	
-	public String insert(String firstname, String lastname, DataSource data) throws SQLException {
+	/*public String insert(String firstname, String lastname, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("INSERT INTO test1(lastname, firstname) values('" + lastname + "','" + firstname + "');");
 		stmt.close();
 		data.returnConnection(c);
 		return "Successful operation";
-	}
+	}*/
 	public ResultSetMetaData getTable(String table, Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
 		ResultSetMetaData rd = rs.getMetaData();
@@ -22,33 +24,52 @@ public class Crud {
 	}
 	
 	
-	public String insertSensor(Request r, DataSource data) throws SQLException {
+	public String insert(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
-		int i = 0;
-		ResultSet rs = stmt.executeQuery("SELECT * FROM sensor;");
-		ResultSetMetaData rmd = rs.getMetaData();
+		int i = 2;
+		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
 		int n = rmd.getColumnCount();
+		System.out.println(n);
 		String st = "(";
-		for(i = 1; i <= n; i++) {
+		for(i = 2; i <= n; i++) {
 			
-			while(i != n) st = st + rmd.getColumnLabel(i) + ",";
-			st = st + rmd.getColumnLabel(i) + ")";
+			if(i != n) st = st + rmd.getColumnName(i) + ",";
+			else st = st + rmd.getColumnName(i) + ")";
 		}
-		System.out.println(st);
-		String s = "";
-		while(i <= r.getPoll().getNbSensors()) {
-				s = s + "('" + r.getPoll().getLocation() + "','" + r.getPoll().getTimeBeforeAlert() 
-						+ "','" + r.getPoll().getStatement() + "','" + r.getPoll().getNitrogenDioxideInfo() + "','" + r.getPoll().getNitrogenDioxideAlert() +
-						"','" + r.getPoll().getLeadInfo() + "','" + r.getPoll().getLeadAlert() + "','" + r.getPoll().getFineParticlesInfo() + 
-						"','" + r.getPoll().getFineParticlesAlert() + "','" + r.getPoll().getCarbonMonoxideInfo() + "','" + r.getPoll().getCarbonMonoxideAlert() + "')";
-				
-				if(i != r.getPoll().getNbSensors()) s = s + ",";
-				else s = s + ";";
+		String s = "(";
+		i = 1;
+		String k;
+		int cpt = 0;
+		int cp = (r.getA().size()) / (n - 1); // nb de string dans l'arraylist par rapport au nombre d'insertion
+		System.out.println(cp);
+		while(i <= cp) {
+			for(int j = 0; j < n - 1; j++) {
+				k = rmd.getColumnTypeName(cpt + 2);
+				if(k.equals("varchar")) {
+					if (j < n - 2) {
+						s = s + "'"+  r.getA().get(cpt) + "'" + ","; 
+					} else if(j == n - 2){ 
+						if(i < cp) s = s + "'"+  r.getA().get(cpt) + "'" + "),";
+						else if(i == cp) s = s + "'"+  r.getA().get(cpt) + "'" + ");";
+					}
+				}
+				else {
+					if (j < n - 2) {
+						s = s + r.getA().get(cpt) + ","; 
+					} else if(j == n - 2){ 
+						if(i < cp) s = s + r.getA().get(cpt) + "),";
+						else if(i == cp) s = s + r.getA().get(cpt) + ");";
+					}
+				}
+				cpt++;
+			}
 			i++;
 		}
-		stmt.executeUpdate("INSERT INTO " + r.getTable() + st + " values" + s);
-		i++;
+		System.out.println(s);
+		for(int j = 0; j < Integer.parseInt(r.getA().get(r.getA().size() - 1)); j++) {
+			stmt.executeUpdate("INSERT INTO " + r.getTable() + st + " values" + s);
+		}
 		stmt.close();
 		data.returnConnection(c);
 		return "Successful operation";
@@ -71,41 +92,63 @@ public class Crud {
 		return s;
 	}
 	
-	public String update(String lastname, String firstname, int id, DataSource data) throws SQLException {
+	public String update(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
-		if(testId(id, c) == 0) {
+		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
+		int n = rmd.getColumnCount();
+		/*if(testId(c, r, n) == 0) {
 			data.returnConnection(c);
 			return "The identifier doesn't exist";
-		} else {
-			stmt.executeUpdate("UPDATE test1 SET lastname = '" + lastname + "', firstname = '" + firstname + "' WHERE id = " + id + " ;");
+		} else {*/
+			String s = "";
+			String k;
+			int i = 1;
+			while(i < n - 1) {
+				k = rmd.getColumnTypeName(i + 1);
+				if(k.equals("varchar")) {
+					if(i < n - 2) s = s + rmd.getColumnName(i + 2) + " = '" + r.getA().get(i) + "', ";
+					else  s = s + rmd.getColumnName(i + 2) + " = '" + r.getA().get(i) + "' ";
+				} else {
+					if(i < n - 2) s = s + rmd.getColumnName(i + 2) + " = " + r.getA().get(i) + ", ";
+					else  s = s + rmd.getColumnName(i + 2) + " = " + r.getA().get(i) + " ";
+				}
+				i++;
+			}
+			for(int j = n - 1; j <= (r.getA().size() - 1); j++) {
+				System.out.println("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
+				stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
+			}
+			stmt.close();	
 			data.returnConnection(c);
 			return "Successful operation";
 		}
 
-	}
+	//}
 	
-	public String delete(int id, DataSource data) throws SQLException {
+	public String delete(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement st = c.createStatement();
-		if(testId(id, c) == 0) {
+		/*if(testId(id, c) == 0) {
 			return "The identifier doesn't exist";
 		} else {
 			st.executeUpdate("DELETE FROM test1 WHERE id =" + id + ";");
 		}
-		st.close();
+		st.close();*/
 		data.returnConnection(c);
 		return "Successful operation";
 	}
 	
-	public int testId(int str, Connection c) throws SQLException {
+	public int testId(Connection c, Request r, int n) throws SQLException {
 		Statement st = c.createStatement();
-		ResultSet rs = st.executeQuery("SELECT id FROM test1 WHERE id = " + str + ";" );
-		if(rs.next()) {
-			return rs.getInt(1);
-		}
-		else {
-			return 0;
-		}
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		Iterator<String> it = r.getA().iterator();	
+			ResultSet rs = st.executeQuery("SELECT id FROM " + r.getTable()+ " WHERE id = " + r.getA().get(n) + ";" );
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+			else {
+				return 0;
+			}
 	}
 }

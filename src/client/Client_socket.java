@@ -34,12 +34,13 @@ public class Client_socket {
 	private int id;
 	private int str = 0;
 	
-	public void startConnection(String ip, int port) throws IOException {
+	public OutputStreamWriter startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
 		out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));	
 		msg = new Message();
 		objectMapper = new ObjectMapper();
+		return out;
 	}
 	
 	public void communicate() throws IOException, SQLException {
@@ -84,7 +85,7 @@ public class Client_socket {
 	}
 	
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
-		rq = this.choice();
+		//rq = this.choice();
 		rqAsString = objectMapper.writeValueAsString(rq);
 		return rqAsString;
 	}
@@ -95,7 +96,7 @@ public class Client_socket {
 		System.out.println(rp.getTypeOperation());
 		return rp;
 	}
-	public Request choice() throws SQLException {
+	/*public Request choice() throws SQLException {
 		boolean b = true;
 		sc = new Scanner(System.in);
 		while(b == true) {
@@ -171,5 +172,5 @@ public class Client_socket {
 		rq = new Request();
 		rq.setOperation_type("STOP");
 		return rq;
-	}
+	}*/
 }
