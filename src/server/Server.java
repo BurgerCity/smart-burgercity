@@ -48,10 +48,10 @@ public class Server {
 						r = this.deserialize(msg.readMessage(in));
 						System.out.println(r.getOperation_type());
 						this.launchCrud(r, crud, data);
-						msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+						/*msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
-						}
+						}*/
 					}
 				
 			} catch(Exception e) {}
@@ -110,7 +110,7 @@ public class Server {
 	}
 	
 	
-	public String serializeServeur(String type) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
+/*	public String serializeServeur(String type) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		rp = new Response();
 		rp.setSuccessfulOperation(true);
 		rp.setTypeOperation(type);
@@ -118,5 +118,5 @@ public class Server {
 		rp.setSelect(select);
 		rpAsString = objectMapper.writeValueAsString(rp);
 		return rpAsString;
-	}
+	}*/
 }

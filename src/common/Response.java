@@ -1,9 +1,11 @@
 package common;
 
+import java.util.ArrayList;
+
 public class Response {
 	Boolean successfulOperation = true;
 	String typeOperation;
-	String select;
+	ArrayList<String> a = new ArrayList<String>();
 	
 	public Response() {
 	}
@@ -13,13 +15,13 @@ public class Response {
 	public void setSuccessfulOperation(Boolean successfulOperation) {
 		this.successfulOperation = successfulOperation;
 	}
-	public String getSelect() {
-		return select;
-	}
-	public void setSelect(String select) {
-		this.select = select;
-	}
 
+	public ArrayList<String> getA() {
+		return a;
+	}
+	public void setA(ArrayList<String> a) {
+		this.a = a;
+	}
 	public String getTypeOperation() {
 		return typeOperation;
 	}

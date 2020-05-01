@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import common.Request;
+import common.Response;
 
 public class Crud {
 	Crud() {}
@@ -79,12 +80,10 @@ public class Crud {
 		Connection c = data.takeConnection();
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery("SELECT * FROM " + table + ";");
+		Response rp = new Response();
 		String s = "";
 		while(rs.next()) {
-			int id = rs.getInt("id");
-			String last = rs.getString("lastname");
-			String first = rs.getString("firstname");
-			s = s + id + " " + last + " " + first +"\n";
+			
 		}
 		rs.close();
 		st.close();
@@ -97,10 +96,11 @@ public class Crud {
 		Statement stmt = c.createStatement();
 		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
 		int n = rmd.getColumnCount();
-		/*if(testId(c, r, n) == 0) {
+		if(testId(c, r, n, rmd) == 0) {
 			data.returnConnection(c);
 			return "The identifier doesn't exist";
-		} else {*/
+		} else {
+			System.out.println("aps bn");
 			String s = "";
 			String k;
 			int i = 1;
@@ -117,38 +117,48 @@ public class Crud {
 			}
 			for(int j = n - 1; j <= (r.getA().size() - 1); j++) {
 				System.out.println("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
-				stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
+				//stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
 			}
 			stmt.close();	
 			data.returnConnection(c);
 			return "Successful operation";
 		}
 
-	//}
+	}
 	
 	public String delete(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement st = c.createStatement();
-		/*if(testId(id, c) == 0) {
+		ResultSetMetaData rmd = this.getTable(r.getTable(), st);
+		int n = rmd.getColumnCount();
+		if(testId(c, r, n, rmd) == 0) {
 			return "The identifier doesn't exist";
 		} else {
-			st.executeUpdate("DELETE FROM test1 WHERE id =" + id + ";");
+			st.executeUpdate("DELETE FROM " + r.getTable() + " WHERE id =" + r.getA().get(0) + ";");
 		}
-		st.close();*/
+		st.close();
 		data.returnConnection(c);
 		return "Successful operation";
 	}
 	
-	public int testId(Connection c, Request r, int n) throws SQLException {
+	public int testId(Connection c, Request r, int n, ResultSetMetaData rdm) throws SQLException {
 		Statement st = c.createStatement();
 		ArrayList<Integer> al = new ArrayList<Integer>();
-		Iterator<String> it = r.getA().iterator();	
-			ResultSet rs = st.executeQuery("SELECT id FROM " + r.getTable()+ " WHERE id = " + r.getA().get(n) + ";" );
+		for(int i = n - 1; i <= r.getA().size() - 1; i++) {	
+			ResultSet rs = st.executeQuery("SELECT " + rdm.getColumnName(1)+ " FROM " + r.getTable()+ " WHERE id = " + r.getA().get(i) + ";" );
 			if(rs.next()) {
-				return rs.getInt(1);
+				al.add(rs.getInt(1));
 			}
 			else {
-				return 0;
+				al.add(0);
 			}
+		}
+		Iterator<Integer> it = al.iterator();	
+		while(it.hasNext()) {
+			int k = it.next();
+			System.out.println(k);
+			if(k == 0) return 0;
+		}
+		return 1;
 	}
 }

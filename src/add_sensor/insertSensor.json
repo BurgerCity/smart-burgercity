@@ -1,21 +1,9 @@
 {
-	"operation_type":"INSERTSENSOR",
-	"table":"sensor",
-	"firstname":null,
-	"lastname":null,
-	"id":0,
-	"poll":	{
-		"nitrogenDioxideInfo":10,
-		"nitrogenDioxideAlert":10,
-		"leadInfo":10,
-		"leadAlert":10,
-		"fineParticlesInfo":10,
-		"fineParticlesAlert":10,
-		"carbonMonoxideInfo":10,
-		"carbonMonoxideAlert":10,
-		"timeBeforeAlert":10,
-		"nbSensors":2,
-		"location":"north",
-		"statement":2
-		}
+"operation_type":"INSERT",
+"table":"test1",
+"a":[
+"Dark",
+"Vador",
+"1"
+]
 }

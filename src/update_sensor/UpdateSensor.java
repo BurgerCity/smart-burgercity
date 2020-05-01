@@ -1,25 +1,20 @@
-package add_sensor;
+package update_sensor;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import client.Client_socket;
-import client_common.Json;
 import common.Message;
 import common.Request;
 
-public class AddSensor {
-
-	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+public class UpdateSensor {
+	public static void main(String[] agrs ) throws IOException {
 		Message msg = new Message();
 		Request r = new Request();
 		ObjectMapper ob = new ObjectMapper();
@@ -30,7 +25,7 @@ public class AddSensor {
 	       
 	      //lecture du fichier texte
 	      try{
-	         InputStream ips = new FileInputStream("src/add_sensor/insertSensor.json");
+	         InputStream ips = new FileInputStream("src/update_sensor/updateSensor.json");
 	         InputStreamReader in = new InputStreamReader(ips);
 	         BufferedReader br = new BufferedReader(in);
 	         String ligne;
@@ -45,5 +40,4 @@ public class AddSensor {
 	      }
 	      msg.sendMessage(out, chaine);
 	}
-
 }
