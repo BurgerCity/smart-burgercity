@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Message;
-import common.Sensor;
 import common.Request;
 import common.Response;
 
@@ -32,7 +31,6 @@ public class Server {
 	private Message msg;
 	private Crud crud;
 	private static DataSource data;
-	private Sensor sens;
 	
 	public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
 
@@ -43,24 +41,25 @@ public class Server {
 				msg = new Message();
 				crud = new Crud();
 				r = new Request();
-				sens = new Sensor();
 					while(true) {
 						r = this.deserialize(msg.readMessage(in));
 						System.out.println(r.getOperation_type());
-						this.launchCrud(r, crud, data);
-						/*msg.sendMessage(out, this.serializeServeur(r.getOperation_type()));
+						rp = this.launchCrud(r, crud, data);
+						msg.sendMessage(out, this.serializeServeur(rp));
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
-						}*/
+						}
 					}
 				
 			} catch(Exception e) {}
 		}
 	}
 		
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
+		StatementSensor ss = new StatementSensor();
+		//ss.statement();
 		try {
 			while(true) {	
 				Socket clientSocket = serverSocket.accept();
@@ -81,10 +80,10 @@ public class Server {
 		clientSocket = s.accept();
 		return clientSocket;
 	}
-	public void launchCrud(Request r, Crud crud, DataSource data) throws SQLException, JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException {
-		
+	public Response launchCrud(Request r, Crud crud, DataSource data) throws SQLException, JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException {
+		rp = new Response();
 		if(r.getOperation_type().equals("SELECT")) {
-			select = crud.select(r.getTable(), data);
+			rp = crud.select(r, data);
 		}
 		else if(r.getOperation_type().equals("INSERT")) {
 			select = crud.insert(r, data);
@@ -94,6 +93,7 @@ public class Server {
 		} else if(r.getOperation_type().equals("DELETE")) {
 			select = crud.delete(r, data);
 		}
+		return rp;
 	}
 
 	
@@ -108,15 +108,16 @@ public class Server {
 		r = objectMapper.readValue(json, Request.class);
 		return r;
 	}
+
+	public static DataSource getData() {
+		return data;
+	}
 	
 	
-/*	public String serializeServeur(String type) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
-		rp = new Response();
+	public String serializeServeur(Response rp) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		rp.setSuccessfulOperation(true);
-		rp.setTypeOperation(type);
-		if(select.equals("The identifier doesn't exist")) rp.setSuccessfulOperation(false);
-		rp.setSelect(select);
+		rp.setTypeOperation(r.getOperation_type());
 		rpAsString = objectMapper.writeValueAsString(rp);
 		return rpAsString;
-	}*/
+	}
 }

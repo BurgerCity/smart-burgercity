@@ -76,19 +76,39 @@ public class Crud {
 		return "Successful operation";
 	}
 	
-	public String select(String table, DataSource data) throws SQLException {
+	public Response select(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement st = c.createStatement();
-		ResultSet rs = st.executeQuery("SELECT * FROM " + table + ";");
-		Response rp = new Response();
 		String s = "";
-		while(rs.next()) {
-			
+		Response rp = new Response();
+		int i = 0;
+		if(r.getA().size() == 0) {
+			s = "*";
+			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + ";");
+			while(rs.next()) {
+				rp.getA().add(Integer.toString(rs.getInt(0)));
+			}
+			rs.close();
+		} else {
+			while(i < r.getA().size() - 4) {
+				s = s + r.getA().get(i) + " ,";
+				i++;
+			}
+			s = s + r.getA().get(r.getA().size() - 3);
+			System.out.println(s);
+			System.out.println("SELECT " + s + " FROM " + r.getTable() + " WHERE " + r.getA().get(r.getA().size() - 2) + " = '" + r.getA().get(r.getA().size() - 1) + "';");
+			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " WHERE " + r.getA().get(r.getA().size() - 2) + " = '" + r.getA().get(r.getA().size() - 1) + "';");
+			while(rs.next()) {
+				System.out.println(rs.getInt(1));
+				rp.getA().add(Integer.toString(rs.getInt(1)));
+			}
+			rs.close();
 		}
-		rs.close();
+		System.out.println("je suis");
+		System.out.println(rp.getA());
 		st.close();
 		data.returnConnection(c);
-		return s;
+		return rp;
 	}
 	
 	public String update(Request r, DataSource data) throws SQLException {

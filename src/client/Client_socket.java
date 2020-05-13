@@ -3,7 +3,6 @@ package client;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,18 +20,11 @@ public class Client_socket {
 	private Socket clientSocket;
 	private OutputStreamWriter out;
 	private BufferedReader in;
-	private Scanner sc;
 	private ObjectMapper objectMapper;
 	private Request rq;
 	private Response rp;
-	private Boolean b = true;
-	private Message msg;
 	private String rqAsString;
-	private String firstname;
-	private String lastname;
-	private String table;
-	private int id;
-	private int str = 0;
+	private Message msg;
 	
 	public OutputStreamWriter startConnection(String ip, int port) throws IOException {
 		clientSocket = new Socket(ip, port);
@@ -43,7 +35,7 @@ public class Client_socket {
 		return out;
 	}
 	
-	public void communicate() throws IOException, SQLException {
+	/*public void communicate() throws IOException, SQLException {
 			System.out.println("Connection completed");
 			while(b == true) {
 				msg.sendMessage(out, this.serialize());
@@ -61,7 +53,7 @@ public class Client_socket {
 					+ "\n" + "Successful operation : " + rp.getSuccessfulOperation());
 				}
 			}
-	}
+	}*/
 	
 	public String requestConnection() throws JsonProcessingException {
 		rq = new Request();
@@ -76,13 +68,13 @@ public class Client_socket {
 		clientSocket.close();
 	}
 	
-	public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
+	/*public static void main(String[] args) throws UnknownHostException, IOException, SQLException {
 		Client_socket c = new Client_socket();
 		c.startConnection("172.31.249.164", 2013);
 		c.communicate();
 		System.out.println("Socket closed");
 		c.close();
-	}
+	}*/
 	
 	public String serialize() throws JsonGenerationException, JsonMappingException, IOException, SQLException {
 		//rq = this.choice();
@@ -173,4 +165,8 @@ public class Client_socket {
 		rq.setOperation_type("STOP");
 		return rq;
 	}*/
+
+	public OutputStreamWriter getOut() {
+		return out;
+	}
 }

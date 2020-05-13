@@ -24,6 +24,7 @@ public class Json {
 	}
 	
 	public String serialize(Request rq) throws JsonGenerationException, JsonMappingException, IOException, SQLException {
+		objectMapper = new ObjectMapper();
 		rqAsString = objectMapper.writeValueAsString(rq);
 		return rqAsString;
 	}
