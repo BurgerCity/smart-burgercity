@@ -5,7 +5,7 @@ class CarbonFootprintVehicle{
 	private int cf_car = 206; 
 	private int cf_velib = 0;
 	private double cf_tram = 2.1;
-	private int cf_foot = 0;
+	private int cf_walker = 0;
 
 	public int getCf_car(){
 		return cf_car;
@@ -19,19 +19,19 @@ class CarbonFootprintVehicle{
 		return cf_tram;
 	}
 
-	public int getCf_foot(){
-		return cf_foot;
+	public int getCf_walker(){
+		return cf_walker;
 	}
 
 
 
 
 	public String toString(){
-		String r = "Carbon footprint of city vehicles :" + '\n' + '\n' + 
+		String r = "Carbon footprint of city vehicles : " + '\n' + '\n' + 
 		"Car : " + cf_car + " gCO2/km"+'\n'+ 
 		"Velib : " + cf_velib + "gCO2/km"+'\n'+
 		"Tram : " + cf_tram + "gCO2/km"+'\n' +
-		"Foot : " + cf_foot + "gCO2/km"+'\n' +'\n';
+		"Foot : " + cf_walker + "gCO2/km"+'\n' +'\n';
 		return r;
 	}
 	public static void main(String[] args){
