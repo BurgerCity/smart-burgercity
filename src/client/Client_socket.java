@@ -169,4 +169,12 @@ public class Client_socket {
 	public OutputStreamWriter getOut() {
 		return out;
 	}
+
+	public BufferedReader getIn() {
+		return in;
+	}
+
+	public void setOut(OutputStreamWriter out) {
+		this.out = out;
+	}
 }

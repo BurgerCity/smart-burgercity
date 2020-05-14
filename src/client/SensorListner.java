@@ -4,14 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import client_common.Json;
 import common.Message;
 import common.Request;
+import common.Response;
 
 public class SensorListner implements ActionListener {
 	ClientFrame f;
 	Client_socket client;
+	Response rp;
+	ArrayList<String> listOfId = new ArrayList<String>();
+	boolean test = false;
 	public SensorListner(ClientFrame f, Client_socket client) {
 		this.f = f;
 		this.client = client;
@@ -19,49 +25,118 @@ public class SensorListner implements ActionListener {
 		this.f.getF1().getB2().addActionListener(this);
 		this.f.getF2().getB().addActionListener(this);
 		this.f.getF3().getB().addActionListener(this);
+		this.f.getF5().getB().addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.f.getF1().getB1()) {
-			f.setSize(550, 800);
+			f.setSize(550, 600);
 			(f.getCl()).show(f.getP(), "f2");
 		}
 		if(e.getSource() == this.f.getF2().getB()) {
-			this.insertSensor();
-			f.setSize(300, 100);
-			(f.getCl()).show(f.getP(), "f1");
+			if(this.sensor("INSERT", f.getF2()) == false) {
+				(f.getCl()).show(f.getP(), "f2");
+			} else {
+				f.setSize(300, 100);
+				(f.getCl()).show(f.getP(), "f1");
+			}
 		}
 		if(e.getSource() == this.f.getF1().getB2()) {
 			f.setSize(370, 150);
 			(f.getCl()).show(f.getP(), "f3");
 		}
 		if(e.getSource() == this.f.getF3().getB()) {
-			this.selectSensor();
+			try {
+				//rp = this.selectSensor();
+				this.f.f4 = new Frame4(this.selectSensor());
+				this.f.getF4().getB().addActionListener(this);
+				this.f.getP().add("f4", this.f.f4.getJp());
+				f.setSize(200, 300);
+				(f.getCl()).show(f.getP(), "f4");
+				test = true;
+			} catch (IOException e1) {}
 		}
+		if(test == true) {
+			if(e.getSource() == this.f.f4.getB()) {
+				for(int i = 0; i < this.f.f4.getJr().length; i++) {
+					if(this.f.f4.getJr()[i].isSelected()) {
+						listOfId.add(this.f.f4.getJl()[i].getText());
+					}
+				}
+				System.out.println(listOfId);
+				test = false;
+				f.setSize(550, 600);
+				(f.getCl()).show(f.getP(), "f5");
+			}
+		}
+		if(e.getSource() == this.f.getF5().getB()) {
+			if(this.sensor("UPDATE", f.getF5()) == false) {
+				//this.f.getF5() = new Frame2("update");
+				(f.getCl()).show(f.getP(), "f5");
+				
+			}
+			else if(this.sensor("UPDATE", f.getF5()) == true) {
+				f.setSize(300, 100);
+				(f.getCl()).show(f.getP(), "f1");
+			}
+		}
+		System.out.println("wsh");
 	}
-	public void selectSensor() {
+	public Response selectSensor() throws IOException {
 		Request r = new Request();
 		r.setOperation_type("SELECT");
 		r.setTable("sensor");
+		r.getA().add("1");
 		r.getA().add("id_sensor");
-		r.getA().add("localization");
-		r.getA().add(f.getF3().getLocalisation().getSelectedItem().toString());
+		int i = 0;
+		while(i < 4) {
+			if(f.getF3().getJr()[i].isSelected()) {
+				r.getA().add("localization");
+				r.getA().add(f.getF3().getJr()[i].getText());
+			}
+			i++;
+		}
 		this.sendRequest(r);
-		
+		Message m = new Message();
+		Json js = new Json();
+		rp = new Response();
+		String st = m.readMessage(client.getIn());
+		System.out.println(st);
+		rp = js.deserialize(st);
+		System.out.println(rp.getA());
+		return rp;
 	}
-	public void insertSensor() {
+	public boolean sensor(String st, Frame2 f) {
 		Request r = new Request();
-		r.setOperation_type("INSERT");
+		r.setOperation_type(st);
 		r.setTable("sensor");
 		//String v = f.getF2().getLocalisation().getSelectedItem().toString();
-		r.getA().add(f.getF2().getLocalisation().getSelectedItem().toString());
-		r.getA().add(f.getF2().getTf()[9].getText());
-		r.getA().add(f.getF2().getTf()[10].getText());
-		for(int i = 1; i < 9; i++) {
-			r.getA().add(f.getF2().getTf()[i].getText());
+		for(int i = 0; i < f.getTf().length; i++) {
+			System.out.println(f.getTf()[i].getText());
+			if(f.getTf()[i].getText().length() == 0) {
+				System.out.println(f.getTf()[i].getText().length());
+				f.getJ12().setText("Please fill in all fields");
+				return false;
+			}
 		}
-		r.getA().add(f.getF2().getTf()[0].getText());
+		r.getA().add(f.getLocalisation().getSelectedItem().toString());
+		r.getA().add(f.getTf()[9].getText());
+		r.getA().add(f.getTf()[10].getText());
+		for(int i = 1; i < 9; i++) {
+			r.getA().add(f.getTf()[i].getText());
+		}
+		if(st.equals("INSERT"))	{
+			r.getA().add(f.getTf()[0].getText());
+		} else {
+			Iterator<String> it = listOfId.iterator();
+			while(it.hasNext()) {
+				String s = it.next();
+				r.getA().add(s);
+				System.out.println(r.getA());
+			}
+		}
 		this.sendRequest(r);
+		return true;
 
 	}
 	
@@ -70,9 +145,8 @@ public class SensorListner implements ActionListener {
 		Json json = new Json();
 		String s = "";
 		try {
-			System.out.println(json.serialize(r));
 			s = json.serialize(r);
-			System.out.println(client.getOut());
+			System.out.println(s);
 			msg.sendMessage(client.getOut(), s);
 		} catch (IOException | SQLException e1) {
 			e1.printStackTrace();

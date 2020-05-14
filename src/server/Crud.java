@@ -81,7 +81,7 @@ public class Crud {
 		Statement st = c.createStatement();
 		String s = "";
 		Response rp = new Response();
-		int i = 0;
+		int i = 1;
 		if(r.getA().size() == 0) {
 			s = "*";
 			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + ";");
@@ -90,14 +90,21 @@ public class Crud {
 			}
 			rs.close();
 		} else {
-			while(i < r.getA().size() - 4) {
+			while(i < Integer.parseInt(r.getA().get(0))) {
 				s = s + r.getA().get(i) + " ,";
 				i++;
 			}
-			s = s + r.getA().get(r.getA().size() - 3);
+			s = s + r.getA().get(i);
 			System.out.println(s);
-			System.out.println("SELECT " + s + " FROM " + r.getTable() + " WHERE " + r.getA().get(r.getA().size() - 2) + " = '" + r.getA().get(r.getA().size() - 1) + "';");
-			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " WHERE " + r.getA().get(r.getA().size() - 2) + " = '" + r.getA().get(r.getA().size() - 1) + "';");
+			i = Integer.parseInt(r.getA().get(0)) + 1;
+			String t = "";
+			while(i < r.getA().size() - 2) {
+				t = t + r.getA().get(i) + " = '" + r.getA().get(i + 1) + "' OR ";
+				i += 2;
+			}
+			t = t + r.getA().get(i) + " = '" + r.getA().get(i + 1) + "'";
+			System.out.println("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
+			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
 			while(rs.next()) {
 				System.out.println(rs.getInt(1));
 				rp.getA().add(Integer.toString(rs.getInt(1)));
@@ -116,7 +123,9 @@ public class Crud {
 		Statement stmt = c.createStatement();
 		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
 		int n = rmd.getColumnCount();
+		System.out.println("bjr");
 		if(testId(c, r, n, rmd) == 0) {
+			System.out.println("wsh");
 			data.returnConnection(c);
 			return "The identifier doesn't exist";
 		} else {
@@ -136,8 +145,8 @@ public class Crud {
 				i++;
 			}
 			for(int j = n - 1; j <= (r.getA().size() - 1); j++) {
-				System.out.println("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
-				//stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE id = " + r.getA().get(j) + ";");
+				System.out.println("UPDATE " + r.getTable() + " SET " + s + "WHERE " + rmd.getColumnLabel(1) + " = " + r.getA().get(j) + ";");
+				stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE " + rmd.getColumnLabel(1) + " = " + r.getA().get(j) + ";");
 			}
 			stmt.close();	
 			data.returnConnection(c);
@@ -165,7 +174,7 @@ public class Crud {
 		Statement st = c.createStatement();
 		ArrayList<Integer> al = new ArrayList<Integer>();
 		for(int i = n - 1; i <= r.getA().size() - 1; i++) {	
-			ResultSet rs = st.executeQuery("SELECT " + rdm.getColumnName(1)+ " FROM " + r.getTable()+ " WHERE id = " + r.getA().get(i) + ";" );
+			ResultSet rs = st.executeQuery("SELECT " + rdm.getColumnName(1)+ " FROM " + r.getTable()+ " WHERE " + rdm.getColumnName(1) + " = " + r.getA().get(i) + ";" );
 			if(rs.next()) {
 				al.add(rs.getInt(1));
 			}

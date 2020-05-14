@@ -10,12 +10,14 @@ public class ClientFrame extends JFrame {
 	CardLayout cl = new CardLayout();
 	JPanel p = new JPanel();
 	Frame1 f1 = new Frame1();
-	Frame2 f2 = new Frame2();
+	Frame2 f2 = new Frame2("insert");
 	Frame3 f3 = new Frame3();
+	Frame4 f4;
+	Frame2 f5 = new Frame2("update");
 	ActionEvent e;
 	ClientFrame() {
 		super("Configuration");
-		this.setSize(400, 100);
+		this.setSize(400, 300);
 		this.p.setLayout(cl);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -23,6 +25,7 @@ public class ClientFrame extends JFrame {
 		this.p.add("f1", f1.getJ());
 		this.p.add("f2", f2.getJ());
 		this.p.add("f3", f3.getJ());
+		this.p.add("f5", f5.getJ());
 		this.getContentPane().add(p);
 		
 		
@@ -42,6 +45,12 @@ public class ClientFrame extends JFrame {
 	}
 	public Frame3 getF3() {
 		return f3;
+	}
+	public Frame4 getF4() {
+		return f4;
+	}
+	public Frame2 getF5() {
+		return f5;
 	}
 
 }

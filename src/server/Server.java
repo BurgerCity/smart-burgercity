@@ -118,6 +118,7 @@ public class Server {
 		rp.setSuccessfulOperation(true);
 		rp.setTypeOperation(r.getOperation_type());
 		rpAsString = objectMapper.writeValueAsString(rp);
+		System.out.println(rpAsString);
 		return rpAsString;
 	}
 }

@@ -18,6 +18,7 @@ public class Json {
 	String rqAsString;
 	public Response deserialize(String respJson) throws JsonMappingException, JsonProcessingException {
 		rp = new Response();
+		objectMapper = new ObjectMapper();
 		rp =  objectMapper.readValue(respJson, Response.class);
 		System.out.println(rp.getTypeOperation());
 		return rp;

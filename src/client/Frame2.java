@@ -38,13 +38,17 @@ public class Frame2 extends Container {
 	JLabel j9;
 	JLabel j10;	
 	JLabel j11;
+	JLabel j12;
+	String st;
+	JLabel[] jlb;
 
-
-
-	Frame2() {
+	Frame2(String st) {
+		this.st = st;
 		j = new JPanel(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
-		jp1 = new JPanel(new GridLayout(1,1));
+		if(st.equals("insert")) {
+			jp1 = new JPanel(new GridLayout(1,1));
+		}
 		jp2 = new JPanel(new GridLayout(1,1));
 		jp3 = new JPanel(new GridLayout(10,2));
 		jp4 = new JPanel(new GridLayout(0,2));
@@ -55,27 +59,35 @@ public class Frame2 extends Container {
 			tf[i] = new JTextField();
 			//tf[i].setPreferredSize(new Dimension(50, 10));
 		}
+		jlb = new JLabel[12];
 		b = new JButton("Validate");
-		j1 =new JLabel("Number of sensors to configure");
-		j2 =new JLabel("Nitrogen Dioxide information threshold");	
-		j3 =new JLabel("Nitrogen Dioxide alert threshold");	
-		j4 =new JLabel("Lead information threshold");	
-		j5 =new JLabel("Lead alert threshold");	
-		j6 =new JLabel("Fine Particle information threshold");	
-		j7 =new JLabel("Fine Particle alert threshold");	
-		j8 =new JLabel("Carbon Monoxide information threshold");	
-		j9 =new JLabel("Carbon Monoxide alert threshold");
-		j10 =new JLabel("Number of statements before alert");	
-		j11 =new JLabel("Number of minutes between each statement");
+		j1 =new JLabel("Number of sensors to configure : "); 			jlb[0] = j1;
+		j2 =new JLabel("Nitrogen Dioxide information threshold : ");	jlb[1] = j2;
+		j3 =new JLabel("Nitrogen Dioxide alert threshold : ");			jlb[2] = j3;
+		j4 =new JLabel("Lead information threshold : ");				jlb[3] = j4;
+		j5 =new JLabel("Lead alert threshold : ");						jlb[4] = j5;
+		j6 =new JLabel("Fine Particle information threshold : ");		jlb[5] = j6;
+		j7 =new JLabel("Fine Particle alert threshold : ");				jlb[6] = j7;
+		j8 =new JLabel("Carbon Monoxide information threshold : ");		jlb[7] = j8;
+		j9 =new JLabel("Carbon Monoxide alert threshold : ");			jlb[8] = j9;
+		j10 =new JLabel("Number of statements before alert : ");		jlb[9] = j10;
+		j11 =new JLabel("Number of minutes between each statement : ");	jlb[10] = j11;
+		j12 = new JLabel(""); jlb[11] = j12;
+		for(int i = 0; i < 12; i++) {
+			jlb[i].setHorizontalAlignment(JLabel.CENTER);
+		}
+		if(st.equals("insert")) {
+			jp1.add(j1);
+			jp1.add(tf[0]);
+			g.gridy = 0;
+			g.gridx = 0;
+			g.weightx = 0.5;
+			g.weighty = 0.1;
+			g.fill = GridBagConstraints.BOTH;
+			j.add(jp1, g);
+			g.fill = GridBagConstraints.NONE;
+		}
 		
-		jp1.add(j1);
-		jp1.add(tf[0]);
-		g.gridy = 0;
-		g.gridx = 0;
-		g.weightx = 0.5;
-		g.weighty = 0.1;
-		j.add(jp1, g);
-
 		jp2.add(localisation);
 		g.gridx = 0;
 		g.gridy = 1;
@@ -109,10 +121,12 @@ public class Frame2 extends Container {
 		g.gridx = 0;
 		g.gridy = 2;
 		g.weighty = 0.7;
+		g.weightx = 0.5;
 		g.fill = GridBagConstraints.BOTH;
 		j.add(jp3, g);
 		
 		jp4.add(b);
+		jp4.add(j12);
 		g.gridx = 0;
 		g.gridy = 3;
 		g.weightx = 0.25;
@@ -187,5 +201,13 @@ public class Frame2 extends Container {
 
 	public JLabel getJ11() {
 		return j11;
+	}
+
+	public void setJ12(JLabel j12) {
+		this.j12 = j12;
+	}
+
+	public JLabel getJ12() {
+		return j12;
 	}
 }
