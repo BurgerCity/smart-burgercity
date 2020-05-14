@@ -16,7 +16,7 @@ public class CarbonIhm extends JFrame /* implements ActionListener => va prendre
 
 	CarbonIhm(){
 		super();
-		infoVille = new InfoVille();
+		infoVille = new InfoVille(200); // 100 valeur test, a aller chercher dans BDD
 		infoVehicle = new CarbonFootprintVehicle();
 
 
