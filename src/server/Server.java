@@ -57,14 +57,14 @@ public class Server {
 		
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
-		ServerSocket serverSocket = s.startServer(2013);
+		//ServerSocket serverSocket = s.startServer(2015);
 		//Socket client = serverSocket.accept();
-		new Thread(new ThreadCollectData(serverSocket)).start();
+		//new Thread(new ThreadCollectData(serverSocket)).start();
 		//StatementSensor ss = new StatementSensor();
 		//ss.statement();
 		ServerSocket serverSocket2 = s.startServer(2015);
 		new Thread(new ThreadClientSocket(serverSocket2)).start();
-			/*try {
+			try {
 				while(true) {	
 					Socket clientSocket = serverSocket2.accept();
 					new Thread(new ThreadClient(clientSocket)).start();
@@ -72,7 +72,7 @@ public class Server {
 				}
 			} catch (Exception e) {
 				serverSocket2.close();
-			}*/
+			}
 	}
 	
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
@@ -119,6 +119,9 @@ public class Server {
 			crud.update(r, data);
 		} else if(r.getOperation_type().equals("DELETE")) {
 			crud.delete(r, data);
+		}
+		else if(r.getOperation_type().equals("COUNT_CAR")){
+			rp=crud.countcar(data);
 		}
 		return rp;
 	}
