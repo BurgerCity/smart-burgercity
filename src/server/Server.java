@@ -58,22 +58,49 @@ public class Server {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
-		StatementSensor ss = new StatementSensor();
+		//Socket client = serverSocket.accept();
+		new Thread(new ThreadCollectData(serverSocket)).start();
+		//StatementSensor ss = new StatementSensor();
 		//ss.statement();
-		try {
-			while(true) {	
-				Socket clientSocket = serverSocket.accept();
-				new Thread(new ThreadClient(clientSocket)).start();
-			}
-		} catch (Exception e) {
-			serverSocket.close();
-		}
+		ServerSocket serverSocket2 = s.startServer(2015);
+		new Thread(new ThreadClientSocket(serverSocket2)).start();
+			/*try {
+				while(true) {	
+					Socket clientSocket = serverSocket2.accept();
+					new Thread(new ThreadClient(clientSocket)).start();
+					System.out.println("bjr");
+				}
+			} catch (Exception e) {
+				serverSocket2.close();
+			}*/
 	}
 	
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
 		s = new ServerSocket(port);
 		data = new DataSource();
 		return s;
+	}
+	
+	public void ThreadClientSocket(ServerSocket serverSocket2) throws IOException {
+		try {
+			while(true) {	
+				Socket clientSocket = serverSocket2.accept();
+				new Thread(new ThreadClient(clientSocket)).start();
+			}
+		} catch (Exception e) {
+			serverSocket2.close();
+		}
+	}
+	
+	public void ThreadStatement(ServerSocket serverSocket2) throws IOException {
+		try {
+			while(true) {	
+				Socket clientSocket = serverSocket2.accept();
+				new Thread(new ThreadSensorSocket(clientSocket, data, crud)).start();
+			}
+		} catch (Exception e) {
+			serverSocket2.close();
+		}
 	}
 		
 	public Socket openSocket(ServerSocket s) throws IOException {
@@ -86,12 +113,12 @@ public class Server {
 			rp = crud.select(r, data);
 		}
 		else if(r.getOperation_type().equals("INSERT")) {
-			select = crud.insert(r, data);
+			crud.insert(r, data);
 		}
 		else if(r.getOperation_type().equals("UPDATE")) {
-			select = crud.update(r, data);
+			crud.update(r, data);
 		} else if(r.getOperation_type().equals("DELETE")) {
-			select = crud.delete(r, data);
+			crud.delete(r, data);
 		}
 		return rp;
 	}

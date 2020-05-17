@@ -2,6 +2,8 @@ package client;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,11 +17,18 @@ public class Frame1 extends Container {
 	ClientFrame f;
 	ActionEvent e;
 	Frame1() {
-		j = new JPanel(new FlowLayout());
+		j = new JPanel(new GridBagLayout());
+		GridBagConstraints g = new GridBagConstraints();
 		b1 = new JButton("Configure new sensors");
 		b2 = new JButton("Reconfigure sensors");
-		j.add(b1);
-		j.add(b2);
+		g.gridx = 0;
+		g.gridy = 0;
+		g.weightx = 0.5;
+		g.weighty = 0.5;
+		//g.fill = GridBagConstraints.BOTH;
+		j.add(b1, g);
+		g.gridx = 1;
+		j.add(b2, g);
 	}
 	public JPanel getJ() {
 		return j;

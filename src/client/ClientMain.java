@@ -15,7 +15,7 @@ public class ClientMain {
 	
 	public static void main(String[] args) throws IOException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 2013);
+		c.startConnection("127.0.0.1", 2015);
 		ClientFrame cf = new ClientFrame();
 		SensorListner s = new SensorListner(cf, c);
 	}

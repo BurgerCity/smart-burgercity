@@ -6,6 +6,7 @@ public class Request {
 	String operation_type;
 	String table;
 	ArrayList<String> a = new ArrayList<>();
+	
 	public ArrayList<String> getA() {
 		return a;
 	}

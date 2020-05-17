@@ -37,7 +37,7 @@ public class SensorListner implements ActionListener {
 			if(this.sensor("INSERT", f.getF2()) == false) {
 				(f.getCl()).show(f.getP(), "f2");
 			} else {
-				f.setSize(300, 100);
+				f.setSize(400, 200);
 				(f.getCl()).show(f.getP(), "f1");
 			}
 		}
@@ -51,7 +51,7 @@ public class SensorListner implements ActionListener {
 				this.f.f4 = new Frame4(this.selectSensor());
 				this.f.getF4().getB().addActionListener(this);
 				this.f.getP().add("f4", this.f.f4.getJp());
-				f.setSize(200, 300);
+				f.setSize(400, 300);
 				(f.getCl()).show(f.getP(), "f4");
 				test = true;
 			} catch (IOException e1) {}
@@ -75,12 +75,11 @@ public class SensorListner implements ActionListener {
 				(f.getCl()).show(f.getP(), "f5");
 				
 			}
-			else if(this.sensor("UPDATE", f.getF5()) == true) {
+			else {
 				f.setSize(300, 100);
 				(f.getCl()).show(f.getP(), "f1");
 			}
 		}
-		System.out.println("wsh");
 	}
 	public Response selectSensor() throws IOException {
 		Request r = new Request();
@@ -111,20 +110,23 @@ public class SensorListner implements ActionListener {
 		r.setOperation_type(st);
 		r.setTable("sensor");
 		//String v = f.getF2().getLocalisation().getSelectedItem().toString();
-		for(int i = 0; i < f.getTf().length; i++) {
-			System.out.println(f.getTf()[i].getText());
-			if(f.getTf()[i].getText().length() == 0) {
+		/*for(int i = 1; i < f.getTf().length; i++) {
+			System.out.println(f.getTf()[i].getText().toString());
+			System.out.println(f.getTf()[i].getText().length());
+			if(f.getTf()[i].getText().toString().length() == 0) {
 				System.out.println(f.getTf()[i].getText().length());
 				f.getJ12().setText("Please fill in all fields");
 				return false;
 			}
-		}
+		}*/
+		if(this.testIhm(f, r, f.getTf().length) == false) return false;
 		r.getA().add(f.getLocalisation().getSelectedItem().toString());
 		r.getA().add(f.getTf()[9].getText());
 		r.getA().add(f.getTf()[10].getText());
 		for(int i = 1; i < 9; i++) {
 			r.getA().add(f.getTf()[i].getText());
 		}
+		r.getA().add("0");
 		if(st.equals("INSERT"))	{
 			r.getA().add(f.getTf()[0].getText());
 		} else {
@@ -151,5 +153,35 @@ public class SensorListner implements ActionListener {
 		} catch (IOException | SQLException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public boolean testIhm(Frame2 f, Request r, int n) {
+		int i = 0;
+		if(r.getOperation_type().equals("UPDATE")) i++;
+		while(i < n) {
+			if(f.getTf()[i].getText().toString().length() == 0) {
+				System.out.println(f.getTf()[i].getText().length());
+				f.getJ12().setText("Please fill in all fields");
+				return false;
+			}
+			if(Double.parseDouble(f.getTf()[i].getText()) <= 0 ) {
+				f.getJ12().setText("Please don't put a negative number");
+				return false;
+			}
+			i++;
+		}
+		for(int j = 1; j < 9; j += 2) {
+			if(Double.parseDouble(f.getTf()[j].getText()) > Double.parseDouble(f.getTf()[j + 1].getText())) {
+				f.getJ12().setText("<html><center>Info threshold can't be bigger <br> thant alert threshold</center></html>");
+				return false;
+			}
+		}
+		if(Integer.parseInt(f.getTf()[1].getText()) > 400 || Integer.parseInt(f.getTf()[2].getText()) > 400 || Double.parseDouble(f.getTf()[3].getText()) > 0.5
+				|| Double.parseDouble(f.getTf()[4].getText()) > 0.5 || Integer.parseInt(f.getTf()[5].getText()) > 80 || Integer.parseInt(f.getTf()[6].getText()) > 80
+				|| Integer.parseInt(f.getTf()[7].getText()) > 10000 || Integer.parseInt(f.getTf()[8].getText()) > 10000) {
+			f.getJ12().setText("Threshold can't be bigger than the standard");
+			return false;
+		}
+		return true;		
 	}
 }

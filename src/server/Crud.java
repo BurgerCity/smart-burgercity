@@ -28,13 +28,12 @@ public class Crud {
 	public String insert(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
+		System.out.println("yo");
 		int i = 2;
 		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
 		int n = rmd.getColumnCount();
-		System.out.println(n);
 		String st = "(";
-		for(i = 2; i <= n; i++) {
-			
+		for(i = 2; i <= n; i++) {		
 			if(i != n) st = st + rmd.getColumnName(i) + ",";
 			else st = st + rmd.getColumnName(i) + ")";
 		}
@@ -43,7 +42,6 @@ public class Crud {
 		String k;
 		int cpt = 0;
 		int cp = (r.getA().size()) / (n - 1); // nb de string dans l'arraylist par rapport au nombre d'insertion
-		System.out.println(cp);
 		while(i <= cp) {
 			for(int j = 0; j < n - 1; j++) {
 				k = rmd.getColumnTypeName(cpt + 2);
@@ -67,7 +65,6 @@ public class Crud {
 			}
 			i++;
 		}
-		System.out.println(s);
 		for(int j = 0; j < Integer.parseInt(r.getA().get(r.getA().size() - 1)); j++) {
 			stmt.executeUpdate("INSERT INTO " + r.getTable() + st + " values" + s);
 		}
@@ -123,13 +120,10 @@ public class Crud {
 		Statement stmt = c.createStatement();
 		ResultSetMetaData rmd = this.getTable(r.getTable(), stmt);
 		int n = rmd.getColumnCount();
-		System.out.println("bjr");
 		if(testId(c, r, n, rmd) == 0) {
-			System.out.println("wsh");
 			data.returnConnection(c);
 			return "The identifier doesn't exist";
 		} else {
-			System.out.println("aps bn");
 			String s = "";
 			String k;
 			int i = 1;
@@ -146,6 +140,7 @@ public class Crud {
 			}
 			for(int j = n - 1; j <= (r.getA().size() - 1); j++) {
 				System.out.println("UPDATE " + r.getTable() + " SET " + s + "WHERE " + rmd.getColumnLabel(1) + " = " + r.getA().get(j) + ";");
+				System.out.println("efkzfjezkezfjk");
 				stmt.executeUpdate("UPDATE " + r.getTable() + " SET " + s + "WHERE " + rmd.getColumnLabel(1) + " = " + r.getA().get(j) + ";");
 			}
 			stmt.close();	

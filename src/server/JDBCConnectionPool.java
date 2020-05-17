@@ -19,7 +19,7 @@ public class JDBCConnectionPool {
 			System.out.println("error properties");
 		}
 		try {
-			for(int i = 1 ; i <= 1 ; i++) {
+			for(int i = 1 ; i <= 10 ; i++) {
 				Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 				cn=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
 				a.add(cn); //connection
