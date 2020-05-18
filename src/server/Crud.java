@@ -127,6 +127,19 @@ public class Crud {
  		data.returnConnection(c);
  		return rp;
 	}
+	public Response getAlert(DataSource data) throws SQLException{
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;"); //TODO
+		Response rp=new Response();
+		while(rslt.next()) {
+			rp.getA().add(Integer.toString(rslt.getInt(1)));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
 	public String update(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
