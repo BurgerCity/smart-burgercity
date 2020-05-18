@@ -66,7 +66,7 @@ public class Server {
 		new Thread(new ThreadClientSocket(serverSocket2)).start();
 			try {
 				while(true) {	
-					Socket clientSocket = serverSocket2.accept();
+					Socket clientSocket = serverSocket2.accept();					
 					new Thread(new ThreadClient(clientSocket)).start();
 					System.out.println("bjr");
 				}
