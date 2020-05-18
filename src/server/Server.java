@@ -63,17 +63,12 @@ public class Server {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
-		//Socket client = serverSocket.accept();
 		new Thread(new ThreadCollectData(serverSocket, s)).start();
-		//StatementSensor ss = new StatementSensor();
-		//ss.statement();
-		ServerSocket serverSocket2 = s.startServer(2018);
-		//new Thread(new ThreadClientSocket(serverSocket2)).start();
+		ServerSocket serverSocket2 = s.startServer(2015);
 			try {
 				while(true) {	
 					Socket clientSocket = serverSocket2.accept();
 					new Thread(new ThreadClient(clientSocket)).start();
-					System.out.println("bjr");
 				}
 			} catch (Exception e) {
 				serverSocket2.close();
