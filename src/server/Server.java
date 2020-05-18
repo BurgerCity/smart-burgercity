@@ -62,18 +62,13 @@ public class Server {
 		
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
-		//ServerSocket serverSocket = s.startServer(2015);
-		//Socket client = serverSocket.accept();
-		//new Thread(new ThreadCollectData(serverSocket)).start();
-		//StatementSensor ss = new StatementSensor();
-		//ss.statement();
-		ServerSocket serverSocket2 = s.startServer(2017);
-		//new Thread(new ThreadClientSocket(serverSocket2)).start();
+		ServerSocket serverSocket = s.startServer(2013);
+		new Thread(new ThreadCollectData(serverSocket, s)).start();
+		ServerSocket serverSocket2 = s.startServer(2015);
 			try {
 				while(true) {	
-					Socket clientSocket = serverSocket2.accept();
+					Socket clientSocket = serverSocket2.accept();					
 					new Thread(new ThreadClient(clientSocket)).start();
-					System.out.println("bjr");
 				}
 			} catch (Exception e) {
 				serverSocket2.close();
@@ -97,11 +92,11 @@ public class Server {
 		}
 	}
 	
-	public void ThreadStatement(ServerSocket serverSocket2) throws IOException {
+	public void ThreadStatement(ServerSocket serverSocket2, Server s) throws IOException {
 		try {
 			while(true) {	
 				Socket clientSocket = serverSocket2.accept();
-				new Thread(new ThreadSensorSocket(clientSocket, data, crud)).start();
+				new Thread(new ThreadSensorSocket(clientSocket, data, crud, s)).start();
 			}
 		} catch (Exception e) {
 			serverSocket2.close();
@@ -129,6 +124,11 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
+
+		/*else if(r.getOperation_type().equals("SELECT_ALERT")) {
+			rp=crud.getAlert(data);
+		}*/
+
 		else if(r.getOperation_type().equals("CARMAX")){
 			
 			System.out.println("if");
@@ -143,7 +143,7 @@ public class Server {
 		else if(r.getOperation_type().equals("TRAMS")){
 			rp=crud.nbtram(data);
 		}
-		else if(r.getOperation_type().equals("INTHETOWN")){
+	/*	else if(r.getOperation_type().equals("INTHETOWN")){
 			rp=crud.carnow(data,r.getDate());
 		}
 		else if(r.getOperation_type().equals("POLL")){
@@ -169,7 +169,8 @@ public class Server {
 		}
 		else if(r.getOperation_type().equals("TAB")){
 			rp=crud.tabb(data,r.getDate(),r.getDate2());
-		}
+		}*/
+
 		return rp;
 	}
 

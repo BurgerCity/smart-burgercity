@@ -20,7 +20,7 @@ public class Json {
 	ObjectMapper objectMapper;
 	String rqAsString;
 	Client_socket client;
-	
+	public Json() {}
 	public Json(Client_socket c){
 		this.client=c;
 	}
@@ -37,12 +37,11 @@ public class Json {
 		rqAsString = objectMapper.writeValueAsString(rq);
 		return rqAsString;
 	}
+	
 	public void sendRequest(Request r) {
 		Message msg = new Message();
 		String s = "";
 		try {
-			System.out.println("send");
-
 			s = this.serialize(r);
 			System.out.println(s);
 			msg.sendMessage(client.getOut(), s);

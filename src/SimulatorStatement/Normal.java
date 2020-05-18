@@ -14,7 +14,7 @@ import common.Message;
 import common.Request;
 import common.Response;
 
-public class CollectData {
+public class Normal extends Thread {
 	private Socket socket;
 	private OutputStreamWriter out;
 	private BufferedReader in;
@@ -23,6 +23,11 @@ public class CollectData {
 	private Response rp;
 	private Request r;
 	private Random rdm;
+	
+	Normal() {}
+	Normal(Response rp) {
+		this.rp = rp;
+	}
 	
 	public void GiveStatement(String ip, int port) throws IOException, SQLException, NumberFormatException, InterruptedException {
 		socket = new Socket(ip, port);
@@ -34,20 +39,37 @@ public class CollectData {
 		r = new Request();
 		rdm = new Random();
 		int j = 1;
+		r.setOperation_type("GIVE");
+		
 		while(true) {
-			r.setOperation_type("GIVE");
 			msg.sendMessage(out, json.serialize(r));
-			if(j == 1) {
-				rp = json.deserialize(msg.readMessage(in));
-				j = 0;
-			}
+			new Normal(json.deserialize(msg.readMessage(in))).start();
+		}
+	}
+	
+	public void run() {
+		try {
+		socket = new Socket("127.0.0.1", 2018);
+		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+		} catch (IOException e) {}
+		msg = new Message();
+		json = new Json();
+		r = new Request();
+		rdm = new Random();
+		while(true) {
 			System.out.println(rp.getA());
 			r = new Request();
 			r.getA().add(rp.getA().get(0));
 			for(int i = 0;  i < 8; i += 2) {
 				if(i == 2) {
-					double x = rdm.nextDouble() / 4;
-					r.getA().add(Double.toString(x));
+					double y = Double.parseDouble(rp.getA().get(6));
+					y = y * 100;
+					int z = 100 - (100 - (int)y);
+					int xx = rdm.nextInt(z);
+					y = Double.valueOf(xx) / 100;
+					//double x = rdm.nextDouble() / 4;
+					r.getA().add(Double.toString(y));
 				} else {
 					int k = Integer.parseInt(rp.getA().get(i + 4));
 					int rm = rdm.nextInt(k);
@@ -55,15 +77,24 @@ public class CollectData {
 					r.getA().add(Integer.toString(rm));
 				}
 			}
-			System.out.println(rp.getA().get(3));
+			System.out.println(r.getA());
+			try {
 			Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000);
+			r.setOperation_type("GIVE");
+
+				System.out.println(json.serialize(r));
+				msg.sendMessage(out, json.serialize(r));
+			} catch (NumberFormatException | InterruptedException | IOException | SQLException e1) {}
 		}
-		
 	}
 	
 	
 	public static void main(String[] args) throws IOException, SQLException, NumberFormatException, InterruptedException {
-		 CollectData c = new CollectData();
+		 Normal c = new Normal();
 		 c.GiveStatement("127.0.0.1", 2013);
+	}
+
+	public Response getRp() {
+		return rp;
 	}
 }

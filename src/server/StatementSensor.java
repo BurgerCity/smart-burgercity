@@ -14,12 +14,14 @@ public class StatementSensor extends Thread {
 	public StatementSensor(Socket s) {
 		this.ss = s;
 	}	
-		public void statement(DataSource data, Crud crud) throws SQLException, ClassNotFoundException {;
+		public void statement(DataSource data, Crud crud, Server server) throws SQLException, ClassNotFoundException, IOException {;
 			Connection c = data.takeConnection();
 			Statement s = c.createStatement();
 			ResultSet r = s.executeQuery("SELECT id_sensor FROM sensor;");
+			//Server server = new Server();
+			ServerSocket serverSocket = server.startServer(2018);
 			while(r.next()) {
-				new Thread(new ThreadSensor(r.getInt(1), ss, data, crud)).start();
+				new Thread(new ThreadSensor(r.getInt(1), ss, data, crud, serverSocket)).start();
 			}
 			data.returnConnection(c);
 		}

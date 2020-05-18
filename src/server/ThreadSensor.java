@@ -13,9 +13,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import SimulatorStatement.Normal;
 import client_common.Json;
 import common.Message;
 import common.Request;
@@ -32,11 +34,14 @@ public class ThreadSensor extends Thread{
 	private Server server;
 	private DataSource data;
 	private Crud crud;
-	public ThreadSensor(int i, Socket s, DataSource data, Crud crud) {
+	private ServerSocket ss;
+	private Response rp;
+	public ThreadSensor(int i, Socket s, DataSource data, Crud crud, ServerSocket ss) {
 		this.i = i;
 		this.socket = s;
 		this.data = data;
 		this.crud = crud;
+		this.ss = ss;
 	}
 	
 	public void run() {
@@ -53,7 +58,7 @@ public class ThreadSensor extends Thread{
 			System.out.println(r.getOperation_type());
 			//while(true) {
 					
-					ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
+				/*	ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
 					ResultSetMetaData rmd = rs.getMetaData();
 					Response rp = new Response();
 					while(rs.next()) {
@@ -61,57 +66,121 @@ public class ThreadSensor extends Thread{
 							if(rmd.getColumnTypeName(j) == "varchar") {
 								rp.getA().add(rs.getString(j));
 							} else {
-								rp.getA().add(Integer.toString(rs.getInt(j)));
+								if(j == 7) {
+									rp.getA().add(Double.toString(rs.getDouble(j)));
+								} else {
+									rp.getA().add(Integer.toString(rs.getInt(j)));
+								}
 							}
 							rp.setTypeOperation(Integer.toString(i));
 						}
-					}
+					}*/
+				rp = this.sendRow(s);
+					data.returnConnection(c);
 						System.out.println(rp.getA());
+
 						this.sendResponse(rp);
+						Socket client = ss.accept();
+						out = new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8);
+						in = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
+						//this.connectionSensor(client);
 						while(true) {
+							//this.sendRow(s);
 							r = new Request();
-							System.out.println("je suis al");
-							r = server.deserialize(msg.readMessage(in));
+							r = server.deserialize(msg.readMessage(in/*this.connectionSensor(client)*/));
 							System.out.println(r.getA());
 							r.getA().add("now()");
 							r.setTable("statements");
 							r.getA().add("1");
-							System.out.println(r.getTable());
+
+							if(this.NumberLine() == Integer.parseInt(rp.getA().get(3))) {
+								this.deleteRow();
+							}
 							crud.insert(r, data);
+							
 							//Thread.sleep(rs.getInt(4) * 1000);
 							//System.out.println("i sleep" + rs.getInt(4) * 1000);
-							
-							this.testAlert();
+							int alert = this.testAlert();
+							System.out.println("l'alerte lancée est de " + alert);
+							if(alert == 1) {
+								this.updateAlert(alert);
+							} else if(alert == 2) {
+								this.updateAlert(alert);
+							} else {
+								this.updateAlert(alert);
+							}
+							System.out.println("  ");
+							System.out.println("*************************************");
+							System.out.println("  ");
 							//Remplir la table n fois  			n est un multiple du statement
 							//si n est dépassé alors on supprime une ligne avant d'inserer la suivante que l'on va tester pour savoir s'il y a une alert
 						}
 					//}
 			//}
-		} catch (SQLException | /*InterruptedException |*/ IOException e) {}
+		} catch (SQLException | /*InterruptedException |*/ IOException | NumberFormatException e) {}
 	}
 	
-	public Boolean testAlert() throws SQLException {
+	public Response sendRow(Statement s) throws SQLException {
+		ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
+		ResultSetMetaData rmd = rs.getMetaData();
+		rp = new Response();
+		while(rs.next()) {
+			for(int j = 1; j <= rmd.getColumnCount(); j++) {
+				if(rmd.getColumnTypeName(j) == "varchar") {
+					rp.getA().add(rs.getString(j));
+				} else {
+					if(j == 7) {
+						rp.getA().add(Double.toString(rs.getDouble(j)));
+					} else {
+						rp.getA().add(Integer.toString(rs.getInt(j)));
+					}
+				}
+				rp.setTypeOperation(Integer.toString(i));
+			}
+		}
+		return rp;
+	}
+	
+	public void updateAlert(int k) throws SQLException {
+		Connection c = data.takeConnection();
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("UPDATE sensor SET alert = " + k + " WHERE id_sensor = " + i + ";");
+		stmt.close();
+		data.returnConnection(c);
+	}
+	
+	public Integer testAlert() throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
 		ResultSet rst = stmt.executeQuery("SELECT * FROM sensor s, statements st WHERE s.id_sensor = st.id_sensor and s.id_sensor = " + i + ";");
 	
-		ArrayList<Boolean> a = new ArrayList<Boolean>();
+		ArrayList<Integer> a = new ArrayList<Integer>();
 		while(rst.next()) {
-			double average = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3) / (rst.getInt(5) + rst.getDouble(7) + rst.getDouble(9) + rst.getInt(11));
-			double test = (rst.getInt(15) * 0.3 + rst.getDouble(16) * 0.1 + rst.getDouble(17) * 0.3 + rst.getInt(18) * 0.3) / (rst.getInt(15) + rst.getDouble	(16) + rst.getDouble(17) + rst.getInt(18));
-			System.out.println(rst.getInt(15) + " " + rst.getDouble(16)+ " " + rst.getDouble(17)+ " " + rst.getInt(18));
+			System.out.println("LIgne suivante");
+			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3);/// (rst.getInt(5) + rst.getDouble(7) + rst.getDouble(9) + rst.getInt(11));
+			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3);
+			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3); /// (rst.getInt(16) + rst.getDouble(17) + rst.getDouble(18) + rst.getInt(19));
+			System.out.println(rst.getInt(16) + " " + rst.getDouble(17)+ " " + rst.getDouble(18)+ " " + rst.getInt(19));
 			System.out.println(rst.getInt(5) + " " + rst.getDouble(7)+ " " + rst.getDouble(9)+ " " + rst.getInt(11));
-			int k = 9;	
+			int k = 11;	
 			int cpt = 0;
-			if(test >= average) {
-				a.add(true);
-				System.out.println(test + "   " + average);
+			if(test > alert) {
+				a.add(2);
+				System.out.println("alert askip");
+			}
+			else if (test > info) {
+				a.add(1);
+				System.out.println("INFO");
 			}
 			else {
-				for(int j = 6; j < 10; j++) {
-					if(rst.getDouble(j + cpt) <= rst.getDouble(j + k)) {
-						a.add(true);			
-						System.out.println(rst.getDouble(j + cpt) + "    " + rst.getDouble(j + k));
+				for(int j = 5; j < 9; j++) {
+					if(rst.getDouble(j + cpt + 1) <= rst.getDouble(j + k)) {
+						a.add(2);			
+						System.out.println(rst.getDouble(j + cpt + 1) + "  <=  " + rst.getDouble(j + k) + "ALERTE");
+						break;
+					} else if(rst.getDouble(j + cpt) <= rst.getDouble(j + k)) {
+						a.add(1);			
+						System.out.println(rst.getDouble(j + cpt) + "  <=  " + rst.getDouble(j + k) + " INFO ");
 						break;
 					}
 					cpt = cpt + 1;
@@ -126,32 +195,42 @@ public class ThreadSensor extends Thread{
 			System.out.println(rs.getInt(3) + "  "+ a.size());
 			a.add(false);
 		}*/
-		
+		System.out.println(" ");
+		System.out.println(a + " avant this.alert");
 		a = this.testTimeBeforeAlert(a);
-		System.out.println(this.alert(a));
+		System.out.println(a + " apres this.alerttime");
+		//System.out.println(this.alert(a));
 		data.returnConnection(c);
-		return true;
+		return this.alert(a);
 	}
 	
-	public void connectionSensor(Socket socket) throws IOException {
+	public BufferedReader connectionSensor(Socket socket) throws IOException {
 		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+		return in;
 	}
 	
-	public Boolean alert(ArrayList<Boolean> a) {
-		Iterator<Boolean> it = a.iterator();
+	public Integer alert(ArrayList<Integer> a) {
+		Iterator<Integer> it = a.iterator();
+		int alert = 0;
 		while(it.hasNext()) {
-			Boolean b = it.next();
-			if(b == false) return false;
+			Integer b = it.next();
+			if(b == 0) return 0;
+			else if(b == 2) {
+				alert = alert + 1;
+			}
 		}
-		return true;
+		if(alert == a.size()) {
+			return 2;
+		}
+		return 1;
 	}
 	
-	public ArrayList<Boolean> testTimeBeforeAlert(ArrayList<Boolean> a) throws SQLException {
+	public ArrayList<Integer> testTimeBeforeAlert(ArrayList<Integer> a) throws SQLException {
 		ResultSet rs = this.selectSensor();
 		rs.next();
 		while(rs.getInt(3) > a.size())	{
-			a.add(false);
+			a.add(0);
 		}
 		return a;
 	}
@@ -178,20 +257,27 @@ public class ThreadSensor extends Thread{
 		msg.sendMessage(out, server.serializeServeur(rp));
 	}
 	
-	/*public Connection createConnection() {
-		PropertyLoader prop = new PropertyLoader();
-		try {
-			prop.loaded();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			System.out.println("error properties");
+	public int NumberLine() throws SQLException {
+		Connection con = data.takeConnection();
+		Statement stmt = con.createStatement();
+		int nb = 0;
+		ResultSet rst = stmt.executeQuery("SELECT count(*) FROM statements WHERE id_sensor =" + i + ";");
+		while(rst.next()) {
+			nb = rst.getInt(1);
 		}
-		try {
-				Class.forName(prop.getProperty("driver"));
-				Connection c = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
-				prop.close();
-				return c;
-		} catch(Exception e) {}
-		return null;
-	}*/
+		//rst.close();
+		data.returnConnection(con);
+		return nb;	
+	}
+	
+	public void deleteRow() throws SQLException {
+		Connection con = data.takeConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rst = stmt.executeQuery("SELECT MIN(date_heure) FROM statements WHERE id_sensor = " + i + ";");
+		rst.next();
+		Timestamp ts = rst.getTimestamp(1);
+		stmt.executeUpdate("DELETE FROM statements WHERE id_sensor = " + i + " AND date_heure = '" + ts +"';");
+		stmt.close();
+		data.returnConnection(con);
+	}
 }

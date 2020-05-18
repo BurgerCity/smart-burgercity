@@ -16,10 +16,10 @@ public class ClientMain {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 		Client_socket c = new Client_socket();
-		c.startConnection("127.0.0.1", 2017);
-		//ClientFrame cf = new ClientFrame();
-	//	SensorListner s = new SensorListner(cf, c);
-        Indicator f = new Indicator(c);
+		c.startConnection("127.0.0.1", 2018);
+		ClientFrame cf = new ClientFrame();
+		SensorListner s = new SensorListner(cf, c);
+        //Indicator f = new Indicator(c);
       //  f.car();
         //f.borne();
     //    f.captor();
