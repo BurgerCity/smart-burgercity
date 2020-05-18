@@ -97,7 +97,7 @@ public class SensorListner implements ActionListener {
 		}
 		this.sendRequest(r);
 		Message m = new Message();
-		Json js = new Json();
+		Json js = new Json(client);
 		rp = new Response();
 		String st = m.readMessage(client.getIn());
 		System.out.println(st);
@@ -144,7 +144,7 @@ public class SensorListner implements ActionListener {
 	
 	public void sendRequest(Request r) {
 		Message msg = new Message();
-		Json json = new Json();
+		Json json = new Json(client);
 		String s = "";
 		try {
 			s = json.serialize(r);

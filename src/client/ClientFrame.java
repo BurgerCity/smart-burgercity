@@ -14,7 +14,6 @@ public class ClientFrame extends JFrame {
 	Frame3 f3 = new Frame3();
 	Frame4 f4;
 	Frame2 f5 = new Frame2("update");
-	ActionEvent e;
 	ClientFrame() {
 		super("Configuration");
 		this.setSize(400, 300);

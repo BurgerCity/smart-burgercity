@@ -1,6 +1,7 @@
 package client_common;
 
 import java.io.IOException;
+
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -19,8 +20,9 @@ public class Json {
 	ObjectMapper objectMapper;
 	String rqAsString;
 	Client_socket client;
-	public Json(Client_socket client){
-		this.client=client;
+	public Json() {}
+	public Json(Client_socket c){
+		this.client=c;
 	}
 	public Response deserialize(String respJson) throws JsonMappingException, JsonProcessingException {
 		rp = new Response();
@@ -35,6 +37,7 @@ public class Json {
 		rqAsString = objectMapper.writeValueAsString(rq);
 		return rqAsString;
 	}
+	
 	public void sendRequest(Request r) {
 		Message msg = new Message();
 		String s = "";

@@ -1,6 +1,7 @@
 package server;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -32,6 +33,8 @@ public class Server {
 	private Crud crud;
 	private static DataSource data;
 	
+
+	
 	public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
 
 		while(!clientSocket.isClosed()) {
@@ -45,7 +48,9 @@ public class Server {
 						r = this.deserialize(msg.readMessage(in));
 						System.out.println(r.getOperation_type());
 						rp = this.launchCrud(r, crud, data);
+						System.out.println("aprescrud");
 						msg.sendMessage(out, this.serializeServeur(rp));
+						System.out.println("reponselancee");
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
 						}
@@ -57,13 +62,13 @@ public class Server {
 		
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
-		//ServerSocket serverSocket = s.startServer(2015);
+		ServerSocket serverSocket = s.startServer(2013);
 		//Socket client = serverSocket.accept();
-		//new Thread(new ThreadCollectData(serverSocket)).start();
+		new Thread(new ThreadCollectData(serverSocket, s)).start();
 		//StatementSensor ss = new StatementSensor();
 		//ss.statement();
-		ServerSocket serverSocket2 = s.startServer(2015);
-		new Thread(new ThreadClientSocket(serverSocket2)).start();
+		ServerSocket serverSocket2 = s.startServer(2018);
+		//new Thread(new ThreadClientSocket(serverSocket2)).start();
 			try {
 				while(true) {	
 					Socket clientSocket = serverSocket2.accept();					
@@ -92,11 +97,11 @@ public class Server {
 		}
 	}
 	
-	public void ThreadStatement(ServerSocket serverSocket2) throws IOException {
+	public void ThreadStatement(ServerSocket serverSocket2, Server s) throws IOException {
 		try {
 			while(true) {	
 				Socket clientSocket = serverSocket2.accept();
-				new Thread(new ThreadSensorSocket(clientSocket, data, crud)).start();
+				new Thread(new ThreadSensorSocket(clientSocket, data, crud, s)).start();
 			}
 		} catch (Exception e) {
 			serverSocket2.close();
@@ -109,6 +114,7 @@ public class Server {
 	}
 	public Response launchCrud(Request r, Crud crud, DataSource data) throws SQLException, JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException {
 		rp = new Response();
+
 		if(r.getOperation_type().equals("SELECT")) {
 			rp = crud.select(r, data);
 		}
@@ -123,9 +129,53 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
+
 		else if(r.getOperation_type().equals("SELECT_ALERT")) {
 			rp=crud.getAlert(data);
 		}
+
+		else if(r.getOperation_type().equals("CARMAX")){
+			
+			System.out.println("if");
+			rp=crud.carmax(data);
+		}
+		else if(r.getOperation_type().equals("BORNES")){
+			rp=crud.nbborne(data);
+		}
+		else if(r.getOperation_type().equals("CAPTORS")){
+			rp=crud.getnbcap(data);
+		}
+		else if(r.getOperation_type().equals("TRAMS")){
+			rp=crud.nbtram(data);
+		}
+	/*	else if(r.getOperation_type().equals("INTHETOWN")){
+			rp=crud.carnow(data,r.getDate());
+		}
+		else if(r.getOperation_type().equals("POLL")){
+			rp=crud.tpa(data,r.getDate());
+		}
+		else if(r.getOperation_type().equals("THERE")){
+			rp=crud.tpb(data);
+		}
+		else if(r.getOperation_type().equals("EMPC")){
+			rp=crud.empca(data,r.getDate());
+		}
+		else if(r.getOperation_type().equals("POLLPERI")){
+			rp=crud.tpap(data,r.getDate(),r.getPos());
+		}
+		else if(r.getOperation_type().equals("CARINPERI")){
+			rp=crud.carinperi(data,r.getDate(),r.getDate2());
+		}
+		else if(r.getOperation_type().equals("EMPDATE")){
+			rp=crud.empperi(data,r.getDate(),r.getDate2());
+		}
+		else if(r.getOperation_type().equals("TPDATE")){
+			rp=crud.tpdatee(data,r.getDate(),r.getDate2());
+		}
+		else if(r.getOperation_type().equals("TAB")){
+			rp=crud.tabb(data,r.getDate(),r.getDate2());
+		}*/
+
 		return rp;
 	}
 
