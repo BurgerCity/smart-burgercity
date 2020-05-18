@@ -46,11 +46,7 @@ public class Indicator {
 		r.setTable("setting");
 		r.getA().add("0");
 		r.setDate("");
-
-	//	System.out.println("dfgh");
 		j.sendRequest(r);
-	//	System.out.println("finis");
-
 		Message m=new Message();
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
@@ -60,22 +56,6 @@ public class Indicator {
 		System.out.println(n);
 		return n;
 	}
-	
-	/*public int idclient() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		int n=0;
-		Request r = new Request();
-		Json j=new Json(client);
-		r.setOperation_type("IDCLIENT");
-		r.setTable("Client");
-		j.sendRequest(r);
-		Message m=new Message();
-		Response rp = new Response();
-		String stt=m.readMessage(client.getIn());
-		rp=j.deserialize(stt);
-		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println(n);
-		return n;
-	}*/
 	
 	public int captor() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		int n=0;
@@ -133,7 +113,6 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPC");
-		//r.getA().add("0");
 		r.setTable("Empreintecarborne");
 		r.setDate(s);
 		j.sendRequest(r);
@@ -169,7 +148,6 @@ public class Indicator {
 		Json j=new Json(client);
 		r.setOperation_type("POLL");
 		r.setDate(s);
-		//r.setTable("car");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
@@ -290,7 +268,6 @@ public class Indicator {
 		r.setOperation_type("TPDATE");
 		r.setDate(s);
 		r.setDate2(s1);
-		//r.setTable("Empreintecarbone");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
@@ -322,7 +299,6 @@ public class Indicator {
 		r.setOperation_type("TAB");
 		r.setDate(s);
 		r.setDate2(s1);
-		//r.setTable("Empreintecarbone");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
@@ -337,5 +313,22 @@ public class Indicator {
 		return n;
 	}
 	
+	 public boolean ok(String s)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+	    	boolean x = true;
+	    	if( this.emp(s) == 0 && this.carinthetown(s) == 0 || this.tp(s)  == 0 || this.td(s)  == 0 ) {
+	    		x = false;
+	    	}
+	    	System.out.println(x);
+			return x;
+	  }
+
+	  public boolean okdate(String s,String s1)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+	    	boolean x = true;
+	    	if( this.empdate(s,s1) == 0 && this.carinthetowndate(s,s1) == 0 || this.tpdate(s,s1)  == 0 || this.tddate(s,s1)  == 0) {
+	    		x = false;
+	    	}
+	    	System.out.println(x);
+			return x;
+	    }
 
 }
