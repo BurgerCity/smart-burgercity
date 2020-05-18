@@ -131,7 +131,8 @@ public class Crud {
 	public Response getAlert(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;"); //TODO
+		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;");//TODO
+		return null;} 
 
 	
 	public Response carmax(DataSource data) throws SQLException{
