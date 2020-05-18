@@ -21,6 +21,7 @@ public class Json {
 	String rqAsString;
 	Client_socket client;
 	
+	public Json() {}
 	public Json(Client_socket c){
 		this.client=c;
 	}

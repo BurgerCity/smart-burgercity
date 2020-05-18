@@ -67,7 +67,7 @@ public class Server {
 		new Thread(new ThreadCollectData(serverSocket, s)).start();
 		//StatementSensor ss = new StatementSensor();
 		//ss.statement();
-		ServerSocket serverSocket2 = s.startServer(2017);
+		ServerSocket serverSocket2 = s.startServer(2018);
 		//new Thread(new ThreadClientSocket(serverSocket2)).start();
 			try {
 				while(true) {	
@@ -143,7 +143,7 @@ public class Server {
 		else if(r.getOperation_type().equals("TRAMS")){
 			rp=crud.nbtram(data);
 		}
-		else if(r.getOperation_type().equals("INTHETOWN")){
+	/*	else if(r.getOperation_type().equals("INTHETOWN")){
 			rp=crud.carnow(data,r.getDate());
 		}
 		else if(r.getOperation_type().equals("POLL")){
@@ -169,7 +169,7 @@ public class Server {
 		}
 		else if(r.getOperation_type().equals("TAB")){
 			rp=crud.tabb(data,r.getDate(),r.getDate2());
-		}
+		}*/
 		return rp;
 	}
 
