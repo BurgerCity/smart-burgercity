@@ -128,11 +128,12 @@ public class Crud {
  		data.returnConnection(c);
  		return rp;
 	}
-	/*public Response getAlert(DataSource data) throws SQLException{
+	public Response getAlert(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;");
-	}//TODO*/
+		return null;} 
+
 
 	
 	public Response carmax(DataSource data) throws SQLException{
