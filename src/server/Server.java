@@ -143,33 +143,48 @@ public class Server {
 		else if(r.getOperation_type().equals("TRAMS")){
 			rp=crud.nbtram(data);
 		}
-	/*	else if(r.getOperation_type().equals("INTHETOWN")){
-			rp=crud.carnow(data,r.getDate());
+	else if(r.getOperation_type().equals("CARMAX")){
+			
+			System.out.println("if");
+			rp=crud.carmax(data);
+		}
+		else if(r.getOperation_type().equals("BORNES")){
+			rp=crud.nbborne(data);
+		}
+		else if(r.getOperation_type().equals("CAPTORS")){
+			rp=crud.getnbcap(data);
+		}
+		else if(r.getOperation_type().equals("TRAMS")){
+			rp=crud.nbtram(data);
+		}
+		else if(r.getOperation_type().equals("INTHETOWN")){
+			rp=crud.carnow(data,r.getA().get(0));
+			System.out.println("methide"+r.getA().get(0));
 		}
 		else if(r.getOperation_type().equals("POLL")){
-			rp=crud.tpa(data,r.getDate());
+			rp=crud.tpa(data,r.getA().get(0));
 		}
 		else if(r.getOperation_type().equals("THERE")){
 			rp=crud.tpb(data);
 		}
 		else if(r.getOperation_type().equals("EMPC")){
-			rp=crud.empca(data,r.getDate());
+			rp=crud.empca(data,r.getA().get(0));
 		}
 		else if(r.getOperation_type().equals("POLLPERI")){
-			rp=crud.tpap(data,r.getDate(),r.getPos());
+			rp=crud.tpap(data,r.getA().get(0),r.getA().get(1));
 		}
 		else if(r.getOperation_type().equals("CARINPERI")){
-			rp=crud.carinperi(data,r.getDate(),r.getDate2());
+			rp=crud.carinperi(data,r.getA().get(0),r.getA().get(1));
 		}
 		else if(r.getOperation_type().equals("EMPDATE")){
-			rp=crud.empperi(data,r.getDate(),r.getDate2());
+			rp=crud.empperi(data,r.getA().get(0),r.getA().get(1));
 		}
 		else if(r.getOperation_type().equals("TPDATE")){
-			rp=crud.tpdatee(data,r.getDate(),r.getDate2());
+			rp=crud.tpdatee(data,r.getA().get(0),r.getA().get(1));
 		}
 		else if(r.getOperation_type().equals("TAB")){
-			rp=crud.tabb(data,r.getDate(),r.getDate2());
-		}*/
+			rp=crud.tabb(data,r.getA().get(0),r.getA().get(1));
+		}
 
 		return rp;
 	}
