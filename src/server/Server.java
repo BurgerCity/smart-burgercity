@@ -67,7 +67,7 @@ public class Server {
 		ServerSocket serverSocket2 = s.startServer(2015);
 			try {
 				while(true) {	
-					Socket clientSocket = serverSocket2.accept();
+					Socket clientSocket = serverSocket2.accept();					
 					new Thread(new ThreadClient(clientSocket)).start();
 				}
 			} catch (Exception e) {
@@ -124,6 +124,11 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
+
+		else if(r.getOperation_type().equals("SELECT_ALERT")) {
+			rp=crud.getAlert(data);
+		}
+
 		else if(r.getOperation_type().equals("CARMAX")){
 			
 			System.out.println("if");
@@ -165,6 +170,7 @@ public class Server {
 		else if(r.getOperation_type().equals("TAB")){
 			rp=crud.tabb(data,r.getDate(),r.getDate2());
 		}*/
+
 		return rp;
 	}
 

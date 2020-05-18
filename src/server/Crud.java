@@ -128,6 +128,11 @@ public class Crud {
  		data.returnConnection(c);
  		return rp;
 	}
+	public Response getAlert(DataSource data) throws SQLException{
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;"); //TODO
+
 	
 	public Response carmax(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
@@ -339,6 +344,7 @@ public class Crud {
  		data.returnConnection(c);
  		return rp;
 	}
+
 	public String update(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
