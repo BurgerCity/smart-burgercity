@@ -125,9 +125,9 @@ public class Server {
 			rp=crud.countcar(data);
 		}
 
-		else if(r.getOperation_type().equals("SELECT_ALERT")) {
+		/*else if(r.getOperation_type().equals("SELECT_ALERT")) {
 			rp=crud.getAlert(data);
-		}
+		}*/
 
 		else if(r.getOperation_type().equals("CARMAX")){
 			
