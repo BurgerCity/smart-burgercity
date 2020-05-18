@@ -6,6 +6,11 @@ public class Request {
 	String operation_type;
 	String table;
 	ArrayList<String> a = new ArrayList<>();
+	private String date;
+	private String date2;
+	private String pos;
+
+
 	
 	public ArrayList<String> getA() {
 		return a;
@@ -46,7 +51,33 @@ public class Request {
 
 	public void setTable(String table) {
 		this.table = table;
-	}/*
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	public String getDate() {
+		return date;
+	}
+	
+	public void setDate2(String date2) {
+		this.date2 = date2;
+	}
+	
+	public String getDate2() {
+		return date2;
+	}
+	public void setPos(String pos) {
+		this.pos = pos;
+	}
+	
+	public String getPos() {
+		return pos;
+	}
+	
+	
+	/*
 
 	public String getFirstname() {
 		return firstname;
