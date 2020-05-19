@@ -1,16 +1,22 @@
 package streetcar;
 
+import javax.swing.JOptionPane;
+
 class City {
-	  private float a = 10;  /*width*/
-	  private float b = 5;   /*Height*/
-	  private float budget = 1000000 ;   /*city's budget in €*/
-	  private float station_price = 10000;   /*price to build a station*/
+	 // String a_dialogue = JOptionPane.showInputDialog("Hauteur de la ville");
+
+	  private int a = Integer.parseInt(JOptionPane.showInputDialog("Hauteur de la ville"));  /*width*/
+	  private int b = Integer.parseInt(JOptionPane.showInputDialog("Largeur de la ville"));   /*Height*/
+	  private int budget =Integer.parseInt(JOptionPane.showInputDialog("Budget de la ville"));  /*city's budget in €*/
+	  private int station_price = Integer.parseInt(JOptionPane.showInputDialog("Prix d'une station"));  /*price to build a station*/
 	  private double surface = (Math.PI*a*b);  /*surface of the city*/
 
-	  public float getA(){return a;}                                  /**/
-	  public float getB(){return b;}                                  /**/
-	  public float getBudget(){return budget;}                        /*definition of get methods*/
-	  public float getStation_price(){return station_price;}          /**/
+	  public int getA(){return a;}                                  /**/
+	  public int getB(){return b;}                                  /**/
+	  public int getBudget(){return budget;}                        /*definition of get methods*/
+	  public int getStation_price(){return station_price;}          /**/
 	  public double getSurface(){return surface;}                     /**/
+	  
+	
 
 }
