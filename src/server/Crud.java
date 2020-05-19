@@ -182,7 +182,6 @@ public class Crud {
 			}
 			rs.close();
 		}
-		System.out.println("je suis");
 		System.out.println(rp.getA());
 		st.close();
 		data.returnConnection(c);

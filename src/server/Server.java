@@ -48,9 +48,7 @@ public class Server {
 						r = this.deserialize(msg.readMessage(in));
 						System.out.println(r.getOperation_type());
 						rp = this.launchCrud(r, crud, data);
-						System.out.println("aprescrud");
 						msg.sendMessage(out, this.serializeServeur(rp));
-						System.out.println("reponselancee");
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
 						}
