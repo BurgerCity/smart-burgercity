@@ -1,6 +1,17 @@
 package client;
-public class CityInfo{
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import client_common.Json;
+import common.Message;
+import common.Request;
+import common.Response;
+
+public class CityInfo{
+	private Client_socket client;
+	
+	private CarbonLinkBdd clb;
 	private int surface; // Va dÈpendre de l'utilisateur => Voir marine BDD
 	private int populationSize; 
 	
@@ -12,7 +23,7 @@ public class CityInfo{
 	private int usedVelib;  
 	private int AvgDistTravVelib = 3; //  3 km en moyenne
 	
-	private int nbTramStation = 8; // BDD MARINE VOIR init()
+	private int nbTramStation; // BDD MARINE VOIR init()
 	private int usedTramStation;
 	private double AvgDistTravTram = 0.7; // 700 m en moyenne
 	
@@ -24,7 +35,30 @@ public class CityInfo{
 
 	//Au cas ou, prÈvoir base de donnÈe local pour ces donnÈes
 
+	public Client_socket getClient() {
+		return client;
+	}
 
+	public void setClient(Client_socket client) {
+		this.client = client;
+	}
+
+	public CarbonLinkBdd getClb() {
+		return clb;
+	}
+
+	public void setClb(CarbonLinkBdd clb) {
+		this.clb = clb;
+	}
+
+	public String getInfoString() {
+		return infoString;
+	}
+
+	public void setInfoString(String infoString) {
+		this.infoString = infoString;
+	}
+	
 	public int getAvgDistTravWalker() {
 		return AvgDistTravWalker;
 	}
@@ -145,15 +179,20 @@ public class CityInfo{
 	public void setAvgDistTravTram(int avgDistTravTram) {
 		AvgDistTravTram = avgDistTravTram;
 	}
+	
+	
 
-	public void init(int s) {
-		populationSize = s * 10000;
+	public void init() {
+		//this.client = c;
+		surface = clb.valueRequest[0];
+		nbTramStation = clb.valueRequest[1];
+		//usedTramStation = nbTramStation;
+		populationSize = surface * 10000;
 		walking = populationSize;
 		carAvaible = (int)(populationSize * 0.5);
 		velibAvaible = (int)(populationSize * 0.3);
 		
 		AvgDistTravCar = 6;
-		nbTramStation = 8; // BDD MARINE
 		AvgDistTravVelib = 3;
 		AvgDistTravTram = 0.7;
 		AvgDistTravWalker = 3;
@@ -166,13 +205,13 @@ public class CityInfo{
 		
 	}
 
-	CityInfo(int s){ // futur utilisation (But : Aller chercher ses donn√©e dans la BDD reli√© a l'IHM de marine) //2eme argument nb St tram !!
+	CityInfo() throws ClassNotFoundException, IOException, SQLException, InterruptedException{ // futur utilisation (But : Aller chercher ses donn√©e dans la BDD reli√© a l'IHM de marine) //2eme argument nb St tram !!
 		
-		//2eme argument nb St tram !!
-		
-		init(s);
-		//infoVehicle = new CarbonFootprintVehicle();
-		surface = s;
+		clb = new CarbonLinkBdd();
+		surface = clb.valueRequest[0];
+		nbTramStation = clb.valueRequest[1];
+		init();
+//		surface = s;
 		infoString = toString();
 	}
 	
@@ -184,7 +223,8 @@ public class CityInfo{
 		"surface : " + surface + " " +  '\n' +
 		"car Avaible : " + carAvaible + " " +  '\n' +
 		"velib Avaible : " + velibAvaible + " " +  '\n' +
-		"nb TramStation  : " + nbTramStation + " " +  '\n';
+		"nb TramStation  : " + nbTramStation + " " +  '\n' +
+		"usedTramStation : " + usedTramStation + " " + '\n';
 		//+ infoVehicle.toString()
 		return r;
 	}
@@ -194,9 +234,10 @@ public class CityInfo{
 	
 	
 	
-	public static void main(String[] args){
-		CityInfo i = new CityInfo(100); // 100 pour test, valeur a aller chercher dans BDD marine
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, InterruptedException{
+		CityInfo i = new CityInfo(); // 100 pour test, valeur a aller chercher dans BDD marine
 		//System.out.println(i.getSurface());
+		System.out.println(i.clb.valueRequest[1]);
 		System.out.println(i.toString());
 		//System.out.println("TravCar :" + i.AvgDistTravCar);
 		//System.out.println("TravVelib :" + i.AvgDistTravVelib);

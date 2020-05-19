@@ -51,7 +51,7 @@ public class Indicator {
 		//System.out.println("dfgh");
 		rp=j.deserialize(stt);
 		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println("RÉSULTAT CAR : "+n);
+		//System.out.println("RÉSULTAT CAR : "+n);
 		return n;
 	}
 	
@@ -67,7 +67,7 @@ public class Indicator {
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println("RÉSULTAT CAPTOR : "+n);
+		//System.out.println("RÉSULTAT CAPTOR : "+n);
 		return n;
 	}
 	
@@ -101,12 +101,12 @@ public class Indicator {
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println("RÉSULTAT TRAM : "+n);
+		//System.out.println("RÉSULTAT TRAM : "+n);
 		return n;
 	}
 	
-	public Float emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		Float n;
+	public Double emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n = 0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPC");
@@ -118,8 +118,14 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
-		System.out.println("RÉSULTAT EMP : "+n);
+		System.out.println(rp);
+		if ( rp.getA().size() != 0) {
+			 n = Double.parseDouble(rp.getA().get(0));
+
+		} else {
+			n = 0.0;
+		}
+		
 		return n;
 	}
 	
@@ -136,13 +142,18 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println("RÉSULTAT CARINTHETOWN : "+n);
+		if ( rp.getA().size() != 0) {
+			 n = Integer.parseInt(rp.getA().get(0));
+
+		} else {
+			n = 0;
+		}
+		
 		return n;
 	}
 	
-	public float tpac(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		float n=0;
+	public Double tpac(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n=0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("POLL");
@@ -153,13 +164,18 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
-		//System.out.println("RÉSULTAT TPAC : "+n);
+		if ( rp.getA().size() != 0) {
+			 n = Double.parseDouble(rp.getA().get(0));
+
+		} else {
+			n = 0.0;
+		}
+		
 		return n;
 	}
 	
-	public float tpbc() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		float n=0;
+	public Double tpbc() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n=0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("THERE");
@@ -169,23 +185,23 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
+		n=Double.parseDouble(rp.getA().get(0));
 		//System.out.println("RÉSULTAT TPBC : "+n);
 		return n;
 	}
 	
-	public float tp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double tp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float n = a.tpac(s) / a.tpbc();
+		Double n = a.tpac(s) / a.tpbc();
 		System.out.println("RÉSULTAT TAUX DE POLLUTION : "+n);
 
 		return n;
 	}
 	
-	public float td(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double td(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float b =a.tp(s) -1;
-		float n = b*100;
+		Double b =a.tp(s) -1;
+		Double n = b*100;
 		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT DE POLLUTION : "+n);
 
 		return n;
@@ -193,8 +209,8 @@ public class Indicator {
 	
 	
 	
-	public float tpacp(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		float n=0;
+	public Double tpacp(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n=0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("POLLPERI");
@@ -207,22 +223,28 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
-		//System.out.println(n);
+		if ( rp.getA().size() != 0) {
+			 n = Double.parseDouble(rp.getA().get(0));
+		} else {
+			n = 0.0;
+		}
 		return n;
 	}
 	
-	public float tpn(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double tpn(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float n = a.tpacp(s,s1) / a.tpbc();
+		Double n = a.tpacp(s,s1) / a.tpbc();
+		System.out.println("RÉSULTAT TAUX DE POLLUTION SECTEUR 1: "+ a.tpacp(s,s1));
+		System.out.println("RÉSULTAT TAUX DE POLLUTION SECTEUR 2: "+ a.tpbc());
 		System.out.println("RÉSULTAT TAUX DE POLLUTION SECTEUR: "+n);
 		return n;
 	}
 	
-	public float tdn(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double tdn(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float b =a.tpn(s,s1) -1;
-		float n = b*100;
+		Double b = (a.tpn(s,s1) - 1);
+		Double n = b*100;
+		if (n == -100) {n=0.0;}
 		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION SECTEUR : "+n);
 		return n;
 	}
@@ -242,13 +264,17 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println("RÉSULTAT CAR DATE : "+n);
+		if ( rp.getA().size() != 0) {
+			 n = Integer.parseInt(rp.getA().get(0));
+
+		} else {
+			n = 0;
+		}
 		return n;
 	}
 	
-	public float empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		float n=0;
+	public Double empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n=0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPDATE");
@@ -262,13 +288,17 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
-		System.out.println("RÉSULTAT EMPREINTE CARBONE : "+n);
+		if ( rp.getA().size() != 0) {
+			 n = Double.parseDouble(rp.getA().get(0));
+
+		} else {
+			n = 0.0;
+		}
 		return n;
 	}
 	
-	public float tpadate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		float n=0;
+	public Double tpadate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		Double n=0.0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("TPDATE");
@@ -281,22 +311,28 @@ public class Indicator {
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
-		n=Float.parseFloat(rp.getA().get(0));
+		if ( rp.getA().size() != 0) {
+			 n = Double.parseDouble(rp.getA().get(0));
+
+		} else {
+			n = 0.0;
+		}
 		//System.out.println(n);
 		return n;
 	}
-	public float tpdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double tpdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float n = a.tpadate(s,s1) / a.tpbc();
+		Double n = a.tpadate(s,s1) / a.tpbc();
 		System.out.println("RÉSULTAT TAUX DE POLLUTION  DATE : "+n);
 		return n;
 	}
 	
-	public float tddate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+	public Double tddate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		float b =a.tpdate(s,s1) -1;
-		float n = b*100;
-		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION DATE: "+n);
+		Double b =a.tpdate(s,s1) -1;
+		Double n = b*100;
+		if (n == -100) {n=0.0;}
+		//System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION DATE: "+n);
 		return n;
 	}
 	
@@ -317,7 +353,7 @@ public class Indicator {
 		n=rp.getA();
 		for(String elem: n)
         {
-        	System.out.println (elem + "date boucle" );
+        	//System.out.println (elem + "date boucle" );
 
         }		
 		return n;
@@ -326,9 +362,9 @@ public class Indicator {
 	 public boolean ok(String s)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
 	    	boolean x = true;
 	    	if( this.emp(s) == 0 && this.carinthetown(s) == 0 || this.tp(s)  == 0 || this.td(s)  == 0 ) {
-	    		x = false;
+	    	x = false;
 	    	}
-	    	System.out.println(x);
+	    	//System.out.println(x);
 			return x;
 	  }
 
@@ -337,8 +373,10 @@ public class Indicator {
 	    	if( this.empdate(s,s1) == 0 && this.carinthetowndate(s,s1) == 0 || this.tpdate(s,s1)  == 0 || this.tddate(s,s1)  == 0) {
 	    		x = false;
 	    	}
-	    	System.out.println(x);
+	    	//System.out.println(x);
 			return x;
 	    }
+	  
+	  
 
 }

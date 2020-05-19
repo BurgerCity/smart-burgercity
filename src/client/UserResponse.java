@@ -1,4 +1,6 @@
 package client;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Random;
 class UserResponse{ //Trouver le bon nombre de véhicule a avoir dans la ville
 
@@ -16,21 +18,21 @@ class UserResponse{ //Trouver le bon nombre de véhicule a avoir dans la ville
 	float ec;
 	float ecHab;
 
-	UserResponse(){ 
+	UserResponse() throws ClassNotFoundException, IOException, SQLException, InterruptedException{ 
 		rnd = new Random();
 		politicIntensity = 30 + rnd.nextInt(50); // Marche au moins à 30%
-		//politicIntensity = 50;
+		//politicIntensity = 50; 
 		carbon = new CarbonFootprintVehicle();
-		info = new CityInfo(100); // bdd marine A regrouper dans fichier properties
+		info = new CityInfo(); // bdd marine A regrouper dans fichier properties
 		cf = new float[4];
 		
 		init();
 		ConvertToUsed(pourcentageCar, pourcentageVelib, pourcentageTram);
 		CalculAvgDist(pourcentageCar, pourcentageVelib, pourcentageTram);
 		ConvertToCF();
-		UserResponseString = toString();
 		ec = cf[0] + cf[1] + cf[2] + cf[3];
 		ecHab = ec/info.getPopulationSize();
+		UserResponseString = toString();
 	}
 	public void init() {
 		pourcentageCar = 50;
@@ -41,12 +43,12 @@ class UserResponse{ //Trouver le bon nombre de véhicule a avoir dans la ville
 		pourcentageCar = c;
 		pourcentageVelib = v;
 		pourcentageTram = t;
-		info.init(100); // BDD MARINE
+		info.init(); // BDD MARINE
 		ConvertToUsed(pourcentageCar, pourcentageVelib, pourcentageTram);
 		CalculAvgDist(pourcentageCar, pourcentageVelib, pourcentageTram);
 		ConvertToCF();
-		UserResponseString = toString();
 		ec = cf[0] + cf[1] + cf[2] + cf[3];
+		UserResponseString = toString();
 	}
 	
 	public float[] getCf() {
@@ -146,14 +148,20 @@ class UserResponse{ //Trouver le bon nombre de véhicule a avoir dans la ville
 */
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, InterruptedException{
 		UserResponse u = new UserResponse(); // Voir Scanner plus tard
+		//System.out.println(u.info.getClb().valueRequest[1]);
+		System.out.println(u.info.getUsedTramStation());
+		System.out.println(u.toString());
+		u.response(50,50,70);
+		System.out.println(u.toString());
+		System.out.println(u.info.getUsedTramStation());
 		/*
 		u.init();
 		u.ConvertToUsed(u.pourcentageCar, u.pourcentageVelib, u.pourcentageTram);
 		u.CalculAvgDist(u.pourcentageCar, u.pourcentageVelib, u.pourcentageTram);
 		u.ConvertToCF();
-		*/
+
 		//System.out.println(u.info.toString());
 		//System.out.println(u.toString());
 		//System.out.println();
@@ -204,7 +212,13 @@ class UserResponse{ //Trouver le bon nombre de véhicule a avoir dans la ville
 		System.out.println(u.info.toString());
 		System.out.println();
 		System.out.println();
-
+		*/
 		
+	}
+	public CityInfo getInfo() {
+		return info;
+	}
+	public void setInfo(CityInfo info) {
+		this.info = info;
 	} 
 }
