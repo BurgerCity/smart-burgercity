@@ -207,10 +207,15 @@ public class CarbonIhm extends JFrame implements ActionListener{
 			   //finalEc = String.valueOf(v1I);
 			   result.setText(finalEc);
 			   result2.setText(finalEcInh);
+			  // info.setText(user.getInfo().infoString);
+			   //pannel.add();
 			   panel.add(result);
 			   panel.add(result2);
 			   result2.setEditable(false);
-			   response.setText(user.UserResponseString);
+			   response.setText(user.UserResponseString); //
+			   //info.setText(user.getInfo().infoString); //
+			   info.setText(user.getInfo().infoString);
+			  // panel.add(info);
 			   this.add(panel);
 			 //  result.setText(finalEc);
 			  // ec =  String.valueOf(v1+v2+v3);
