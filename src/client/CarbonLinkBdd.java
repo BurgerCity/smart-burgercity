@@ -31,7 +31,7 @@ public class CarbonLinkBdd {
 		Request r = new Request();
 		Json j = new Json(client);
 		//System.out.println("Creation de la Request");
-		r.setOperation_type("CarbonRequest");
+		r.setOperation_type("CarbonSelect");
 		r.setTable("client");
 		r.getA().add("surface");
 		r.getA().add("nbstationtram");
@@ -53,6 +53,28 @@ public class CarbonLinkBdd {
 		this.valueRequest[0] = Integer.parseInt(rp.getA().get(0)); 
 		valueRequest[1] = Integer.parseInt(rp.getA().get(1));
 	}
+	public void RequestInsert(String ec) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		//int[] ValueRequest = new ValueRequest[2];
+		//String st = Integer.toString((int)f);
+		Message msg = new Message();
+		Request r = new Request();
+		Json j = new Json();
+		//System.out.println("Creation de la Request");
+		r.setOperation_type("INSERT");
+		r.setTable("carbonfootprint");
+		//long millis = System.currentTimeMillis();
+		//java.sql.Date date = new java.sql.Date(millis);
+		//date = now();
+		//String d = ""+date+"";
+		r.getA().add(ec);
+		r.getA().add("now()");
+		r.getA().add("1");
+	    //System.out.println("Envoi de la Request");
+		//j.sendRequest(r);
+		msg.sendMessage(client.getOut(), j.serialize(r));
+		//System.out.println(client.getOut());
+		//System.out.println(j.serialize(r));
+	}
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 		/*
 		Client_socket c = new Client_socket();
@@ -64,6 +86,8 @@ public class CarbonLinkBdd {
 		*/
 		CarbonLinkBdd clb = new CarbonLinkBdd();
 		System.out.println(clb.valueRequest[0] + "," + clb.valueRequest[1]);
+		//float t = 200.01;
+		//clb.RequestInsert(2777.099);
 	}
 	
 }

@@ -182,7 +182,6 @@ public class CarbonIhm extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Object source = arg0.getSource();
-
 		   if (source == this.bouton) {
 			  // user.response(v1,v2,v3);
 			   //ec = String.valueOf(user.ec);
@@ -202,11 +201,16 @@ public class CarbonIhm extends JFrame implements ActionListener{
 			  // info.setText(user.getInfo().infoString);
 			   finalEc = "City Carbon FootPrint : " + ec;
 			   finalEcInh = "City Carbon FootPrint/Inhabitant : " + user.ec/pop;
-			  // finalEc = String.valueOf(v1I + v2I + v3I);
-			   
+			  // finalEc = String.valueOf(v1I + v2I + v3I);  
 			   //finalEc = String.valueOf(v1I);
 			   result.setText(finalEc);
 			   result2.setText(finalEcInh);
+			   try {
+				user.getInfo().getClb().RequestInsert(ec);
+			} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			  // info.setText(user.getInfo().infoString);
 			   //pannel.add();
 			   panel.add(result);
@@ -257,12 +261,8 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		System.out.println("end : " + Integer.parseInt(a) + 1);
 		System.out.println(f1.v1I);
 		System.out.println(f1.v2I);
-		System.out.println(f1.v3I);
-		
+		System.out.println(f1.v3I);	
 	}
-
-
-
 	//On utilisera le UserResponse pour enregistrer les pourcentage donné par l'utilisateur
 	//puis cette même classe renverra la conversion de ses donnés en EC.
 
