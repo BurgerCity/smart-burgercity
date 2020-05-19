@@ -31,7 +31,6 @@ public class Ihmindic extends JFrame {
 
         this.setVisible(true);
 
-
     
     }
 

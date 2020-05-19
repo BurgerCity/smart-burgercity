@@ -79,6 +79,14 @@ public class AideIhm {
     public boolean getOk(String s) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.ok(s);
     }
+
+	public boolean okdate(String s1, String s2) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+		return f.okdate(s1,s2);
+	}
+
+	public ArrayList<String> geTab(String s1, String s2) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+		return f.tab(s1, s2);
+	}
          
           
            

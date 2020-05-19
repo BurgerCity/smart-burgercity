@@ -45,7 +45,12 @@ public class Fenetre2  extends Ihmindic {
 
         d.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-             //   Fenetrep1 b = new Fenetrep1();
+                try {
+					Fenetrep1 b = new Fenetrep1();
+				} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
         this.setContentPane(container);

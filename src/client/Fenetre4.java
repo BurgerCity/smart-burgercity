@@ -97,7 +97,7 @@ public Fenetre4(String s)throws SQLException, ClassNotFoundException, IOExceptio
 					}}
 
                  if((bb== true) &&(dd==false)) { try {
-					Fenetre4bis f= new Fenetre4bis(s,aa,bb,cc,dd,bb1,bb2,bb3,bb4,bb5,dd1,dd2,dd3,dd4,dd5);
+					Fenetre4bis f3= new Fenetre4bis(s,aa,bb,cc,dd,bb1,bb2,bb3,bb4,bb5,dd1,dd2,dd3,dd4,dd5);
 				} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
