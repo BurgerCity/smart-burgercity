@@ -124,22 +124,24 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
-
-		/*else if(r.getOperation_type().equals("SELECT_ALERT")) {
-			rp=crud.getAlert(data);
-		}*/
-
 		else if(r.getOperation_type().equals("CARMAX")){
 			
 			System.out.println("if");
 			rp=crud.carmax(data);
 		}
-		else if(r.getOperation_type().equals("CarbonRequest")){
+		else if(r.getOperation_type().equals("CarbonSelect")){
 			
-			System.out.println("Dans Server, if CarbonRequest");
+			//System.out.println("Dans Server, if CarbonRequest");
 			//rp=crud.CarbonRequest(data);
-			rp=crud.CarbonRequest(r,data);
+			rp=crud.CarbonSelect(r,data);
 		}
+		/*else if(r.getOperation_type().equals("CarbonInsert")){
+			
+			//System.out.println("Dans Server, if CarbonRequest");
+			//rp=crud.CarbonRequest(data);
+			rp=crud.CarbonInsert(r,data);
+			
+		}*/
 		else if(r.getOperation_type().equals("BORNES")){
 			rp=crud.nbborne(data);
 		}

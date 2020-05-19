@@ -186,7 +186,7 @@ public class CityInfo{
 		//this.client = c;
 		surface = clb.valueRequest[0];
 		nbTramStation = clb.valueRequest[1];
-		//usedTramStation = nbTramStation;
+		usedTramStation = nbTramStation;
 		populationSize = surface * 10000;
 		walking = populationSize;
 		carAvaible = (int)(populationSize * 0.5);
@@ -223,8 +223,8 @@ public class CityInfo{
 		"surface : " + surface + " " +  '\n' +
 		"car Avaible : " + carAvaible + " " +  '\n' +
 		"velib Avaible : " + velibAvaible + " " +  '\n' +
-		"nb TramStation  : " + nbTramStation + " " +  '\n' +
-		"usedTramStation : " + usedTramStation + " " + '\n';
+		"nb TramStation Avaible  : " + nbTramStation + " " +  '\n' ;
+		//"usedTramStation : " + usedTramStation + " " + '\n';
 		//+ infoVehicle.toString()
 		return r;
 	}

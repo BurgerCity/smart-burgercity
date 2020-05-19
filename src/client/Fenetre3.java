@@ -61,12 +61,7 @@ private String date= "";
 					e2.printStackTrace();
 				}
 				
-				try {
- 					date = dateFormat.parse(getValue);
- 				} catch (ParseException e2) {
- 					// TODO Auto-generated catch block
- 					e2.printStackTrace();
- 				}
+		
                  if ( !dateFormat.format(date).equals(getValue)) { 
                  	
  					a.setText("Le format de la date n'est pas correcte, VEUILLEZ ENTRER UNE DATE DE NOUVEAU avec le bon format (aaaa-mm-dd) :");
