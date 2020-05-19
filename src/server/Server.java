@@ -134,6 +134,12 @@ public class Server {
 			System.out.println("if");
 			rp=crud.carmax(data);
 		}
+		else if(r.getOperation_type().equals("CarbonRequest")){
+			
+			System.out.println("Dans Server, if CarbonRequest");
+			//rp=crud.CarbonRequest(data);
+			rp=crud.CarbonRequest(r,data);
+		}
 		else if(r.getOperation_type().equals("BORNES")){
 			rp=crud.nbborne(data);
 		}

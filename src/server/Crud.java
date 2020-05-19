@@ -74,6 +74,79 @@ public class Crud {
 		return "Successful operation";
 	}
 	
+	public Response CarbonRequest(Request r, DataSource data) throws SQLException{
+		System.out.println("Welcome to carbonR");
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		//Crud ss = new Crud();
+		String rr = r.getA().get(0);
+		String rr2 = r.getA().get(1);
+		//System.out.println(rr);
+		String tt = r.getTable();
+		//System.out.println(tt);
+		//System.out.println("avant 1er select");
+		ResultSet rslt=stmt.executeQuery("SELECT " + rr + "," + rr2 + " FROM " + tt + ";");
+		//System.out.println("apres 1er select");
+		
+		//System.out.println("avant 2eme select");
+		//rslt=stmt.executeQuery("SELECT * FROM client ;");
+		//System.out.println("apres 2eme select");
+		
+		Response rp=new Response();
+		while(rslt.next()) {
+			//System.out.println("dans la boucle");
+			//System.out.println("rslt : " + rslt);
+			//System.out.println("rslt + int : " + rslt.getInt(1));
+			//System.out.println(Integer.toString(rslt.getInt(0)));
+			String rep = Integer.toString(rslt.getInt(1));
+			String rep2 = Integer.toString(rslt.getInt(2));
+			System.out.println(rep);
+			rp.getA().add(rep);
+			rp.getA().add(rep2);
+			//.out.println("apres le add " + rp.getA().get(0));
+			//System.out.println("apres le add " + rp.getA().get(1));
+			//System.out.println("ez");
+		}
+		//System.out.println("apres la boucle");
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
+	
+	/*
+	public Response CarbonRequest(DataSource data) throws SQLException{
+		System.out.println("dans autre carbonR");
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		//Crud ss = new Crud();
+		System.out.println("avant 1er select");
+		ResultSet rslt=stmt.executeQuery("SELECT * FROM test1 ;");
+		System.out.println("apres 1er select");
+		
+		System.out.println("avant 2eme select");
+		 rslt=stmt.executeQuery("SELECT * FROM client ;");
+		System.out.println("apres 2eme select");
+		
+		Response rp=new Response();
+		while(rslt.next()) {
+			System.out.println("dans la boucle");
+			System.out.println("rslt : " + rslt);
+			System.out.println("rslt + int : " + rslt.getInt(2));
+			//System.out.println(Integer.toString(rslt.getInt(0)));
+			String rep = Integer.toString(rslt.getInt(2));
+			System.out.println(rep);
+			rp.getA().add(rep);
+			System.out.println("apres le add " + rp.getA().get(0));
+			System.out.println("ez");
+		}
+		System.out.println("apres la boucle");
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
+	*/
 	public Response select(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
 		Statement st = c.createStatement();
@@ -82,7 +155,7 @@ public class Crud {
 		int i = 1;
 		if(r.getA().size() == 0) {
 			s = "*";
-			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + ";");
+			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " ;");
 			while(rs.next()) {
 				rp.getA().add(Integer.toString(rs.getInt(0)));
 			}
@@ -128,6 +201,7 @@ public class Crud {
  		data.returnConnection(c);
  		return rp;
 	}
+	
 	public Response getAlert(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();

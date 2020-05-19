@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -65,7 +67,16 @@ public class CarbonIhm extends JFrame {
 }
 
 
-*/
+*/  
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///// PROBLEME : Le String de Info, (par rapport au nb de station de tram Used) n'est pas mis a jour /////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///// 					MANQUE : Le Insert a faire dans le crud + créer la table EC 				 /////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class CarbonIhm extends JFrame implements ActionListener{
 
@@ -98,9 +109,9 @@ public class CarbonIhm extends JFrame implements ActionListener{
 	String finalEc;
 	String finalEcInh;
 	float pop;
-	CarbonIhm(){
+	CarbonIhm() throws ClassNotFoundException, IOException, SQLException, InterruptedException{
 		super();
-		infoVille = new CityInfo(100); // 100 valeur test, a aller chercher dans BDD
+		infoVille = new CityInfo(); // 100 valeur test, a aller chercher dans BDD
 		infoVehicle = new CarbonFootprintVehicle();
 		user = new UserResponse();
 		pop = infoVille.getPopulationSize();
@@ -110,7 +121,7 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		
 		response.setText(user.UserResponseString);
 		carbone.setText(infoVehicle.FootprintString);
-		info.setText(infoVille.infoString);
+		info.setText(user.getInfo().infoString);
 		info.setEditable(false);
 		carbone.setEditable(false);
 		response.setEditable(false);
@@ -188,6 +199,7 @@ public class CarbonIhm extends JFrame implements ActionListener{
 			   user.init();
 			   user.response(v1I,v2I,v3I);
 			   ec = String.valueOf(user.ec);
+			  // info.setText(user.getInfo().infoString);
 			   finalEc = "City Carbon FootPrint : " + ec;
 			   finalEcInh = "City Carbon FootPrint/Inhabitant : " + user.ec/pop;
 			  // finalEc = String.valueOf(v1I + v2I + v3I);
@@ -225,7 +237,7 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		   }
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, InterruptedException {
 		CarbonIhm f1 = new CarbonIhm();
 		//System.out.println(f1.v1);
 		//System.out.println(f1.v2);
