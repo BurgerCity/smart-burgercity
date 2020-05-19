@@ -50,8 +50,12 @@ public class CarbonLinkBdd {
 		//n = Integer.parseInt(rp.getA().get(1));
 		//System.out.println(n);
 		//System.out.println("Lecture effectué");
-		this.valueRequest[0] = Integer.parseInt(rp.getA().get(0)); 
-		valueRequest[1] = Integer.parseInt(rp.getA().get(1));
+		//System.out.println(rp.getA().size());
+		int size = rp.getA().size();
+		valueRequest[0] = Integer.parseInt(rp.getA().get(size - 2)); 
+		valueRequest[1] = Integer.parseInt(rp.getA().get(size - 1));
+		System.out.println("v1 : " + valueRequest[0]);
+		System.out.println("v2 : " + valueRequest[1]);
 	}
 	public void RequestInsert(String ec) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		//int[] ValueRequest = new ValueRequest[2];

@@ -145,7 +145,8 @@ public class Crud {
 			//System.out.println(Integer.toString(rslt.getInt(0)));
 			String rep = Integer.toString(rslt.getInt(1));
 			String rep2 = Integer.toString(rslt.getInt(2));
-			System.out.println(rep);
+			System.out.println("rep "+rep);
+			System.out.println("rep2 "+rep2);
 			rp.getA().add(rep);
 			rp.getA().add(rep2);
 			//.out.println("apres le add " + rp.getA().get(0));
