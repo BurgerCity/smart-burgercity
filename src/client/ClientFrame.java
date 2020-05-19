@@ -16,7 +16,7 @@ public class ClientFrame extends JFrame {
 	Frame2 f5 = new Frame2("update");
 	ClientFrame() {
 		super("Configuration");
-		this.setSize(400, 300);
+		this.setSize(400, 200);
 		this.p.setLayout(cl);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -16,7 +16,7 @@ import common.Message;
 import common.Request;
 import common.Response;
 
-public class Alert extends Thread implements ActionListener {
+public class Alert extends Thread /*implements ActionListener*/ {
 	private Socket socket;
 	private OutputStreamWriter out;
 	private BufferedReader in;
@@ -25,9 +25,12 @@ public class Alert extends Thread implements ActionListener {
 	private Response rp;
 	private Request r;
 	private Random rdm;
-	private FrameAlert f;
+	private static FrameAlert f;
 	
-	public Alert() {}
+	public Alert(/*FrameAlert f*/) {
+		//this.f = f;
+		//this.f = new FrameAlert();
+	}
 	Alert(Response rp) {
 		this.rp = rp;
 	}
@@ -41,18 +44,24 @@ public class Alert extends Thread implements ActionListener {
 		rp = new Response();
 		r = new Request();
 		rdm = new Random();
-		int j = 1;
 		r.setOperation_type("GIVE");
-		
 		while(true) {
 			msg.sendMessage(out, json.serialize(r));
 			new Alert(json.deserialize(msg.readMessage(in))).start();
 		}
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		
-	}
+	/*public void actionPerformed(ActionEvent e) {
+		System.out.println("on est la");
+		System.out.println(Integer.parseInt(this.getRp().getA().get(rp.getA().size() - 1)));
+		/*if(Integer.parseInt(this.getRp().getA().get(rp.getA().size() - 1)) == 0) {
+			this.f.getCl().show(f.getP(), "p0");
+		} else if(Integer.parseInt(this.getRp().getA().get(rp.getA().size() - 1)) == 1) {
+			this.f.getCl().show(f.getP(), "p1");
+		}else if(Integer.parseInt(this.getRp().getA().get(rp.getA().size() - 1)) == 2) {
+			this.f.getCl().show(f.getP(), "p2");
+		}
+	}*/
 	
 	public void run() {
 		try {
@@ -65,34 +74,45 @@ public class Alert extends Thread implements ActionListener {
 		r = new Request();
 		rdm = new Random();
 		int counter = 0;
-	//	f = new FrameAlert();
-		while(true) {
-			//try {
-				//rp = json.deserialize(msg.readMessage(in));
-				System.out.println(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)));
-			/*	if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
-					this.f.getCl().show(f.getP(), "p0");
-					System.out.println("je suis la");
-				} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {
-					this.f.getCl().show(f.getP(), "p1");
-				}else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
-					this.f.getCl().show(f.getP(), "p2");
-				}*/
-				System.out.println("est ce que");
-			//} catch (IOException e) {}
+		boolean b = false;
+		while(!socket.isClosed()) {
+			//if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
+			//	this.getF().getCl().show(f.getP(), "p0");
+			//} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {
+			//	this.getF().getCl().show(f.getP(), "p1");
+		//	}
+		//else
+			if(b == false) {
+				if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
+					f = new FrameAlert();
+					b = true;
+					this.getF().getCl().show(f.getP(), "p2");
+				}
+			} else if(b == true) { 
+				if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
+					b = true;
+					this.getF().getCl().show(f.getP(), "p2");
+				}
+				else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
+				this.getF().getCl().show(f.getP(), "p0");
+				}
+			}
 			System.out.println(rp.getA());
 			r = new Request();
 			r.getA().add(rp.getA().get(0));
 			this.statement(counter);
-		System.out.println(r.getA());
+			System.out.println(r.getA());
 			try {
 				Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000);
 				r.setOperation_type("GIVE");
 				System.out.println(json.serialize(r));
 				msg.sendMessage(out, json.serialize(r));
 				counter = counter + 1;
+				rp = new Response();
+				rp = json.deserialize(msg.readMessage(in));
 			} catch (NumberFormatException | InterruptedException | IOException | SQLException e1) {}
 		}
+		System.out.println("salut");
 	}
 	
 	public void random(int i) {
@@ -111,7 +131,7 @@ public class Alert extends Thread implements ActionListener {
 				y = Double.valueOf(xx) / 100;
 				r.getA().add(Double.toString(y));
 			} else {
-				if(Integer.parseInt(rp.getA().get(0)) == 14967) {
+				if(Integer.parseInt(rp.getA().get(0)) == 1) {
 					if(counter >= 2 && counter < 6) {
 						if(i == 0) {
 							int k = Integer.parseInt(rp.getA().get(i + 5));
@@ -134,8 +154,14 @@ public class Alert extends Thread implements ActionListener {
 	}
 	
 	public static void main(String[] args) throws IOException, SQLException, NumberFormatException, InterruptedException {
-		Alert i = new Alert();
 		//FrameAlert f = new FrameAlert();
+		Alert i = new Alert();
 		i.GiveStatement("127.0.0.1", 2013);
+	}
+	public Response getRp() {
+		return rp;
+	}
+	public FrameAlert getF() {
+		return f;
 	}
 }

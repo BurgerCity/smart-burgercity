@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -17,12 +16,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import SimulatorStatement.Normal;
-import client_common.Json;
+
 import common.Message;
 import common.Request;
 import common.Response;
-import sun.security.action.GetIntegerAction;
+
 
 public class ThreadSensor extends Thread{
 	private int i;
@@ -45,79 +43,59 @@ public class ThreadSensor extends Thread{
 	}
 	
 	public void run() {
-		//ajouter la methode qu iva exec le thread
-		Connection c = data.takeConnection();
-		try {	
-			Statement s = c.createStatement();
-			crud = new Crud();
-			this.connectionSensor(socket);
-			server = new Server();
-			r = new Request();
-			msg = new Message();
-			r = server.deserialize(msg.readMessage(in));
-			System.out.println(r.getOperation_type());
-			//while(true) {
-					
-				/*	ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
-					ResultSetMetaData rmd = rs.getMetaData();
-					Response rp = new Response();
-					while(rs.next()) {
-						for(int j = 1; j <= rmd.getColumnCount(); j++) {
-							if(rmd.getColumnTypeName(j) == "varchar") {
-								rp.getA().add(rs.getString(j));
-							} else {
-								if(j == 7) {
-									rp.getA().add(Double.toString(rs.getDouble(j)));
-								} else {
-									rp.getA().add(Integer.toString(rs.getInt(j)));
-								}
-							}
-							rp.setTypeOperation(Integer.toString(i));
-						}
-					}*/
+			Connection c = data.takeConnection();
+			try {	
+				Statement s = c.createStatement();
+				crud = new Crud();
+				this.connectionSensor(socket);
+				server = new Server();
+				r = new Request();
+				msg = new Message();
+				
+				r = server.deserialize(msg.readMessage(in));
+	
 				rp = this.sendRow(s);
-					data.returnConnection(c);
-						System.out.println(rp.getA());
+				data.returnConnection(c);
+				System.out.println(rp.getA());
+				this.sendResponse(rp);
+				Socket client = ss.accept();
+				out = new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8);
+				in = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
+				while(true) {
+					r = new Request();
 
-						this.sendResponse(rp);
-						Socket client = ss.accept();
-						out = new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8);
-						in = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
-						//this.connectionSensor(client);
-						while(true) {
-							//this.sendRow(s);
-							r = new Request();
-							r = server.deserialize(msg.readMessage(in/*this.connectionSensor(client)*/));
-							System.out.println(r.getA());
-							r.getA().add("now()");
-							r.setTable("statements");
-							r.getA().add("1");
-
-							if(this.NumberLine() == Integer.parseInt(rp.getA().get(3))) {
-								this.deleteRow();
-							}
-							crud.insert(r, data);
-							
-							//Thread.sleep(rs.getInt(4) * 1000);
-							//System.out.println("i sleep" + rs.getInt(4) * 1000);
-							int alert = this.testAlert();
-							System.out.println("l'alerte lancée est de " + alert);
-							if(alert == 1) {
-								this.updateAlert(alert);
-							} else if(alert == 2) {
-								this.updateAlert(alert);
-							} else {
-								this.updateAlert(alert);
-							}
-							System.out.println("  ");
-							System.out.println("*************************************");
-							System.out.println("  ");
-							//Remplir la table n fois  			n est un multiple du statement
-							//si n est dépassé alors on supprime une ligne avant d'inserer la suivante que l'on va tester pour savoir s'il y a une alert
-						}
-					//}
-			//}
-		} catch (SQLException | /*InterruptedException |*/ IOException | NumberFormatException e) {}
+					r = server.deserialize(msg.readMessage(in));
+					
+					if(r == null) {
+						break;
+					}
+					
+					System.out.println(r.getA());
+					r.getA().add("now()");
+					r.setTable("statements");
+					r.getA().add("1");
+					if(this.NumberLine() == Integer.parseInt(rp.getA().get(2))) {
+						this.deleteRow();
+					}
+					crud.insert(r, data);
+				
+					int alert = this.testAlert();
+					if(alert == 1) {
+						this.updateAlert(alert);
+					} else if(alert == 2) {
+						//System.out.println("There is an alerte for the capteur " + i);
+						this.updateAlert(alert);
+					} else {
+						this.updateAlert(alert);
+					}
+					System.out.println("  ");
+					System.out.println("*************************************");
+					System.out.println("  ");
+					rp = this.sendRow(s);
+					msg.sendMessage(out, server.serializeServeur(rp));
+				}
+			} catch (SQLException | IOException | NumberFormatException e) {}
+			System.out.println("FINI");
 	}
 	
 	public Response sendRow(Statement s) throws SQLException {
@@ -148,7 +126,7 @@ public class ThreadSensor extends Thread{
 		stmt.close();
 		data.returnConnection(c);
 	}
-	
+
 	public Integer testAlert() throws SQLException {
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
@@ -156,21 +134,20 @@ public class ThreadSensor extends Thread{
 	
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		while(rst.next()) {
-			System.out.println("LIgne suivante");
-			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3);/// (rst.getInt(5) + rst.getDouble(7) + rst.getDouble(9) + rst.getInt(11));
-			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3);
-			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3); /// (rst.getInt(16) + rst.getDouble(17) + rst.getDouble(18) + rst.getInt(19));
-			System.out.println(rst.getInt(16) + " " + rst.getDouble(17)+ " " + rst.getDouble(18)+ " " + rst.getInt(19));
-			System.out.println(rst.getInt(5) + " " + rst.getDouble(7)+ " " + rst.getDouble(9)+ " " + rst.getInt(11));
+			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
+			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
+			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
+			//System.out.println(rst.getInt(16) + " " + rst.getDouble(17)+ " " + rst.getDouble(18)+ " " + rst.getInt(19));
+			//System.out.println(rst.getInt(5) + " " + rst.getDouble(7)+ " " + rst.getDouble(9)+ " " + rst.getInt(11));
 			int k = 11;	
 			int cpt = 0;
 			if(test > alert) {
 				a.add(2);
-				System.out.println("alert askip");
+				System.out.println(test + " > " + alert + " ALERT");
 			}
 			else if (test > info) {
 				a.add(1);
-				System.out.println("INFO");
+				System.out.println(test + " > " +  info + "INFO");
 			}
 			else {
 				for(int j = 5; j < 9; j++) {
@@ -188,15 +165,7 @@ public class ThreadSensor extends Thread{
 				
 			}
 		}
-		
-	/*	ResultSet rs = this.selectSensor();
-		rs.next();
-		while(rs.getInt(3) > a.size())	{
-			System.out.println(rs.getInt(3) + "  "+ a.size());
-			a.add(false);
-		}*/
 		System.out.println(" ");
-		System.out.println(a + " avant this.alert");
 		a = this.testTimeBeforeAlert(a);
 		System.out.println(a + " apres this.alerttime");
 		//System.out.println(this.alert(a));
@@ -241,7 +210,6 @@ public class ThreadSensor extends Thread{
 		ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
 		data.returnConnection(c);
 		return rs;
-		
 	}
 	
 	public ResultSet selectStatements() throws SQLException {
@@ -265,7 +233,6 @@ public class ThreadSensor extends Thread{
 		while(rst.next()) {
 			nb = rst.getInt(1);
 		}
-		//rst.close();
 		data.returnConnection(con);
 		return nb;	
 	}

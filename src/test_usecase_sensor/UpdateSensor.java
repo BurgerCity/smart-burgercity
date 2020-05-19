@@ -1,4 +1,4 @@
-package update_sensor;
+package test_usecase_sensor;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ public class UpdateSensor {
 	       
 	      //lecture du fichier texte
 	      try{
-	         InputStream ips = new FileInputStream("src/update_sensor/updateSensor.json");
+	         InputStream ips = new FileInputStream("src/test_usecase_sensor/updateSensor.json");
 	         InputStreamReader in = new InputStreamReader(ips);
 	         BufferedReader br = new BufferedReader(in);
 	         String ligne;

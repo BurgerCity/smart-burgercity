@@ -49,11 +49,15 @@ public class SensorListner implements ActionListener {
 			try {
 				//rp = this.selectSensor();
 				this.f.f4 = new Frame4(this.selectSensor());
-				this.f.getF4().getB().addActionListener(this);
-				this.f.getP().add("f4", this.f.f4.getJp());
-				f.setSize(400, 300);
-				(f.getCl()).show(f.getP(), "f4");
-				test = true;
+				if(f.f4.getRp().getA().size() == 0) {
+					(f.getCl()).show(f.getP(), "f3");
+				} else {
+					this.f.getF4().getB().addActionListener(this);
+					this.f.getP().add("f4", this.f.f4.getJp());
+					f.setSize(400, 300);
+					(f.getCl()).show(f.getP(), "f4");
+					test = true;
+				}
 			} catch (IOException e1) {}
 		}
 		if(test == true) {
@@ -76,7 +80,7 @@ public class SensorListner implements ActionListener {
 				
 			}
 			else {
-				f.setSize(300, 100);
+				f.setSize(400, 200);
 				(f.getCl()).show(f.getP(), "f1");
 			}
 		}
@@ -97,7 +101,7 @@ public class SensorListner implements ActionListener {
 		}
 		this.sendRequest(r);
 		Message m = new Message();
-		Json js = new Json(client);
+		Json js = new Json();
 		rp = new Response();
 		String st = m.readMessage(client.getIn());
 		System.out.println(st);
@@ -144,7 +148,7 @@ public class SensorListner implements ActionListener {
 	
 	public void sendRequest(Request r) {
 		Message msg = new Message();
-		Json json = new Json(client);
+		Json json = new Json();
 		String s = "";
 		try {
 			s = json.serialize(r);

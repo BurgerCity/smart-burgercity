@@ -66,7 +66,7 @@ public class Crud {
 			i++;
 		}
 		for(int j = 0; j < Integer.parseInt(r.getA().get(r.getA().size() - 1)); j++) {
-			//System.out.println("INSERT INTO " + r.getTable() + st + " values" + s);
+			System.out.println("INSERT INTO " + r.getTable() + st + " values" + s);
 			stmt.executeUpdate("INSERT INTO " + r.getTable() + st + " values" + s);
 		}
 		stmt.close();

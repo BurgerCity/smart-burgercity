@@ -58,5 +58,8 @@ public class Frame4 extends Container {
 	public JLabel[] getJl() {
 		return jl;
 	}
+	public Response getRp() {
+		return rp;
+	}
 	
 }

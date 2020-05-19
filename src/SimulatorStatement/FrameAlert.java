@@ -3,6 +3,10 @@ package SimulatorStatement;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,9 +18,8 @@ public class FrameAlert extends JFrame {
 	JLabel j2 = new JLabel("ALERT");
 	Panel p0 = new Panel("There is no alert", Color.GREEN);
 	Panel p1 = new Panel("Statements are too high", Color.ORANGE);
-	Panel p2 = new Panel("\"ALERT", Color.RED);
+	Panel p2 = new Panel("ALERT", Color.RED);
 	CardLayout cl = new CardLayout();
-
 	JPanel p = new JPanel();
 	
 	public FrameAlert() {
@@ -31,15 +34,26 @@ public class FrameAlert extends JFrame {
 		this.p.add("p2", p2.getP());
 		this.getContentPane().add(p);
 
-		
 		this.setVisible(true);
 	}
-
+	
 	public CardLayout getCl() {
 		return cl;
 	}
 
 	public JPanel getP() {
 		return p;
+	}
+
+	public Panel getP0() {
+		return p0;
+	}
+
+	public Panel getP1() {
+		return p1;
+	}
+
+	public Panel getP2() {
+		return p2;
 	}
 }

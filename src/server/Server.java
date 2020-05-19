@@ -61,16 +61,18 @@ public class Server {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
-		new Thread(new ThreadCollectData(serverSocket, s)).start();
 		ServerSocket serverSocket2 = s.startServer(2015);
-			try {
+		ServerSocket serverSocket2018 = s.startServer(2018);	
+		new Thread(new ThreadClientSocket(serverSocket2)).start();
+		new Thread(new ThreadCollectData(serverSocket, s, serverSocket2018)).start();
+		/*	try {
 				while(true) {	
 					Socket clientSocket = serverSocket2.accept();					
 					new Thread(new ThreadClient(clientSocket)).start();
 				}
 			} catch (Exception e) {
 				serverSocket2.close();
-			}
+			}*/
 	}
 	
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
@@ -90,11 +92,11 @@ public class Server {
 		}
 	}
 	
-	public void ThreadStatement(ServerSocket serverSocket2, Server s) throws IOException {
+	public void ThreadStatement(ServerSocket serverSocket2, Server s, ServerSocket ss2018) throws IOException {
 		try {
 			while(true) {	
-				Socket clientSocket = serverSocket2.accept();
-				new Thread(new ThreadSensorSocket(clientSocket, data, crud, s)).start();
+				Socket socket = serverSocket2.accept();
+				new Thread(new ThreadSensorSocket(socket, data, crud, s, ss2018)).start();
 			}
 		} catch (Exception e) {
 			serverSocket2.close();

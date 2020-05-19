@@ -23,13 +23,24 @@ public class Normal extends Thread {
 	private Response rp;
 	private Request r;
 	private Random rdm;
+	private FrameAlert f;
+	private int threshold;
+	private int x;
+	private boolean b = false;
+	private boolean bb = false;
+	private boolean frame = true;
+	private boolean boo = true;
+	private boolean bool = true;
+	private int counter = 0;
 	
-	Normal() {}
-	Normal(Response rp) {
+	Normal() {
+	}
+	Normal(Response rp, int x) {
 		this.rp = rp;
+		this.x = x;
 	}
 	
-	public void GiveStatement(String ip, int port) throws IOException, SQLException, NumberFormatException, InterruptedException {
+	public void GiveStatement(String ip, int port, int x) throws IOException, SQLException, NumberFormatException, InterruptedException {
 		socket = new Socket(ip, port);
 		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
@@ -38,12 +49,10 @@ public class Normal extends Thread {
 		rp = new Response();
 		r = new Request();
 		rdm = new Random();
-		int j = 1;
 		r.setOperation_type("GIVE");
-		
 		while(true) {
 			msg.sendMessage(out, json.serialize(r));
-			new Normal(json.deserialize(msg.readMessage(in))).start();
+			new Normal(json.deserialize(msg.readMessage(in)), x).start();
 		}
 	}
 	
@@ -58,43 +67,118 @@ public class Normal extends Thread {
 		r = new Request();
 		rdm = new Random();
 		while(true) {
-			System.out.println(rp.getA());
+			
 			r = new Request();
 			r.getA().add(rp.getA().get(0));
-			for(int i = 0;  i < 8; i += 2) {
-				if(i == 2) {
-					double y = Double.parseDouble(rp.getA().get(6));
-					y = y * 100;
-					int z = 100 - (100 - (int)y);
-					int xx = rdm.nextInt(z);
-					y = Double.valueOf(xx) / 100;
-					//double x = rdm.nextDouble() / 4;
-					r.getA().add(Double.toString(y));
-				} else {
-					int k = Integer.parseInt(rp.getA().get(i + 4));
-					int rm = rdm.nextInt(k);
-					//double random = rdm.nextDouble();
-					r.getA().add(Integer.toString(rm));
-				}
-			}
-			System.out.println(r.getA());
+			
+			this.statement();
+			System.out.println(rp.getA());
 			try {
 			Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000);
 			r.setOperation_type("GIVE");
+			System.out.println(json.serialize(r));
+			msg.sendMessage(out, json.serialize(r));
+			rp = new Response();
+			rp = json.deserialize(msg.readMessage(in));
+			counter = counter + 1;
+			System.out.println("ALERTE EST DE " + rp.getA().get(rp.getA().size() - 1));
+			this.switchFrame(rp);
 
-				System.out.println(json.serialize(r));
-				msg.sendMessage(out, json.serialize(r));
 			} catch (NumberFormatException | InterruptedException | IOException | SQLException e1) {}
 		}
 	}
 	
+	public void random(int i) {
+		System.out.println(x);
+		System.out.println(Integer.parseInt(rp.getA().get(i + x)));
+		int k = Integer.parseInt(rp.getA().get(i + x));
+		int rm = rdm.nextInt(k/* - (k/4)*/);
+		r.getA().add(Integer.toString(rm));
+	}
 	
-	public static void main(String[] args) throws IOException, SQLException, NumberFormatException, InterruptedException {
-		 Normal c = new Normal();
-		 c.GiveStatement("127.0.0.1", 2013);
+	public void statement() {
+		for(int i = 0;  i < 8; i += 2) {
+			if(i == 2) {
+				double y = Double.parseDouble(rp.getA().get(6));
+				y = y * 100;
+				int z = 100 - (100 - (int)y);
+				int xx = rdm.nextInt(z);
+				y = Double.valueOf(xx) / 100;
+				r.getA().add(Double.toString(y));
+			} else {
+				if(x == 4) {
+					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
+						if(counter >= 2 && counter < 8) {
+							if(i == 0) {
+								int k = Integer.parseInt(rp.getA().get(i + 4));
+								System.out.println(k);
+								int rm = rdm.nextInt(k) + k;
+								System.out.println(rm);
+								r.getA().add(Integer.toString(rm));
+							} else {
+								this.random(i);
+
+							}
+						} else {
+							this.random(i);
+
+						}
+
+					} else {	
+						this.random(i);
+					}
+				} else {
+					this.random(i);
+				}
+			}
+		}
 	}
 
+	public void switchFrame(Response r) {
+		if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1 || Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
+			if(frame == true) {
+				f = new FrameAlert();
+				frame = false;
+			}
+			if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {
+				if(bb == false) {
+					this.getF().getP1().getL().setText("<html><center><h1> " + this.getF().getP1().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
+					this.getF().getCl().show(f.getP(), "p1");
+					bb = true;
+				} else {
+					this.getF().getCl().show(f.getP(), "p1");
+				}
+			} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
+				if(b == false) {
+					this.getF().getP2().getL().setText("<html><center><h1> " + this.getF().getP2().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
+					this.getF().getCl().show(f.getP(), "p2");
+					b = true;
+				} else {
+					this.getF().getCl().show(f.getP(), "p2");
+				}		
+			}
+			boo = false;
+		}
+		else if (Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
+			if(boo == false) {
+				if(bool == true) {
+					this.getF().getP0().getL().setText("<html><center><h1> " + this.getF().getP0().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
+					this.getF().getCl().show(f.getP(), "p0");
+					bool = false;
+				} else {
+					this.getF().getCl().show(f.getP(), "p0");
+				}
+			}
+		}
+	}
+	
 	public Response getRp() {
 		return rp;
+	}
+	public FrameAlert getF() {
+		return f;
+	}
+	public int getThreshold() {
+		return threshold;
 	}
 }

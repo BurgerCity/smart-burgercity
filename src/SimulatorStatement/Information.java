@@ -23,6 +23,7 @@ public class Information extends Thread {
 	private Response rp;
 	private Request r;
 	private Random rdm;
+	private static FrameAlert f;
 	
 	public Information() {}
 	Information(Response rp) {
@@ -38,9 +39,8 @@ public class Information extends Thread {
 		rp = new Response();
 		r = new Request();
 		rdm = new Random();
-		int j = 1;
 		r.setOperation_type("GIVE");
-		
+		f = new FrameAlert();
 		while(true) {
 			msg.sendMessage(out, json.serialize(r));
 			new Information(json.deserialize(msg.readMessage(in))).start();
@@ -58,60 +58,77 @@ public class Information extends Thread {
 		r = new Request();
 		rdm = new Random();
 		int counter = 0;
+		
 		while(true) {
-
-			System.out.println(rp.getA());
+			if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
+				this.getF().getCl().show(f.getP(), "p0");
+			} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {
+				this.getF().getCl().show(f.getP(), "p1");
+			}else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
+				this.getF().getCl().show(f.getP(), "p2");
+			}
 			r = new Request();
 			r.getA().add(rp.getA().get(0));
-			for(int i = 0;  i < 8; i += 2) {
-				if(i == 2) {
-					double y = Double.parseDouble(rp.getA().get(6));
-					y = y * 100;
-					int z = 100 - (100 - (int)y);
-					int xx = rdm.nextInt(z);
-					y = Double.valueOf(xx) / 100;
-					r.getA().add(Double.toString(y));
-				} else {
-					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
-						if(counter >= 2 && counter < 8) {
-							if(i == 0) {
-								int k = Integer.parseInt(rp.getA().get(i + 4));
-								System.out.println(k);
-								int rm = rdm.nextInt(k) + k;
-								System.out.println(rm);
-								r.getA().add(Integer.toString(rm));
-							} else {
-								int k = Integer.parseInt(rp.getA().get(i + 4));
-								int rm = rdm.nextInt(k);
-								r.getA().add(Integer.toString(rm));
-							}
-						} else {
-							int k = Integer.parseInt(rp.getA().get(i + 4));
-							int rm = rdm.nextInt(k);
-							r.getA().add(Integer.toString(rm));
-						}
-
-					} else {	
-						int k = Integer.parseInt(rp.getA().get(i + 4));
-						int rm = rdm.nextInt(k);
-						r.getA().add(Integer.toString(rm));
-					}
-				}
-			}
-		System.out.println(r.getA());
+			this.statement(counter);
+			System.out.println(rp.getA());
 			try {
 				Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000);
 				r.setOperation_type("GIVE");
 				System.out.println(json.serialize(r));
 				msg.sendMessage(out, json.serialize(r));
 				counter = counter + 1;
+				rp = new Response();
+				rp = json.deserialize(msg.readMessage(in));
 			} catch (NumberFormatException | InterruptedException | IOException | SQLException e1) {}
 		}
+	}
+	
+	public void statement(int counter) {
+		for(int i = 0;  i < 8; i += 2) {
+			if(i == 2) {
+				double y = Double.parseDouble(rp.getA().get(6));
+				y = y * 100;
+				int z = 100 - (100 - (int)y);
+				int xx = rdm.nextInt(z);
+				y = Double.valueOf(xx) / 100;
+				r.getA().add(Double.toString(y));
+			} else {
+				if(Integer.parseInt(rp.getA().get(0)) == 14967) {
+					if(counter >= 2 && counter < 8) {
+						if(i == 0) {
+							int k = Integer.parseInt(rp.getA().get(i + 4));
+							System.out.println(k);
+							int rm = rdm.nextInt(k) + k;
+							System.out.println(rm);
+							r.getA().add(Integer.toString(rm));
+						} else {
+							this.random(i);
+
+						}
+					} else {
+						this.random(i);
+
+					}
+
+				} else {	
+					this.random(i);
+				}
+			}
+		}
+	}
+	public void random(int i) {
+		int k = Integer.parseInt(rp.getA().get(i + 4));
+		int rm = rdm.nextInt(k);
+		r.getA().add(Integer.toString(rm));
 	}
 	
 	
 	public static void main(String[] args) throws IOException, SQLException, NumberFormatException, InterruptedException {
 		 Information i = new Information();
 		 i.GiveStatement("127.0.0.1", 2013);
+	}
+	
+	public FrameAlert getF() {
+		return f;
 	}
 }
