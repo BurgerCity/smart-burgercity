@@ -127,10 +127,13 @@ public class Crud {
 		String rr2 = r.getA().get(1);
 		//System.out.println(rr);
 		String tt = r.getTable();
+		System.out.println(rr);
+		System.out.println(rr2);
+		System.out.println(tt);
 		//System.out.println(tt);
-		//System.out.println("avant 1er select");
+		System.out.println("avant 1er select");
 		ResultSet rslt=stmt.executeQuery("SELECT " + rr + "," + rr2 + " FROM " + tt + ";");
-		//System.out.println("apres 1er select");
+		System.out.println("apres 1er select");
 		
 		//System.out.println("avant 2eme select");
 		//rslt=stmt.executeQuery("SELECT * FROM client ;");
@@ -138,10 +141,19 @@ public class Crud {
 		
 		Response rp=new Response();
 		while(rslt.next()) {
-			//System.out.println("dans la boucle");
-			//System.out.println("rslt : " + rslt);
-			//System.out.println("rslt + int : " + rslt.getInt(1));
+			System.out.println("dans la boucle");
+			System.out.println("rslt : " + rslt);
+			System.out.println("rslt + int : " + rslt.getInt(1));
+			System.out.println("rslt + int : " + rslt.getInt(2));
+			/*
+			System.out.println("rslt + int : " + rslt.getInt(1));
 			//System.out.println(Integer.toString(rslt.getInt(0)));
+			System.out.println("rslt + int : " + rslt.getInt(2));
+			System.out.println("rslt + int : " + rslt.getInt(3));
+			System.out.println("rslt + int : " + rslt.getInt(4));
+			System.out.println("rslt + int : " + rslt.getInt(5));
+			System.out.println("rslt + int : " + rslt.getInt(6));
+			*/
 			String rep = Integer.toString(rslt.getInt(1));
 			String rep2 = Integer.toString(rslt.getInt(2));
 			System.out.println("rep "+rep);
@@ -252,12 +264,44 @@ public class Crud {
 		ResultSet rslt=stmt.executeQuery("SELECT alert from sensor where ...;");
 		return null;} 
 
+
+	
+	public Response carmax(DataSource data) throws SQLException{
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		//Crud ss = new Crud();
+		ResultSet rslt=stmt.executeQuery("select maxcar from setting where idclient = "+ this.getclient(data)+"; ");
+		Response rp=new Response();
+		while(rslt.next()) {
+			rp.getA().add(Integer.toString(rslt.getInt(1)));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
+	
+	public String getclient(DataSource data) throws SQLException{
+		String s = " rien " ;
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		ResultSet rslt=stmt.executeQuery("select max(idclient) from Client;");
+		while(rslt.next()) {
+			s=Integer.toString(rslt.getInt(1));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+		System.out.println(s);
+
+ 		return s;
+	}
 	
 	public Response getnbcap(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from sensor ; ");
+		ResultSet rslt=stmt.executeQuery("select count (*)  from sensor where idclient = "+ ss.getclient(data)+"; ");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -272,7 +316,7 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from bound ; ");
+		ResultSet rslt=stmt.executeQuery("select count (*)  from gatecontrol where idclient = "+ ss.getclient(data)+"; ");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -287,7 +331,7 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from network ; ");
+		ResultSet rslt=stmt.executeQuery("select count (*)  from tram where idclient = "+ ss.getclient(data)+"; ");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -301,7 +345,7 @@ public class Crud {
 	public Response carnow(DataSource data,String s) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from car where  date = ' "+s+" ' and inthetown = true;" );
+		ResultSet rslt=stmt.executeQuery("select count (*)  from car where idclient = "+ this.getclient(data)+"and date = ' "+s+" ' and inthetown = true;" );
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -316,11 +360,10 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where to_char(date_heure,'YYYY-MM-DD') = ' "+s+" ' group by to_char(date_heure,'YYYY-MM-DD');");
+		ResultSet rslt=stmt.executeQuery("SELECT avg(pollutionanalysis) as pollutionanalysis FROM sensor INNER JOIN airhistory ON (sensor.idclient = airhistory.idsensor) and idclient = "+ ss.getclient(data)+"and date = ' "+s+" ';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
-			System.out.println(rp.getA().add(Float.toString(rslt.getFloat(1))));
 		}
 		stmt.close();
  		rslt.close();
@@ -332,7 +375,7 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select avg(leadalert) + avg(carbonmonoxidealert) + avg(fineparticlesalert) + avg(nitrogendioxidealert) from sensor ;");
+		ResultSet rslt=stmt.executeQuery("select theresoldalert from setting where idclient = "+ ss.getclient(data)+";");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
@@ -346,14 +389,21 @@ public class Crud {
 	public Response empca(DataSource data,String s) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select result from carbonfootprint where date = ' "+s+" ';");
+		System.out.println("finis"+s);
+
+		ResultSet rslt=stmt.executeQuery("select resultat from Empreintecarborne where idclient = "+ this.getclient(data)+"and date = ' "+s+" ';");
+		
+		System.out.println("lalal");
+
 		Response rp=new Response();
 		while(rslt.next()) {
-			rp.getA().add(Integer.toString(rslt.getInt(1)));
+			rp.getA().add(Float.toString(rslt.getFloat(1)));
 		}
 		stmt.close();
  		rslt.close();
  		data.returnConnection(c);
+ 		System.out.println("defrgty");
+
  		return rp;
 	}
 	
@@ -361,7 +411,7 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) FROM statements INNER JOIN sensor ON (statements.id_sensor = sensor.id_sensor) and to_char(date_heure,'YYYY-MM-DD') = ' "+s+" ' and localization = '"+ pos+"' group by to_char(date_heure,'YYYY-MM-DD');");
+		ResultSet rslt=stmt.executeQuery("SELECT avg(pollutionanalysis) as pollutionanalysis FROM sensor INNER JOIN airhistory ON (sensor.idclient = airhistory.idsensor) and idclient = "+ ss.getclient(data)+"and date = ' "+s+" ' and position = '"+ pos+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
@@ -375,7 +425,7 @@ public class Crud {
 	public Response carinperi(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from car where inthetown = true and date BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("select count (*)  from car where idclient = "+ this.getclient(data)+" and inthetown = true and date BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -388,10 +438,10 @@ public class Crud {
 	public Response empperi(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select result from carbonfootprint where  date BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("select resultat from Empreintecarborne where idclient = "+ this.getclient(data)+"and date BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
-			rp.getA().add(Integer.toString(rslt.getInt(1)));
+			rp.getA().add(Float.toString(rslt.getFloat(1)));
 		}
 		stmt.close();
  		rslt.close();
@@ -401,7 +451,7 @@ public class Crud {
 	public Response tpdatee(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where  to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"'group by to_char(date_heure,'YYYY-MM-DD');");
+		ResultSet rslt=stmt.executeQuery("select resultat from Empreintecarborne where idclient = "+ this.getclient(data)+"and date BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
@@ -414,7 +464,8 @@ public class Crud {
 	public Response tabb(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("SELECT distinct(to_char(date_heure,'YYYY-MM-DD')) FROM statements where to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("SELECT distinct(date) FROM sensor INNER JOIN airhistory ON "
+         		+ "(sensor.idclient = airhistory.idsensor) and idclient = "+ this.getclient(data)+"and date BETWEEN '"+s+"' and '"+s1+"';");
 
 		Response rp=new Response();
 		while(rslt.next()) {
