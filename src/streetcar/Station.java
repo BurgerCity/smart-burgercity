@@ -11,6 +11,7 @@ class Station {
 	  int width = burger.getB();
 	  int budget = burger.getBudget();
 	  int price = burger.getStation_price();
+	 
 	  
 	  
 	  
@@ -64,23 +65,87 @@ class Station {
 	        i=i+1;
 	    	  
 	      }
-		     ArrayList  lines = new ArrayList<>();
-		     ArrayList beginning = new ArrayList<>();
-		     ArrayList end = new ArrayList<>();
-		     ArrayList final_beg = new ArrayList<>();
-		     ArrayList final_end = new ArrayList<>();
+		     ArrayList <Double> lines = new ArrayList<>();
+		     ArrayList <Integer> beginning = new ArrayList<>();
+		     ArrayList <Integer> end = new ArrayList<>();
+		     ArrayList <Integer> final_beg = new ArrayList<>();
+		     ArrayList <Integer> final_end = new ArrayList<>();
+		     ArrayList <Integer> visited = new ArrayList<>();
+		     visited.add(0);
 		     
+		     int id_station_start;
+		     int id_station_end;
+		    
+		     int tempo_start=0;
+		     int tempo_end=0;
 		     
 		     for (int j=0;j<xs.size();j++) {
 		    	 for (int g=0;g<ys.size();g++) {
 		    		 beginning.add(j);                             //create two arrays with num of beginning and end stations
 		    		 end.add(g);
-		    		 lines.add(Math.sqrt((xs.get(g)-xs.get(j))*(xs.get(g)-xs.get(j))+(ys.get(g)-ys.get(j))*(ys.get(g)-ys.get(j))));
-		    	 }	 
+		    		 lines.add(Math.sqrt((xs.get(g)-xs.get(j))*(xs.get(g)-xs.get(j))+(ys.get(g)-ys.get(j))*(ys.get(g)-ys.get(j))));}
+		    		
 		     }
 		     
-	  }
-	
+		     for(int w =0 ; w< lines.size(); w++) {
+ 				if (end.get(w) == 0 || lines.get(w)== (Double) 0.0) {
+ 					beginning.remove(w);
+ 					end.remove(w);
+ 					lines.remove(w);
+ 					
+ 			
+ 				}
+ 			//	System.out.println("end" + end.get(w));
+ 			//	System.out.println("long"+ min_lenght);
+ 				
+ 				
+ 			//	System.out.println("lines size"+ lines.size());
+ 			}
+		    		 
+		//     System.out.println("line size "+lines.size());
+		    		 for (int l = 0 ; l< xs.size()-1; l++) {
+		    			 double min_lenght= Double.MAX_VALUE;
+		    				for (int m =0;  m< visited.size() ; m++) {
+		    					for (int n=0; n< lines.size();n++) {
+		    						id_station_start = (int) beginning.get(n);
+		    						id_station_end = (int) end.get(n);
+		    						if (id_station_end != m ) {
+		    							if (lines.get(n)< min_lenght) {
+		    								min_lenght = lines.get(n);
+		    								tempo_start = id_station_start;
+		    								tempo_end = id_station_end;
+		    								System.out.println(id_station_end);
+		    							}	
+		    						}
+		    					}
+		    					
+		    				}
+		    			final_beg.add(tempo_start);
+		    			final_end.add(tempo_end);
+		    	//	System.out.print(tempo_end+ " / ");
+		    			
+		    			for(int w =0 ; w< lines.size(); w++) {
+		    				if (end.get(w) == tempo_end) {
+		    					beginning.remove(w);
+		    					end.remove(w);
+		    					lines.remove(w);
+		    					
+		    			
+		    				}
+		    			//	System.out.println("end" + end.get(w));
+		    			//	System.out.println("long"+ min_lenght);
+		    				
+		    				
+		    			//	System.out.println("lines size"+ lines.size());
+		    			}
+		    			
+		    	 }	
+		    		 for(int r = 0; r < final_end.size(); r++) {
+		    			 System.out.println("final end " + final_end.get(r));
+		    		 }
+		     }
+		     
+	 
 	
 	public ArrayList getXs() {
 		return xs;
