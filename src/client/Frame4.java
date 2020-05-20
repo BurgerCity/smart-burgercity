@@ -21,21 +21,24 @@ public class Frame4 extends Container {
 	JPanel jp1;
 	JPanel jp2;
 	JButton b;
+	JButton b2;
 	Frame4(Response rp) {
 		this.rp = rp;
 		b = new JButton("Validate");
+		b2 = new JButton("Return");
 		jp = new JPanel(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 		jp1 = new JPanel(new GridLayout(rp.getA().size(), 2));
-		jp2 = new JPanel(new GridLayout(1,1));
+		jp2 = new JPanel(new GridLayout(1,2));
 		jl = new JLabel[rp.getA().size()];
 		jr = new JRadioButton[rp.getA().size()];
 		for(int i = 0; i < rp.getA().size(); i++) {
 			jl[i] = new JLabel(rp.getA().get(i));
 			jr[i] = new JRadioButton();
 			jp1.add(jl[i]);
-			jp1.add(jr[i]); //ajouter les jp1 et jp2 au jp de base et voila
+			jp1.add(jr[i]);
 		}
+		jp2.add(b2);
 		jp2.add(b);
 		g.gridy = 0;
 		g.weightx = 1;
@@ -60,6 +63,9 @@ public class Frame4 extends Container {
 	}
 	public Response getRp() {
 		return rp;
+	}
+	public JButton getB2() {
+		return b2;
 	}
 	
 }

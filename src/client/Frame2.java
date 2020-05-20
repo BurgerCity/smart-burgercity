@@ -15,32 +15,32 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Frame2 extends Container {
-	String[] items = {"north", "south", "west", "east"};
-	JComboBox localisation;
-	JPanel j;
-	JPanel jp1;
-	JPanel jp2;
+	private String[] items = {"north", "south", "west", "east"};
+	private JComboBox localisation;
+	private JPanel j;
+	private JPanel jp1;
+	private JPanel jp2;
 
-	JPanel jp3;
-	JPanel jp4;
+	private JPanel jp3;
+	private JPanel jp4;
 
-	JTextField[] tf = new JTextField[11];
-	JButton b;
-	//GridLayout gl = new GridLayout(12,2);
-	JLabel j1;
-	JLabel j2;	
-	JLabel j3;	
-	JLabel j4;	
-	JLabel j5;	
-	JLabel j6;	
-	JLabel j7;	
-	JLabel j8;	
-	JLabel j9;
-	JLabel j10;	
-	JLabel j11;
-	JLabel j12;
-	String st;
-	JLabel[] jlb;
+	private JTextField[] tf = new JTextField[11];
+	private JButton b;
+	private JButton b2;
+	private JLabel j1;
+	private JLabel j2;	
+	private JLabel j3;	
+	private JLabel j4;	
+	private JLabel j5;	
+	private JLabel j6;	
+	private JLabel j7;	
+	private JLabel j8;	
+	private JLabel j9;
+	private JLabel j10;	
+	private JLabel j11;
+	private JLabel j12;
+	private String st;
+	private JLabel[] jlb;
 
 	Frame2(String st) {
 		this.st = st;
@@ -51,16 +51,16 @@ public class Frame2 extends Container {
 		}
 		jp2 = new JPanel(new GridLayout(1,1));
 		jp3 = new JPanel(new GridLayout(10,2));
-		jp4 = new JPanel(new GridLayout(0,2));
+		jp4 = new JPanel(new GridLayout(0,3));
 		
 		
 		localisation = new JComboBox(items);
 		for(int i = 0; i < 11; i++) {
 			tf[i] = new JTextField();
-			//tf[i].setPreferredSize(new Dimension(50, 10));
 		}
 		jlb = new JLabel[12];
 		b = new JButton("Validate");
+		b2 = new JButton("Return");
 		j1 =new JLabel("Number of sensors to configure : "); 			jlb[0] = j1;
 		j2 =new JLabel("Nitrogen Dioxide information threshold : ");	jlb[1] = j2;
 		j3 =new JLabel("<html>Nitrogen Dioxide alert threshold <br> <center>(less than 400 µm^3) : </center></html>");			jlb[2] = j3;
@@ -93,11 +93,6 @@ public class Frame2 extends Container {
 		g.gridy = 1;
 		j.add(jp2, g);
 
-		
-		
-		/*j.add(j1);
-		j.add(tf[0]);
-		j.add(localisation);*/
 		jp3.add(j2);
 		jp3.add(tf[1]);
 		jp3.add(j3);
@@ -125,8 +120,10 @@ public class Frame2 extends Container {
 		g.fill = GridBagConstraints.BOTH;
 		j.add(jp3, g);
 		
-		jp4.add(b);
+		jp4.add(b2);
+
 		jp4.add(j12);
+		jp4.add(b);
 		g.gridx = 0;
 		g.gridy = 3;
 		g.weightx = 0.25;
@@ -154,10 +151,6 @@ public class Frame2 extends Container {
 	public JTextField[] getTf() {
 		return tf;
 	}
-
-/*	public GridLayout getGl() {
-		return gl;
-	}*/
 
 	public JLabel getJ1() {
 		return j1;
@@ -209,5 +202,9 @@ public class Frame2 extends Container {
 
 	public JLabel getJ12() {
 		return j12;
+	}
+
+	public JButton getB2() {
+		return b2;
 	}
 }

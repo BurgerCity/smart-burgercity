@@ -24,7 +24,6 @@ public class Normal extends Thread {
 	private Request r;
 	private Random rdm;
 	private FrameAlert f;
-	private int threshold;
 	private int x;
 	private boolean b = false;
 	private boolean bb = false;
@@ -89,9 +88,12 @@ public class Normal extends Thread {
 	}
 	
 	public void random(int i) {
-		System.out.println(x);
-		System.out.println(Integer.parseInt(rp.getA().get(i + x)));
-		int k = Integer.parseInt(rp.getA().get(i + x));
+		int k;
+		if(x == 6) {
+			k = Integer.parseInt(rp.getA().get(i + 4));
+		} else {
+			k = Integer.parseInt(rp.getA().get(i + x));
+		}
 		int rm = rdm.nextInt(k/* - (k/4)*/);
 		r.getA().add(Integer.toString(rm));
 	}
@@ -106,18 +108,23 @@ public class Normal extends Thread {
 				y = Double.valueOf(xx) / 100;
 				r.getA().add(Double.toString(y));
 			} else {
-				if(x == 4) {
+				if(x == 4 || x == 6) {
 					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
 						if(counter >= 2 && counter < 8) {
 							if(i == 0) {
-								int k = Integer.parseInt(rp.getA().get(i + 4));
-								System.out.println(k);
-								int rm = rdm.nextInt(k) + k;
-								System.out.println(rm);
-								r.getA().add(Integer.toString(rm));
+								int k = 0;
+								if(x == 6) {
+									System.out.println("je suis la fdp");
+									k = Integer.parseInt(rp.getA().get(i + 5));
+								} else if(x == 4){
+									k = Integer.parseInt(rp.getA().get(i + x));
+								}	
+									System.out.println(k);
+									int rm = rdm.nextInt(k) + k;
+									System.out.println(rm);
+									r.getA().add(Integer.toString(rm));
 							} else {
 								this.random(i);
-
 							}
 						} else {
 							this.random(i);
@@ -177,8 +184,5 @@ public class Normal extends Thread {
 	}
 	public FrameAlert getF() {
 		return f;
-	}
-	public int getThreshold() {
-		return threshold;
 	}
 }

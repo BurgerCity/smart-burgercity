@@ -14,8 +14,6 @@ public class Frame1 extends Container {
 	JButton b1;
 	JButton b2;
 	JPanel j;
-	ClientFrame f;
-	ActionEvent e;
 	Frame1() {
 		j = new JPanel(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();

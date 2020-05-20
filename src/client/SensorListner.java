@@ -26,6 +26,9 @@ public class SensorListner implements ActionListener {
 		this.f.getF2().getB().addActionListener(this);
 		this.f.getF3().getB().addActionListener(this);
 		this.f.getF5().getB().addActionListener(this);
+		this.f.getF2().getB2().addActionListener(this);
+		this.f.getF3().getB2().addActionListener(this);
+		this.f.getF5().getB2().addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -43,16 +46,19 @@ public class SensorListner implements ActionListener {
 		}
 		if(e.getSource() == this.f.getF1().getB2()) {
 			f.setSize(370, 150);
+			f.getF3().getJl1().setText("");
 			(f.getCl()).show(f.getP(), "f3");
 		}
 		if(e.getSource() == this.f.getF3().getB()) {
 			try {
-				//rp = this.selectSensor();
 				this.f.f4 = new Frame4(this.selectSensor());
 				if(f.f4.getRp().getA().size() == 0) {
+					f.getF3().getJl1().setText("There is no sensor in this localization");
+					f.setSize(800, 300);
 					(f.getCl()).show(f.getP(), "f3");
 				} else {
 					this.f.getF4().getB().addActionListener(this);
+					this.f.getF4().getB2().addActionListener(this);
 					this.f.getP().add("f4", this.f.f4.getJp());
 					f.setSize(400, 300);
 					(f.getCl()).show(f.getP(), "f4");
@@ -62,28 +68,63 @@ public class SensorListner implements ActionListener {
 		}
 		if(test == true) {
 			if(e.getSource() == this.f.f4.getB()) {
+				int counter = 0;
 				for(int i = 0; i < this.f.f4.getJr().length; i++) {
 					if(this.f.f4.getJr()[i].isSelected()) {
 						listOfId.add(this.f.f4.getJl()[i].getText());
+					} else {
+						counter += 1;
 					}
 				}
-				System.out.println(listOfId);
-				test = false;
-				f.setSize(550, 600);
-				(f.getCl()).show(f.getP(), "f5");
+				System.out.println(counter);
+				if(counter == this.f.f4.getJr().length) {
+					(f.getCl()).show(f.getP(), "f4");
+				} else {
+					System.out.println(listOfId);
+					f.setSize(550, 600);
+					(f.getCl()).show(f.getP(), "f5");
+				}
+			}
+			if(e.getSource() == this.f.getF4().getB2()) {
+				f.setSize(800, 300);
+				f.getF3().getJl1().setText("");
+				(f.getCl()).show(f.getP(), "f3");
 			}
 		}
 		if(e.getSource() == this.f.getF5().getB()) {
 			if(this.sensor("UPDATE", f.getF5()) == false) {
-				//this.f.getF5() = new Frame2("update");
 				(f.getCl()).show(f.getP(), "f5");
-				
 			}
 			else {
 				f.setSize(400, 200);
 				(f.getCl()).show(f.getP(), "f1");
 			}
 		}
+		if(e.getSource() == this.f.getF2().getB2()) {
+			f.setSize(400, 200);
+			(f.getCl()).show(f.getP(), "f1");
+		}
+		if(e.getSource() == this.f.getF3().getB2()) {
+			f.setSize(400, 200);
+			(f.getCl()).show(f.getP(), "f1");
+		}
+		if(e.getSource() == this.f.getF5().getB2()) {
+			f.setSize(400, 300);
+			(f.getCl()).show(f.getP(), "f4");
+		}
+	}
+	
+	public boolean testRadioButton() {
+		int i = 0;
+		int counter = 0;
+		while(i < 4) {
+			if(!f.getF3().getJr()[i].isSelected()) {
+				counter += 1;
+			}
+			i++;
+		}
+		if(counter == 4) return false;
+		return true;
 	}
 	public Response selectSensor() throws IOException {
 		Request r = new Request();
@@ -113,16 +154,6 @@ public class SensorListner implements ActionListener {
 		Request r = new Request();
 		r.setOperation_type(st);
 		r.setTable("sensor");
-		//String v = f.getF2().getLocalisation().getSelectedItem().toString();
-		/*for(int i = 1; i < f.getTf().length; i++) {
-			System.out.println(f.getTf()[i].getText().toString());
-			System.out.println(f.getTf()[i].getText().length());
-			if(f.getTf()[i].getText().toString().length() == 0) {
-				System.out.println(f.getTf()[i].getText().length());
-				f.getJ12().setText("Please fill in all fields");
-				return false;
-			}
-		}*/
 		if(this.testIhm(f, r, f.getTf().length) == false) return false;
 		r.getA().add(f.getLocalisation().getSelectedItem().toString());
 		r.getA().add(f.getTf()[9].getText());
