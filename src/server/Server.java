@@ -116,11 +116,6 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
-		else if(r.getOperation_type().equals("CARMAX")){
-			
-			System.out.println("if");
-			rp=crud.carmax(data);
-		}
 		else if(r.getOperation_type().equals("CarbonSelect")){
 			
 			//System.out.println("Dans Server, if CarbonRequest");
@@ -143,27 +138,6 @@ public class Server {
 		else if(r.getOperation_type().equals("TRAMS")){
 			rp=crud.nbtram(data);
 		}
-	else if(r.getOperation_type().equals("CARMAX")){
-			
-			System.out.println("if");
-			rp=crud.carmax(data);
-		}
-		else if(r.getOperation_type().equals("BORNES")){
-			rp=crud.nbborne(data);
-		}
-		else if(r.getOperation_type().equals("CAPTORS")){
-			rp=crud.getnbcap(data);
-		}
-		else if(r.getOperation_type().equals("TRAMS")){
-			rp=crud.nbtram(data);
-		}
-		else if(r.getOperation_type().equals("INTHETOWN")){
-			rp=crud.carnow(data,r.getA().get(0));
-			System.out.println("methide"+r.getA().get(0));
-		}
-		else if(r.getOperation_type().equals("POLL")){
-			rp=crud.tpa(data,r.getA().get(0));
-		}
 		else if(r.getOperation_type().equals("THERE")){
 			rp=crud.tpb(data);
 		}
@@ -184,6 +158,12 @@ public class Server {
 		}
 		else if(r.getOperation_type().equals("TAB")){
 			rp=crud.tabb(data,r.getA().get(0),r.getA().get(1));
+		}
+		else if(r.getOperation_type().equals("INTHETOWN")){
+			rp=crud.carnow(data,r.getA().get(0));
+		}
+		else if(r.getOperation_type().equals("POLL")){
+			rp=crud.tpa(data,r.getA().get(0));
 		}
 
 		return rp;

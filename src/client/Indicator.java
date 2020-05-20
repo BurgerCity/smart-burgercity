@@ -38,23 +38,6 @@ public class Indicator {
 	}
 	
 	
-	public int car() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		int n=0;
-		Request r = new Request();
-		Json j=new Json(client);
-		r.setOperation_type("CARMAX");
-		r.setTable("car");
-		j.sendRequest(r);
-		Message m=new Message();
-		Response rp = new Response();
-		String stt=m.readMessage(client.getIn());
-		//System.out.println("dfgh");
-		rp=j.deserialize(stt);
-		n=Integer.parseInt(rp.getA().get(0));
-		//System.out.println("RÉSULTAT CAR : "+n);
-		return n;
-	}
-	
 	public int captor() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		int n=0;
 		Request r = new Request();
@@ -76,7 +59,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("BORNES");
-		r.setTable("gatecontrol");
+		r.setTable("bound");
 	//	r.setDate("");
 		j.sendRequest(r);
 		Message m=new Message();
@@ -93,7 +76,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("TRAMS");
-		r.setTable("tram");
+		r.setTable("network");
 	//	r.setDate("");
 		j.sendRequest(r);
 		Message m=new Message();
@@ -105,12 +88,12 @@ public class Indicator {
 		return n;
 	}
 	
-	public Double emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		Double n = 0.0;
+	public int emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		int n = 0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPC");
-		r.setTable("Empreintecarborne");
+		r.setTable("carbonfootprint");
 	//	r.setDate(s);
 		r.getA().add(s);
 		j.sendRequest(r);
@@ -120,10 +103,10 @@ public class Indicator {
 		rp=j.deserialize(stt);
 		System.out.println(rp);
 		if ( rp.getA().size() != 0) {
-			 n = Double.parseDouble(rp.getA().get(0));
+			 n = Integer.parseInt(rp.getA().get(0));
 
 		} else {
-			n = 0.0;
+			n = 0;
 		}
 		
 		return n;
@@ -134,7 +117,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("INTHETOWN");
-		r.setTable("Car");
+		r.setTable("car");
 	//	r.setDate(s);
 		r.getA().add(s);
 		j.sendRequest(r);
@@ -152,11 +135,12 @@ public class Indicator {
 		return n;
 	}
 	
-	public Double tpac(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		Double n=0.0;
+	public Float tpac(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		float n=0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("POLL");
+		r.setTable("statements");
 	//	r.setDate(s);
 		r.getA().add(s);
 		j.sendRequest(r);
@@ -165,10 +149,10 @@ public class Indicator {
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		if ( rp.getA().size() != 0) {
-			 n = Double.parseDouble(rp.getA().get(0));
+			 n = Float.parseFloat(rp.getA().get(0));
 
 		} else {
-			n = 0.0;
+			n = 0;
 		}
 		
 		return n;
@@ -179,7 +163,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("THERE");
-		r.setTable("setting");
+		r.setTable("sensor");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
@@ -214,8 +198,6 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("POLLPERI");
-	//	r.setDate(s);
-	//	r.setPos(s1);
 		r.getA().add(s);
 		r.getA().add(s1);
 		j.sendRequest(r);
@@ -254,8 +236,6 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("CARINPERI");
-	//	r.setDate(s);
-	//	r.setDate2(s1);
 		r.getA().add(s);
 		r.getA().add(s1);
 		r.setTable("car");
@@ -273,26 +253,24 @@ public class Indicator {
 		return n;
 	}
 	
-	public Double empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		Double n=0.0;
+	public int empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		int n=0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPDATE");
-	//	r.setDate(s);
-	//	r.setDate2(s1);
+		r.setTable("carbonfootprint");
 		r.getA().add(s);
 		r.getA().add(s1);
-		r.setTable("Empreintecarbone");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		if ( rp.getA().size() != 0) {
-			 n = Double.parseDouble(rp.getA().get(0));
+			 n = Integer.parseInt(rp.getA().get(0));
 
 		} else {
-			n = 0.0;
+			n = 0;
 		}
 		return n;
 	}
@@ -302,6 +280,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("TPDATE");
+		r.setTable("statements");
 	//	r.setDate(s);
 	//	r.setDate2(s1);
 		r.getA().add(s);
@@ -341,6 +320,7 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("TAB");
+		r.setTable("statements");
 	//	r.setDate(s);
 	//	r.setDate2(s1);
 		r.getA().add(s);
