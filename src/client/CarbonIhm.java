@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-//import tram.wind;
+import tram.wind;
 import javax.swing.JLabel;
 
 
@@ -68,6 +68,16 @@ public class CarbonIhm extends JFrame {
 
 
 */  
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///// PROBLEME : Le String de Info, (par rapport au nb de station de tram Used) n'est pas mis a jour /////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///// 					MANQUE : Le Insert a faire dans le crud + créer la table EC 				 /////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 public class CarbonIhm extends JFrame implements ActionListener{
 
 	CityInfo infoVille;
@@ -197,17 +207,14 @@ public class CarbonIhm extends JFrame implements ActionListener{
 			   result2.setText(finalEcInh);
 			   try {
 				user.getInfo().getClb().RequestInsert(ec);
-				System.out.println("Resultat inserer");
 			} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			  // info.setText(user.getInfo().infoString);
-			   
 			   //pannel.add();
 			   panel.add(result);
 			   panel.add(result2);
-			   result.setEditable(false);
 			   result2.setEditable(false);
 			   response.setText(user.UserResponseString); //
 			   //info.setText(user.getInfo().infoString); //

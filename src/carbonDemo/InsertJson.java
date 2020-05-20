@@ -25,16 +25,13 @@ public class InsertJson {
 		Request r = new Request();
 		ObjectMapper ob = new ObjectMapper();
 		Client_socket c = new Client_socket();
-		OutputStreamWriter out = c.startConnection("172.31.249.164", 2015);
+		OutputStreamWriter out = c.startConnection("127.0.0.1", 2015);
 		
 		String chaine="";
 	       
 	      //lecture du fichier texte
 	      try{
-	        // InputStream ips = new FileInputStream("src/carbonDemo/insertCarbon.json");
-	         InputStream ips = new FileInputStream("insertCarbon.json");
-	        // InputStream ips = new FileInputStream("C:\\Users\\etudiant\\git\\smart-burgercity\\src\\carbonDemo\\insertCarbon.json");
-	         
+	         InputStream ips = new FileInputStream("src/carbonDemo/insertCarbon.json");
 	         InputStreamReader in = new InputStreamReader(ips);
 	         BufferedReader br = new BufferedReader(in);
 	         String ligne;
