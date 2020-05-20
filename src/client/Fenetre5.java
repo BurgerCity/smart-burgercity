@@ -43,8 +43,8 @@ String s1 ="";
 			 String ouest = "ouest";
 			 String est = "est";
 
-			 Double emp = f.getEmp();
-			 int car = f.getCar();
+			 int emp = f.getEmp();
+			 int car = f.getCarinthetown();
 			 Double tp= f.getTp();
 			 Double td=f.getTd();
 			 
@@ -64,14 +64,14 @@ String s1 ="";
 				 System.out.println("OKKKKKK");
 				 // emp = f.emp(targetDay);
 				 car = f.getCarinthetown();
-				 tp1 = f.getTpn(targetDay, "nord");
-				 tp2 = f.getTpn(targetDay, "sud");
-				 tp3 = f.getTpn(targetDay, "ouest");
-				 tp4 = f.getTpn(targetDay, "est");
-				 td1 = f.getTdn(targetDay, "nord");
-				 td2 = f.getTdn(targetDay, "sud");
-				 td3 = f.getTdn(targetDay, "ouest");
-				 td4 = f.getTdn(targetDay, "est");
+				 tp1 = f.getTpn(targetDay, "north");
+				 tp2 = f.getTpn(targetDay, "south");
+				 tp3 = f.getTpn(targetDay, "west");
+				 tp4 = f.getTpn(targetDay, "east");
+				 td1 = f.getTdn(targetDay, "north");
+				 td2 = f.getTdn(targetDay, "south");
+				 td3 = f.getTdn(targetDay, "west");
+				 td4 = f.getTdn(targetDay, "east");
 				 
 				 
 				 co.gridx = 0;
@@ -95,7 +95,7 @@ String s1 ="";
 					 l1.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour la présence de voiture en ville.");
 				 } else {
 					 l1.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
-				                "Le mobre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
+				                "Le nombre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
 				                "<p style=\"text-align: center;\"></p>\n" );
 				 }
 				 container.add(l1, co);
@@ -292,7 +292,7 @@ String s1 ="";
 				 l1.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour la présence de voiture en ville.");
 			 } else {
 				 l1.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
-			                "Le mobre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
+			                "Le nombre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
 			                "<p style=\"text-align: center;\"></p>\n" );
 			 }
 			 container.add(l1, co);
@@ -300,11 +300,6 @@ String s1 ="";
 			 n++;
 			 
 			 }
-			 
-	
-			 
-			 
-			
 			 
 			 if (b == true  ||(b5==true)  ) {
 				 
@@ -314,7 +309,7 @@ String s1 ="";
 				 co.gridy = n;
 			     JLabel l41 = new JLabel();
 				 if(tp0 == 0) {
-					 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution pour le secteur nord de la ville.");
+					 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution de la ville.");
 				 } else {
 					 l41.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
 				                "Le taux de pollution  de la ville : "+ tp0 +"&nbsp;</span></p>\n" +
@@ -327,7 +322,7 @@ String s1 ="";
 				 
 				 }
 
-			 if (b1 == true ) {tp1 = f.getTpn(targetDay, "nord");
+			 if (b1 == true ) {tp1 = f.getTpn(targetDay, "north");
 			 co.gridx = 0;
 			 co.gridy = n;
 		     JLabel l4 = new JLabel();
@@ -346,7 +341,7 @@ String s1 ="";
 			 
 			 if (b2 == true) {
 				 
-			tp2 = f.getTpn(targetDay, "sud");
+			tp2 = f.getTpn(targetDay, "south");
 			 
 			 co.gridx = 0;
 			 co.gridy = n;
@@ -363,7 +358,7 @@ String s1 ="";
 			 n++;
 			 }
 			 
-			 if (b3 == true) {tp3 = f.getTpn(targetDay, "ouest");
+			 if (b3 == true) {tp3 = f.getTpn(targetDay, "west");
 			 
 			 co.gridx = 0;
 			 co.gridy = n;
@@ -381,7 +376,7 @@ String s1 ="";
 
 			 }
 			 
-			 if (b4 == true) {tp4 = f.getTpn(targetDay, "est");
+			 if (b4 == true) {tp4 = f.getTpn(targetDay, "east");
 			 co.gridx = 0;
 			 co.gridy = n;
 		     JLabel l7= new JLabel();
@@ -420,7 +415,7 @@ String s1 ="";
 				 
 				 }
 			 
-			 if (d1 == true){td1 = f.getTdn(targetDay, "nord");
+			 if (d1 == true){td1 = f.getTdn(targetDay, "north");
 			 
 			 co.gridx = 0;
 			 co.gridy = n;
@@ -436,7 +431,7 @@ String s1 ="";
 		     System.out.println(n);
 			 n++;}
 			 
-			 if (d2 == true) {td2 = f.getTdn(targetDay, "sud");
+			 if (d2 == true) {td2 = f.getTdn(targetDay, "south");
 			 
 			 co.gridx = 0;
 			 co.gridy = n;
@@ -455,7 +450,7 @@ String s1 ="";
 			 }
 			 
 			 if (d3 == true) {
-				 td3 = f.getTdn(targetDay, "ouest");	 
+				 td3 = f.getTdn(targetDay, "west");	 
 			 co.gridx = 0;
 			 co.gridy = n;
 		     JLabel l10 = new JLabel();
@@ -470,7 +465,7 @@ String s1 ="";
 		     System.out.println(n);
 			 n++;}
 			 
-			 if (d4 == true) {td4 = f.getTdn(targetDay, "est");
+			 if (d4 == true) {td4 = f.getTdn(targetDay, "east");
 			 co.gridx = 0;
 			 co.gridy = n;
 		     JLabel l11 = new JLabel();

@@ -1,11 +1,10 @@
 package streetcar;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
 
 import java.awt.*;
 import java.awt.Graphics;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
+
 
 
 public class wind  extends JPanel{
@@ -40,15 +39,18 @@ public class wind  extends JPanel{
 	      g7.drawString(Integer.toString(station.getHeight()),30, 250);
 	    
 	      Graphics g4 = (Graphics) g;
+	      Graphics g8 = (Graphics) g;
 
 	 	 int si = station.getXs().size();
 	 	 System.out.println("size"+si);
 	     for (int i = 0; i< si ;i++) {
 	    	 int x = (int) Math.round((double)station.getXs().get(i)*10);
 	    	 int y = (int) Math.round((double)station.getYs().get(i)*10);
-	    	 g4.fillRect((int)x*3 + 995,(int)y*5+470 , 2, 2);
+	    	 g4.fillRect((int)x*5 + 995,(int)y*5+470 , 2, 2);
 	    	 }
-	     
+	     for (int i= 0 ; i< si-1 ; i++ ) {
+	    	
+	     }
 	     
 	  }
 	  

@@ -44,12 +44,11 @@ class Fenetre extends Ihmindic   {
 
 		int nbcap = aide.getCaptor();
         int nbbo = aide.getBorne();
-        int maxcar = aide.getCar();
         int nbtram = aide.getTram();
         Double tt = aide.getTp();
         Double tdd = aide.getTd();
         int cit = aide.getCarinthetown();
-        Double eemp = aide.getEmp();
+        int eemp = aide.getEmp();
      
 
         this.setTitle("Analyser des indicateurs relatifs \u00e0 l'activit\u00e9 de la ville");
@@ -74,9 +73,6 @@ class Fenetre extends Ihmindic   {
                 "<p style=\"text-align: center;\">&nbsp;</p>\n" +
                 "<p style=\"text-align: center;\">Le nombre de bornes install&eacute;s : "+
                 nbbo +"</p>\n" +
-                "<p style=\"text-align: center;\">&nbsp;</p>\n" +
-                "<p style=\"text-align: center;\">Le nombre maximum de voiture dans la ville : "+
-                maxcar +"</p>\n" +
                 "<p style=\"text-align: center;\">&nbsp;</p>\n" +
                 "<p style=\"text-align: center;\">Le nombre de stations de tram : "+
                 nbtram + "</p> </body> </html>");

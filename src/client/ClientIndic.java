@@ -16,10 +16,32 @@ public class ClientIndic {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 	Client_socket c = new Client_socket();
-	c.startConnection("127.0.0.1", 2015);
-     Indicator f = new Indicator(c);      
+	c.startConnection("172.31.249.164", 2015);
+	//c.startConnection("127.0.0.0", 2015);
       Fenetre fenetre = new Fenetre();
-      f.tpn("2013-06-01", "nord");
- 
+      
+  	String s  = "2020-05-19";
+    String s1 = "2020-05-20";
+    
+      Indicator f = new Indicator(c);
+      System.out.println("BORNE "+f.borne());
+      System.out.println("CAPTERU "+f.captor());
+      System.out.println("Carinthetown " + f.carinthetown(s));
+      System.out.println("CarinthetownDate " +f.carinthetowndate(s, s1));
+      System.out.println("EMPCARBO " +f.emp(s));
+      System.out.println("EMPCARBO DATE " +f.empdate(s, s1));
+      System.out.println("OK " +f.ok(s));
+      System.out.println("OKDATE " +f.okdate(s, s1));
+      System.out.println("TAB " +f.tab(s, s1));
+      System.out.println("TD " +f.td(s));
+      System.out.println("TDDATE " +f.tddate(s, s1));
+      System.out.println("TDN " +f.tdn(s, "north"));
+      System.out.println("TP " +f.tp(s));
+      System.out.println("TPAC " +f.tpac(s));
+      System.out.println("tpacp " +f.tpacp(s, s1));
+      System.out.println("tpadate " +f.tpadate(s, s1));
+      System.out.println("tpbc " +f.tpbc());
+      System.out.println("tpdate " +f.tpdate(s, s1));
+      System.out.println("tpn " +f.tpn(s, "north"));
 	}
 }
