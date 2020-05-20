@@ -127,10 +127,13 @@ public class Crud {
 		String rr2 = r.getA().get(1);
 		//System.out.println(rr);
 		String tt = r.getTable();
+		System.out.println(rr);
+		System.out.println(rr2);
+		System.out.println(tt);
 		//System.out.println(tt);
-		//System.out.println("avant 1er select");
+		System.out.println("avant 1er select");
 		ResultSet rslt=stmt.executeQuery("SELECT " + rr + "," + rr2 + " FROM " + tt + ";");
-		//System.out.println("apres 1er select");
+		System.out.println("apres 1er select");
 		
 		//System.out.println("avant 2eme select");
 		//rslt=stmt.executeQuery("SELECT * FROM client ;");
@@ -138,10 +141,19 @@ public class Crud {
 		
 		Response rp=new Response();
 		while(rslt.next()) {
-			//System.out.println("dans la boucle");
-			//System.out.println("rslt : " + rslt);
-			//System.out.println("rslt + int : " + rslt.getInt(1));
+			System.out.println("dans la boucle");
+			System.out.println("rslt : " + rslt);
+			System.out.println("rslt + int : " + rslt.getInt(1));
+			System.out.println("rslt + int : " + rslt.getInt(2));
+			/*
+			System.out.println("rslt + int : " + rslt.getInt(1));
 			//System.out.println(Integer.toString(rslt.getInt(0)));
+			System.out.println("rslt + int : " + rslt.getInt(2));
+			System.out.println("rslt + int : " + rslt.getInt(3));
+			System.out.println("rslt + int : " + rslt.getInt(4));
+			System.out.println("rslt + int : " + rslt.getInt(5));
+			System.out.println("rslt + int : " + rslt.getInt(6));
+			*/
 			String rep = Integer.toString(rslt.getInt(1));
 			String rep2 = Integer.toString(rslt.getInt(2));
 			System.out.println("rep "+rep);

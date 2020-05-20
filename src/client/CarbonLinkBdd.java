@@ -17,7 +17,8 @@ public class CarbonLinkBdd {
 	CarbonLinkBdd() throws IOException, ClassNotFoundException, SQLException, InterruptedException{
 		this.valueRequest = new int[2];
 		this.client = new Client_socket();
-		this.client.startConnection("127.0.0.1", 2015);
+		//this.client.startConnection("172.31.249.164", 2015);
+		this.client.startConnection("172.31.249.164", 2015);
 		RequestResult();
 		
 		
@@ -32,7 +33,7 @@ public class CarbonLinkBdd {
 		Json j = new Json(client);
 		//System.out.println("Creation de la Request");
 		r.setOperation_type("CarbonSelect");
-		r.setTable("client");
+		r.setTable("city");
 		r.getA().add("surface");
 		r.getA().add("nbstationtram");
 	    //System.out.println("Envoi de la Request");
@@ -41,9 +42,9 @@ public class CarbonLinkBdd {
 		Message m = new Message();
 		Response rp = new Response();
 		//System.out.println(rp);
-		//System.out.println("Lecture du Client.getIn : ");
+		System.out.println("Lecture du Client.getIn : ");
 		String st = m.readMessage(client.getIn());
-		//System.out.println("st : " +st);
+		System.out.println("st : " +st);
 		rp = j.deserialize(st);
 		//System.out.println("st apres deserialize " + rp.getA().get(0));
 		//System.out.println("st apres deserialize " + rp.getA().get(1));
@@ -52,6 +53,7 @@ public class CarbonLinkBdd {
 		//System.out.println("Lecture effectué");
 		//System.out.println(rp.getA().size());
 		int size = rp.getA().size();
+		System.out.println(size);
 		valueRequest[0] = Integer.parseInt(rp.getA().get(size - 2)); 
 		valueRequest[1] = Integer.parseInt(rp.getA().get(size - 1));
 		System.out.println("v1 : " + valueRequest[0]);
@@ -89,7 +91,8 @@ public class CarbonLinkBdd {
 		//System.out.println("sisi");
 		*/
 		CarbonLinkBdd clb = new CarbonLinkBdd();
-		System.out.println(clb.valueRequest[0] + "," + clb.valueRequest[1]);
+		//clb.RequestResult();
+		//System.out.println(clb.valueRequest[0] + "," + clb.valueRequest[1]);
 		//float t = 200.01;
 		//clb.RequestInsert(2777.099);
 	}
