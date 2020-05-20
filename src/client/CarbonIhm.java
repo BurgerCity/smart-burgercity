@@ -15,8 +15,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import tram.wind;
 import javax.swing.JLabel;
 
 
