@@ -24,7 +24,6 @@ public class Server {
 	private Socket clientSocket;
 	private OutputStreamWriter out;
 	private BufferedReader in;
-	private String select;
 	private Request r;
 	private Response rp;
 	private ObjectMapper objectMapper;
@@ -63,11 +62,11 @@ public class Server {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, Exception {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
-		new Thread(new ThreadCollectData(serverSocket, s)).start();
+		/*new Thread(new ThreadCollectData(serverSocket, s)).start();
 		tb=new Thread_bounds();
 		tb.start();
 		tc=new Thread_car();
-		tc.start();
+		tc.start();*/
 		ServerSocket serverSocket2 = s.startServer(2015);
 		ServerSocket serverSocket2018 = s.startServer(2018);	
 		new Thread(new ThreadClientSocket(serverSocket2)).start();
