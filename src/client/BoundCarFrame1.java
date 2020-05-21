@@ -10,6 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
 
 public class BoundCarFrame1 extends Container {
 	JPanel jp;
