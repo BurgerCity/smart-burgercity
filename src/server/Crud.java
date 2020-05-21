@@ -267,7 +267,21 @@ public class Crud {
 		return null;} 
 
 
-	
+	public Response carmax(DataSource data) throws SQLException{
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		//Crud ss = new Crud();
+		ResultSet rslt=stmt.executeQuery("select avg(maxcar) from alertcar;");
+		Response rp=new Response();
+		while(rslt.next()) {
+			rp.getA().add(Integer.toString(rslt.getInt(1)));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
+
 	
 	public Response getnbcap(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
