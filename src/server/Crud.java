@@ -115,12 +115,10 @@ public class Crud {
 			System.out.println("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
 			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
 			while(rs.next()) {
-				System.out.println(rs.getInt(1));
 				rp.getA().add(Integer.toString(rs.getInt(1)));
 			}
 			rs.close();
 		}
-		System.out.println(rp.getA());
 		st.close();
 		data.returnConnection(c);
 		return rp;
