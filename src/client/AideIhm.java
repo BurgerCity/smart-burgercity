@@ -28,6 +28,9 @@ public class AideIhm {
 
 	}
 	
+	public int getCar() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+        return f.car();
+    }
    
     public int getBorne() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return f.borne();

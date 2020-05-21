@@ -64,8 +64,7 @@ public class InsertData2 {
     }
     msg.sendMessage(out, chai);
     
-    
-   
+  
           
 }
 

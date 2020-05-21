@@ -258,7 +258,21 @@ public class Crud {
 		return null;} 
 
 
-	
+	public Response carmax(DataSource data) throws SQLException{
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		//Crud ss = new Crud();
+		ResultSet rslt=stmt.executeQuery("select avg(maxcar) from alertcar;");
+		Response rp=new Response();
+		while(rslt.next()) {
+			rp.getA().add(Integer.toString(rslt.getInt(1)));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return rp;
+	}
+
 	
 	public Response getnbcap(DataSource data) throws SQLException{
 		Connection c=data.takeConnection();
@@ -322,7 +336,7 @@ public class Crud {
 	public Response tpa(DataSource data,String s) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where to_char(date_heure,'YYYY-MM-DD') = ' "+s+" ' group by to_char(date_heure,'YYYY-MM-DD');");
+		ResultSet rslt=stmt.executeQuery("select avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where to_char(date_heure, 'YYYY-MM-DD')= '"+s+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
@@ -337,7 +351,8 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select avg(leadalert) + avg(carbonmonoxidealert) + avg(fineparticlesalert) + avg(nitrogendioxidealert) from sensor ;");		Response rp=new Response();
+		ResultSet rslt=stmt.executeQuery("select avg(leadalert) + avg(carbonmonoxidealert) + avg(fineparticlesalert) + avg(nitrogendioxidealert) from sensor ;");		
+		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
 		}
@@ -365,7 +380,8 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) FROM statements INNER JOIN sensor ON (statements.id_sensor = sensor.id_sensor) and to_char(date_heure,'YYYY-MM-DD') = ' "+s+" ' and localization = '"+ pos+"' group by to_char(date_heure,'YYYY-MM-DD');");		Response rp=new Response();
+		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) FROM statements INNER JOIN sensor ON (statements.id_sensor = sensor.id_sensor) and to_char(date_heure,'YYYY-MM-DD') = '"+s+"' and localization = '"+pos+"';");
+		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
 		}
@@ -404,7 +420,8 @@ public class Crud {
 	public Response tpdatee(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where  to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"'group by to_char(date_heure,'YYYY-MM-DD');");		Response rp=new Response();
+		ResultSet rslt=stmt.executeQuery("SELECT avg(plomb)+avg(carbonmonoxide)+avg(fineparticle)+avg(nitrogendioxide) from statements where  to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"';");	
+		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Float.toString(rslt.getFloat(1)));
 		}
