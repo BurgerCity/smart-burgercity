@@ -1,0 +1,9 @@
+{
+"operation_type":"INSERT",
+"table":"carbonfootprint",
+"a":[
+"1000000000",
+"now()",
+"1"
+]
+}
