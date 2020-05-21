@@ -1,7 +1,7 @@
 package client;
 class CarbonFootprintVehicle{
 
-	// Pour 1 km
+	// For 1 km
 	private int cf_car = 206; 
 	private int cf_velib = 0;
 	private double cf_tram = 2.1;
@@ -36,7 +36,7 @@ class CarbonFootprintVehicle{
 		"Car : " + cf_car + " gCO2/km"+'\n'+ 
 		"Velib : " + cf_velib + "gCO2/km"+'\n'+
 		"Tram : " + cf_tram + "gCO2/km"+'\n' +
-		"Foot : " + cf_walker + "gCO2/km"+'\n' +'\n';
+		"Walking : " + cf_walker + "gCO2/km"+'\n' +'\n';
 		return r;
 	}
 	public static void main(String[] args){

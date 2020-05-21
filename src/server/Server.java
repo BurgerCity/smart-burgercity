@@ -34,8 +34,6 @@ public class Server {
 	private static Thread_bounds tb;
 	private static Thread_car tc;
 	
-
-	
 	public void start(Socket clientSocket) throws IOException, SQLException, ClassNotFoundException {
 
 		while(!clientSocket.isClosed()) {
@@ -122,18 +120,8 @@ public class Server {
 			rp=crud.countcar(data);
 		}
 		else if(r.getOperation_type().equals("CarbonSelect")){
-			
-			//System.out.println("Dans Server, if CarbonRequest");
-			//rp=crud.CarbonRequest(data);
 			rp=crud.CarbonSelect(r,data);
 		}
-		/*else if(r.getOperation_type().equals("CarbonInsert")){
-			
-			//System.out.println("Dans Server, if CarbonRequest");
-			//rp=crud.CarbonRequest(data);
-			rp=crud.CarbonInsert(r,data);
-			
-		}*/
 		else if(r.getOperation_type().equals("BORNES")){
 			rp=crud.nbborne(data);
 		}

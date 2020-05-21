@@ -16,15 +16,15 @@ public class CarbonJPanel extends JPanel {
 		Color lightgrey = new Color(215,215,215);
 		Color duckblue = new Color(0,154,166);
 		g.setColor(duckblue);
-		g.fillOval(550,400,270,270); // cercle remplissage
-		g.drawOval(550,400,270,270); // cercle bord
+		g.fillOval(550,400,270,270); // filling of the circle
+		g.drawOval(550,400,270,270); // edge of circle
 		Graphics g2 = (Graphics) g;
 		g2.setColor(duckblue);
-		g2.fillRect(0,0,1600,80); // bande remplissage
-		g2.drawRect(0,0,1600,80); // bande bord
+		g2.fillRect(0,0,1600,80);
+		g2.drawRect(0,0,1600,80);
 		Graphics g3 = (Graphics) g;
 		g3.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		//Info ville
+		//Info City
 		g2.drawRect(60, 110, 300, 500);
 		g3.drawString("Info de la ville",156,140);
 		//Proportion
