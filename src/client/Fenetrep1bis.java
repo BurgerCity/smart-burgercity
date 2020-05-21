@@ -1,9 +1,8 @@
+
 package client;
 
 import javax.swing.*;
 
-
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,11 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.*;
 
-public class Fenetrep1  extends Ihmindic {
+public class Fenetrep1bis  extends Ihmindic {
    
 private String date= "";
 
-    public Fenetrep1() throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+    public Fenetrep1bis(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException {
     	
         this.setTitle("CHOIX DE LA DATE");
         
@@ -121,6 +120,8 @@ private String date= "";
 
     }
     
+    
   
 
 }
+    

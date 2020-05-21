@@ -13,7 +13,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/**
+ * 
+ * @author Mathias
+ *This is the second panel which enable to configure sensors
+ */
 public class Frame2 extends Container {
 	private String[] items = {"north", "south", "west", "east"};
 	private JComboBox localisation;
@@ -61,18 +65,18 @@ public class Frame2 extends Container {
 		jlb = new JLabel[12];
 		b = new JButton("Validate");
 		b2 = new JButton("Return");
-		j1 =new JLabel("Number of sensors to configure : "); 			jlb[0] = j1;
-		j2 =new JLabel("Nitrogen Dioxide information threshold : ");	jlb[1] = j2;
+		j1 =new JLabel("Number of sensors to configure : "); 																	jlb[0] = j1;
+		j2 =new JLabel("Nitrogen Dioxide information threshold : ");															jlb[1] = j2;
 		j3 =new JLabel("<html>Nitrogen Dioxide alert threshold <br> <center>(less than 400 µm^3) : </center></html>");			jlb[2] = j3;
-		j4 =new JLabel("Lead information threshold : ");				jlb[3] = j4;
+		j4 =new JLabel("Lead information threshold : ");																		jlb[3] = j4;
 		j5 =new JLabel("<html>Lead alert threshold <br> <center>(less than 0,5 µm^3) : </center></html>");						jlb[4] = j5;
-		j6 =new JLabel("Fine Particle information threshold : ");		jlb[5] = j6;
+		j6 =new JLabel("Fine Particle information threshold : ");																jlb[5] = j6;
 		j7 =new JLabel("<html>Fine Particle alert threshold <br> <center> (less than 80 µm^3) : </center></html>");				jlb[6] = j7;
-		j8 =new JLabel("Carbon Monoxide information threshold : ");		jlb[7] = j8;
+		j8 =new JLabel("Carbon Monoxide information threshold : ");																jlb[7] = j8;
 		j9 =new JLabel("<html>Carbon Monoxide alert threshold <br> <center>(less than 10000 µm^3) : </center></html>");			jlb[8] = j9;
-		j10 =new JLabel("Number of statements before alert : ");		jlb[9] = j10;
-		j11 =new JLabel("Number of minutes between each statement : ");	jlb[10] = j11;
-		j12 = new JLabel(""); jlb[11] = j12;
+		j10 =new JLabel("Number of statements before alert : ");																jlb[9] = j10;
+		j11 =new JLabel("Number of minutes between each statement : ");															jlb[10] = j11;
+		j12 = new JLabel(""); 																									jlb[11] = j12;
 		for(int i = 0; i < 12; i++) {
 			jlb[i].setHorizontalAlignment(JLabel.CENTER);
 		}

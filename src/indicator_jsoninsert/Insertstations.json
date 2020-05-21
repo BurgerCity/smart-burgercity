@@ -1,0 +1,10 @@
+
+{
+    "operation_type":"INSERT",
+    "table":"stations",
+    "a":[
+    "0.4",
+    "0.5",
+    "3"
+    ]
+}

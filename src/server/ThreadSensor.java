@@ -56,7 +56,6 @@ public class ThreadSensor extends Thread{
 	
 				rp = this.sendRow(s);
 				data.returnConnection(c);
-				System.out.println(rp.getA());
 				this.sendResponse(rp);
 				Socket client = ss.accept();
 				out = new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8);
@@ -95,7 +94,6 @@ public class ThreadSensor extends Thread{
 					msg.sendMessage(out, server.serializeServeur(rp));
 				}
 			} catch (SQLException | IOException | NumberFormatException e) {}
-			System.out.println("FINI");
 	}
 	
 	public Response sendRow(Statement s) throws SQLException {
@@ -134,9 +132,9 @@ public class ThreadSensor extends Thread{
 	
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		while(rst.next()) {
-			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
-			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
-			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3) / (0.3 + 0.3 + 0.3 + 0.3);
+			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
+			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
+			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
 			//System.out.println(rst.getInt(16) + " " + rst.getDouble(17)+ " " + rst.getDouble(18)+ " " + rst.getInt(19));
 			//System.out.println(rst.getInt(5) + " " + rst.getDouble(7)+ " " + rst.getDouble(9)+ " " + rst.getInt(11));
 			int k = 11;	

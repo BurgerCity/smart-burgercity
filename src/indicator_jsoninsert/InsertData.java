@@ -2,6 +2,7 @@ package indicator_jsoninsert;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +14,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import client.Client_socket;
+import client_common.Json;
 import common.Message;
 import common.Request;
-
 
 public class InsertData {
 
@@ -30,7 +31,7 @@ public class InsertData {
 	       
 	      //lecture du fichier texte
 	      try{
-	         InputStream ips = new FileInputStream("src/indicator_jsoninsert/InsertIndicator.json");
+	         InputStream ips = new FileInputStream("src/indicator_jsoninsert/sensor.json");
 	         InputStreamReader in = new InputStreamReader(ips);
 	         BufferedReader br = new BufferedReader(in);
 	         String ligne;
@@ -44,6 +45,28 @@ public class InsertData {
 	         System.out.println(e.toString());
 	      }
 	      msg.sendMessage(out, chaine);
-	}
+	
+	
+    String chignon = "";
+   	//lecture du fichier texte
+       try{
+          InputStream neo = new FileInputStream("src/indicator_jsoninsert/Insertstatements.json");
+          InputStreamReader zac = new InputStreamReader(neo);
+          BufferedReader fred = new BufferedReader(zac);
+          String lilo;
+          while ((lilo = fred.readLine()) != null){
+             chignon+=lilo;
+          }
+          System.out.println(chignon);
+          fred.close();
+       }    
+       catch (Exception e){
+          System.out.println(e.toString());
+       }
+       msg.sendMessage(out, chignon);
+    
+}
+
 
 }
+

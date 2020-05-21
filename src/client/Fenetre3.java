@@ -62,9 +62,14 @@ private String date= "";
 		
                  if ( !dateFormat.format(date).equals(getValue)) { 
                  	
- 					a.setText("Le format de la date n'est pas correcte, VEUILLEZ ENTRER UNE DATE DE NOUVEAU avec le bon format (aaaa-mm-dd) :");
-                 
-                 } 
+ 					try {
+						Fenetre3bis a = new Fenetre3bis(getValue);
+					} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}}
+                 else
+                 {
 
                 try {
                 	String s2 = null;
@@ -89,8 +94,8 @@ private String date= "";
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-
+            
+                 }
             }
         });
 
@@ -101,4 +106,6 @@ private String date= "";
   
 
 }
+    
+
     

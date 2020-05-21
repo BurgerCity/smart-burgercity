@@ -19,7 +19,7 @@ public class UpdateSensor {
 		Request r = new Request();
 		ObjectMapper ob = new ObjectMapper();
 		Client_socket c = new Client_socket();
-		OutputStreamWriter out = c.startConnection("127.0.0.1", 2013);
+		OutputStreamWriter out = c.startConnection("127.0.0.1", 2015);
 		
 		String chaine="";
 	       
