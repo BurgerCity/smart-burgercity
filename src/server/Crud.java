@@ -66,7 +66,6 @@ public class Crud {
 	}
 	
 	public Response CarbonSelect(Request r, DataSource data) throws SQLException{
-		System.out.println("Welcome to carbonSelect");
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		String rr = r.getA().get(0);
@@ -116,12 +115,10 @@ public class Crud {
 			System.out.println("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
 			ResultSet rs = st.executeQuery("SELECT " + s + " FROM " + r.getTable() + " WHERE " + t + ";");
 			while(rs.next()) {
-				System.out.println(rs.getInt(1));
 				rp.getA().add(Integer.toString(rs.getInt(1)));
 			}
 			rs.close();
 		}
-		System.out.println(rp.getA());
 		st.close();
 		data.returnConnection(c);
 		return rp;

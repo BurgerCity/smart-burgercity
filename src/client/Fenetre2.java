@@ -7,6 +7,12 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This window propose to choose between a date or a periode
+ */
+
 public class Fenetre2  extends Ihmindic {
 
 

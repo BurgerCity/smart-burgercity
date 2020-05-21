@@ -12,7 +12,13 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Message;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ * 
+ * this class is help us to have datas for the ihm, it's like getters from Indicator.java
+ *
+ */
 public class AideIhm {
 	
 	private Indicator f; String s; String s1;

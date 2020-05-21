@@ -13,7 +13,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ * This page ask to enter an other date or a correct date with the good format
+ */
 public class Fenetre3bis extends Ihmindic {
 	
 
@@ -28,7 +32,7 @@ public Fenetre3bis(String s) throws SQLException, ClassNotFoundException, IOExce
 
     c.gridx = 0;
     c.gridy = 0;
-    JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé, ainsi que la cohérence des mois et jours: ");
+    JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé : ");
     container.add(a, c);
     
     c.gridx = 1;

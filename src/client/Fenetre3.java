@@ -14,6 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.*;
 
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This page ask the date and if the format is not correct or is not in base its ask again to enter it by a new window
+ */
 public class Fenetre3  extends Ihmindic {
    
 private String date= "";
@@ -29,7 +34,7 @@ private String date= "";
 
         c.gridx = 0;
         c.gridy = 0;
-        JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé, ainsi que la cohérence des mois et jours: ");
+        JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé : ");
         container.add(a, c);
         
         c.gridx = 1;

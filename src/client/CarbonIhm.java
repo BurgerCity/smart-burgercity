@@ -126,7 +126,7 @@ public class CarbonIhm extends JFrame implements ActionListener{
 			   result2.setText(finalEcInh);
 			   try {
 				user.getInfo().getClb().RequestInsert(ec);
-				System.out.println("Resultat inserer");
+				System.out.println("Insert Result");
 			} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e) {
 				e.printStackTrace();
 			}
