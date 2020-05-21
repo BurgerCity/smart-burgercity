@@ -19,8 +19,8 @@ public class AideIhm {
 	
 	public AideIhm(String s,String s1) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 	Client_socket c = new Client_socket();
-	//c.startConnection("172.31.249.164", 2015);
-	c.startConnection("127.0.0.1", 2015);
+	c.startConnection("172.31.249.164", 2015);
+	//c.startConnection("127.0.0.1", 2015);
 
     this.f = new Indicator(c);  
     this.s=s;
