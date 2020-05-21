@@ -45,7 +45,6 @@ public class Server {
 				r = new Request();
 					while(true) {
 						r = this.deserialize(msg.readMessage(in));
-						System.out.println(r.getOperation_type());
 						rp = this.launchCrud(r, crud, data);
 						msg.sendMessage(out, this.serializeServeur(rp));
 						if(r.getOperation_type().equals("STOP")) {

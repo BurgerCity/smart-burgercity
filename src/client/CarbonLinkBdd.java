@@ -34,7 +34,7 @@ public class CarbonLinkBdd {
 		System.out.println("Envoi de la Requête : ");
 		Message m = new Message();
 		Response rp = new Response();
-		System.out.println("Lecture du Client.getIn : ");
+		System.out.println("Reception : ");
 		String st = m.readMessage(client.getIn());
 		rp = j.deserialize(st);
 		int size = rp.getA().size();
