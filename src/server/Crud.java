@@ -127,7 +127,6 @@ public class Crud {
 		return rp;
 	}
 	public Response countcar(DataSource data) throws SQLException{
-		int n=0;
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		ResultSet rslt=stmt.executeQuery("SELECT count(*) from car where inthetown=true;");

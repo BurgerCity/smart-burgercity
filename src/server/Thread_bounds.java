@@ -80,16 +80,13 @@ public class Thread_bounds extends Thread {
 		Statement st=c2.createStatement();
 		if(alerts.contains(2) || alertcar.contains(2)) {
 			stmt.executeUpdate("UPDATE bound SET status=false ;");
-			i=2;
 		}
 		else if(alerts.contains(1) || alertcar.contains(1)){
 			stmt.executeUpdate("UPDATE bound SET status=false where var=1 ;");
 			st.executeUpdate("UPDATE bound SET status=true where var=2 ;");
-			i=1;
 			
 		}
 		else {stmt.executeUpdate("UPDATE bound SET status=true ;");
-		i=0;
 		}
 		stmt.close();	
 		st.close();

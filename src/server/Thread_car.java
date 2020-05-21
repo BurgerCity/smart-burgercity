@@ -1,8 +1,11 @@
 package server;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import common.Response;
 
 /**
  * 
@@ -32,10 +35,13 @@ public class Thread_car extends Thread {
 			
 	}
 	public int carsupervisor(DataSource data) throws SQLException {
+		Crud crud=new Crud();
+		maxCar=maxcargetter(data);
 		int n=0;
 		int a=0;
-		try{ a=Integer.parseInt(crud.countcar(data).getA().get(0));}
-		catch(NullPointerException e) {}
+			Response rp=crud.countcar(data);
+			a=Integer.parseInt(rp.getA().get(0));
+		
 		if(a>=maxCar*0.7 && a<=maxCar*0.9) {
 			n=1;
 		}
@@ -57,17 +63,33 @@ public class Thread_car extends Thread {
 		stmt.close();
 		data.returnConnection(c);
 	}
-	public int getMaxCar() {
-		return maxCar;
-	}
-	public void setMaxCar(int maxCar) {
-		this.maxCar = maxCar;
+	public int maxcargetter(DataSource data) throws SQLException{
+		int n=0;
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		ResultSet rslt=stmt.executeQuery("SELECT maxcar from alertcar;");
+		while(rslt.next()) {
+			n=(rslt.getInt(1));
+		}
+		
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+ 		return n;
 	}
 	public boolean isT() {
 		return t;
 	}
 	public void setT(boolean t) {
 		this.t = t;
+	}
+
+	public int getMaxCar() {
+		return maxCar;
+	}
+
+	public void setMaxCar(int maxCar) {
+		this.maxCar = maxCar;
 	}
 
 }
