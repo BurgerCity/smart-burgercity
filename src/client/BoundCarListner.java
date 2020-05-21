@@ -48,7 +48,6 @@ public class BoundCarListner implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
 				(bmp.getC()).show(bmp.getJp(), "f2");
 
 			}

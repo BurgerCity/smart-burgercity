@@ -113,17 +113,17 @@ public class BoundCarFrame2 extends Container{
 		
 		borne8=new JLabel("borne 8 west");
 		gdbc.gridx=0;
-		gdbc.gridy=7;
+		gdbc.gridy=8;
 		boundpanel8.add(borne8);
 		jp.add(boundpanel8, gdbc);
 		
 		back=new JButton("RETOUR");
-		gdbc.gridx=20;
+		gdbc.gridx=2;
 		gdbc.gridy=10;
 		jp.add(back,gdbc);
 		
 		refresh=new JButton("ACTUALISER");
-		gdbc.gridx=20;
+		gdbc.gridx=2;
 		gdbc.gridy=11;
 		jp.add(refresh,gdbc);
 		
