@@ -9,11 +9,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Mathias
+ *This is the first panel of the sensor configuration
+ */
 public class Frame1 extends Container {
-	JButton b1;
-	JButton b2;
-	JPanel j;
+	private JButton b1;
+	private JButton b2;
+	private JPanel j;
 	Frame1() {
 		j = new JPanel(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
@@ -23,7 +27,7 @@ public class Frame1 extends Container {
 		g.gridy = 0;
 		g.weightx = 0.5;
 		g.weighty = 0.5;
-		//g.fill = GridBagConstraints.BOTH;
+
 		j.add(b1, g);
 		g.gridx = 1;
 		j.add(b2, g);

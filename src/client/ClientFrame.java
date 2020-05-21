@@ -1,12 +1,16 @@
 package client;
 
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * This is the frame of the sensor configuration
+ * @author Mathias
+ *
+ */
 public class ClientFrame extends JFrame {
+	
 	private CardLayout cl = new CardLayout();
 	private JPanel p = new JPanel();
 	private Frame1 f1 = new Frame1();

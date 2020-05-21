@@ -10,16 +10,22 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
+/**
+ * 
+ * @author Mathias
+ *
+ *This is the third panel
+ */
 public class Frame3 extends Container {
-	JButton b2;
-	JRadioButton[] jr;
-	JPanel j;
-	JPanel j1;
-	JLabel jl;
-	JButton b;
-	JPanel jp1;
-	JLabel jl1;
+	private JButton b2;
+	private JRadioButton[] jr;
+	private JPanel j;
+	private JPanel j1;
+	private JLabel jl;
+	private JButton b;
+	private JPanel jp1;
+	private JLabel jl1;
+	
 	Frame3() {
 		j = new JPanel(new GridBagLayout());
 		j1 = new JPanel(new GridLayout(1,3));

@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Panel extends Container {
-	JPanel p;
-	JLabel l;
+	private JPanel p;
+	private JLabel l;
 	Panel(String s, Color r) {
 		l = new JLabel(s);
 		p = new JPanel(new GridBagLayout());

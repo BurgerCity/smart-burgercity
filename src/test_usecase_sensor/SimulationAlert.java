@@ -1,7 +1,9 @@
-package SimulatorStatement;
+package test_usecase_sensor;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import SimulatorStatement.Normal;
 
 public class SimulationAlert {
 

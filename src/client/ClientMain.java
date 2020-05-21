@@ -18,22 +18,6 @@ public class ClientMain {
 		Client_socket c = new Client_socket();
 		c.startConnection("127.0.0.1", 2015);
 		ClientFrame cf = new ClientFrame();
-		SensorListner s = new SensorListner(cf, c);
-        //Indicator f = new Indicator(c);
-      //  f.car();
-        //f.borne();
-    //    f.captor();
-        //    f.tram();
-        //f.emp("2013-06-01");
-        //    f.carinthetown("2013-06-01");
-        //   f.td("2013-06-01");
-        // f.tp("2013-06-01");
-        //   f.tdn("2013-06-01","sud");
-        //  f.tpn("2013-06-01","sud");
-        //   f.carinthetowndate("2013-06-01","2013-06-15");
-        //    f.empdate("2013-06-01","2013-06-15");
-        //    f.tpdate("2013-06-01","2013-06-15");
-        //    f.tddate("2013-06-01","2013-06-15");
-       // f.tab("2013-06-01","2013-06-15");
+		SensorListener s = new SensorListener(cf, c);
 	}
 }

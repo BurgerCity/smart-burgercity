@@ -13,7 +13,11 @@ import client_common.Json;
 import common.Message;
 import common.Request;
 import common.Response;
-
+/**
+ * 
+ * @author Mathias
+ *
+ */
 public class Normal extends Thread {
 	private Socket socket;
 	private OutputStreamWriter out;
@@ -32,7 +36,7 @@ public class Normal extends Thread {
 	private boolean bool = true;
 	private int counter = 0;
 	
-	Normal() {
+	public Normal() {
 	}
 	Normal(Response rp, int x) {
 		this.rp = rp;

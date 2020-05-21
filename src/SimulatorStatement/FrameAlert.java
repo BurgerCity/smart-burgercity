@@ -13,14 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class FrameAlert extends JFrame {
-	JLabel j0 = new JLabel("There is no alert");
-	JLabel j1 = new JLabel("Statements are too high");
-	JLabel j2 = new JLabel("ALERT");
-	Panel p0 = new Panel("There is no alert", Color.GREEN);
-	Panel p1 = new Panel("Statements are too high", Color.ORANGE);
-	Panel p2 = new Panel("ALERT", Color.RED);
-	CardLayout cl = new CardLayout();
-	JPanel p = new JPanel();
+	private Panel p0 = new Panel("There is no more alert", Color.GREEN);
+	private Panel p1 = new Panel("Statements are too high", Color.ORANGE);
+	private Panel p2 = new Panel("ALERT", Color.RED);
+	private CardLayout cl = new CardLayout();
+	private JPanel p = new JPanel();
 	
 	public FrameAlert() {
 		super("Configuration");
