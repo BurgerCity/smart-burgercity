@@ -32,7 +32,8 @@ public class InsertData3 {
     String chalet = "";
 	//lecture du fichier texte
     try{
-       InputStream les = new FileInputStream("src/indicator_jsoninsert/Insertbound.json");
+       InputStream les = new FileInputStream("Insertbound.json");
+       //InputStream les = new FileInputStream("src/indicator_jsoninsert/Insertbound.json");
        InputStreamReader va = new InputStreamReader(les);
        BufferedReader ca = new BufferedReader(va);
        String nces;
@@ -51,7 +52,8 @@ public class InsertData3 {
        String ore = "";
       	//lecture du fichier texte
           try{
-             InputStream lie = new FileInputStream("src/indicator_jsoninsert/insertcarbon.json");
+             //InputStream lie = new FileInputStream("src/indicator_jsoninsert/insertcarbon.json");
+              InputStream lie = new FileInputStream("insertcarbon.json");
              InputStreamReader chi = new InputStreamReader(lie);
              BufferedReader ne = new BufferedReader(chi);
              String ja;
