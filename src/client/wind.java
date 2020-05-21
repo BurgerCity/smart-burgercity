@@ -4,15 +4,21 @@ import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.sql.SQLException;
 
 
 
 public class wind  extends JPanel{
-	
+	 Station station;
 	// City burger = new City();	 
 	  public void paintComponent(Graphics g) {
-		 	 Station station = new Station();
-		 	 station.create_network();
+		 	
+			try {
+				station = new Station();
+				station.create_network();
+				  station.inserting_stations();
+				  station.inserting_network();
 	      super.paintComponent(g);
 	      Color lightgrey = new Color(215,215,215);
 	      g.setColor(lightgrey);
@@ -66,7 +72,16 @@ public class wind  extends JPanel{
 	    	
 	     }
 	     
-	  }
+	  } catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	 	
 	  
 	  }
+}
 
