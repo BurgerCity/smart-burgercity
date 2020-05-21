@@ -14,16 +14,57 @@ import common.Response;
 
 import java.io.IOException;
 import java.lang.Math;
+import java.sql.SQLException;
 
-class Station {
-	private Client_socket client;
-	City burger = new City();
+public class Station {
+//	private Client_socket client;
+	int height;
+	int width;
+	int budget;
+	 int price;
+		float nb_station ; /*number of tram stations in the city*/
+		  double r; /*distance between two stations*/
+		  ArrayList<Double> xs ;     /*tab of x coordinates*/
+		  ArrayList<Double>ys ;     /*tab of y coordiantes*/
+		  ArrayList <Double> lines ;
+		  ArrayList <Integer> beginning ;
+		  ArrayList <Integer> end ;
+		  ArrayList <Integer> final_beg ;
+		  ArrayList <Integer> final_end ;
+		  ArrayList <Integer> visited ;
+		  Request r1 ;
+		  Request r2 ;
+		  Json j ;
+		  Message m;
+		  Response res;
+		  Client_socket client;
 
+	 
+	City burger;
+	Station() throws JsonMappingException, JsonProcessingException, IOException, SQLException{
+		  burger = new City();
+		  height = burger.getA();
+		  width = burger.getB();
+		  budget = burger.getBudget();
+		  price = burger.getStation_price();
+		  nb_station = (burger.getBudget()/burger.getStation_price()) ; /*number of tram stations in the city*/
+		  r= (Math.sqrt(burger.getSurface()/(Math.PI*nb_station))); /*distance between two stations*/
+		  xs = new ArrayList<>();     /*tab of x coordinates*/
+		  ys = new ArrayList<>();     /*tab of y coordiantes*/
+		  lines = new ArrayList<>();
+		  beginning = new ArrayList<>();
+	      end = new ArrayList<>();
+		  final_beg = new ArrayList<>();
+		  final_end = new ArrayList<>();
+		  visited = new ArrayList<>();
+		  client = burger.getClient();
+		  j = new Json(client);
+		//  create_network();
+		
+
+	}
 	
-	  int height = burger.getA();
-	  int width = burger.getB();
-	  int budget = burger.getBudget();
-	  int price = burger.getStation_price();
+
 	 
 	  
 	  
@@ -48,16 +89,6 @@ class Station {
 	}
 
 
-	float nb_station = (burger.getBudget()/burger.getStation_price()) ; /*number of tram stations in the city*/
-	  double r= (Math.sqrt(burger.getSurface()/(Math.PI*nb_station))); /*distance between two stations*/
-	  ArrayList<Double> xs = new ArrayList<>();     /*tab of x coordinates*/
-	  ArrayList<Double>ys = new ArrayList<>();     /*tab of y coordiantes*/
-	  ArrayList <Double> lines = new ArrayList<>();
-	     ArrayList <Integer> beginning = new ArrayList<>();
-	     ArrayList <Integer> end = new ArrayList<>();
-	     ArrayList <Integer> final_beg = new ArrayList<>();
-	     ArrayList <Integer> final_end = new ArrayList<>();
-	     ArrayList <Integer> visited = new ArrayList<>();
 
 	  
 	  
@@ -84,6 +115,7 @@ class Station {
 	        i=i+1;
 	    	  
 	      }
+	      System.out.println(xs.size());
 		     
 		     visited.add(0);
 		     
@@ -152,36 +184,42 @@ class Station {
 		     }
 	
 	 public void inserting_stations()throws JsonMappingException, JsonProcessingException, IOException {
+		 System.out.println("stat");
+		 System.out.println(xs.size());
+	//	 j = new Json(burger.getClient());
 		 for (int h=0; h< xs.size();h++) {
-	  Json j = new Json();
-	  Request r1 = new Request();
+
+	r1 = new Request();
 	r1.setOperation_type("INSERT");
 	r1.setTable("stations");
 	r1.getA().add(Double.toString(xs.get(h)));
 	r1.getA().add(Double.toString(ys.get(h)));
 	r1.getA().add("1");
+	System.out.println(r1.getA());
 	j.sendRequest(r1);
-	Message m = new Message();
-	Json js = new Json(client);
-	Response res = new Response();
-	res = j.deserialize(m.readMessage(client.getIn()));
+	m = new Message();
+	res = new Response();
+	res = j.deserialize(m.readMessage(burger.getClient().getIn()));
 }
 	 }
 	 
-	 public void inserting_network() throws JsonMappingException, JsonProcessingException, IOException{
+	 public void inserting_network() throws JsonMappingException, JsonProcessingException, IOException, SQLException{
+		 System.out.println("neti");
+	//	 j = new Json(client);
+		 System.out.println(final_beg.size());
 		 for( int z = 0 ; z < final_beg.size();z++) {
-			 Json j = new Json();
-			  Request r2 = new Request();
-			  r2.setOperation_type("INSERT");
+			 	
+			    r2 = new Request();
+			    r2.setOperation_type("INSERT");
 				r2.setTable("network");
 				r2.getA().add(Integer.toString(final_beg.get(z)));
 				r2.getA().add(Integer.toString(final_end.get(z)));
 				r2.getA().add("1");
+				System.out.println(r2.getA());
 				j.sendRequest(r2);
-				Message m = new Message();
-	
-				Response res = new Response();
-				res = j.deserialize(m.readMessage(client.getIn()));
+				m = new Message();
+				res = new Response();
+				res = j.deserialize(m.readMessage(burger.getClient().getIn()));
 			}
 		 }
 	 
@@ -204,7 +242,6 @@ class Station {
 		return ys;
 	}
 	
-
 
 
 
