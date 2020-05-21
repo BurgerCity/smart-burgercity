@@ -25,7 +25,7 @@ public class ClientMain extends JFrame implements ActionListener {
 	private JPanel panel;
 	private JButton tram;
 	private JButton sensor;
-	private JButton bount;
+	private JButton bound;
 	private JButton carbon;
 	private JButton analyzes;
 	private JLabel title;
@@ -39,13 +39,13 @@ public class ClientMain extends JFrame implements ActionListener {
 			
 		tram = new JButton("Tram network");
 		sensor = new JButton("Configure sensor(s)");
-		bount = new JButton("Configure bount(s)");
+		bound = new JButton("Configure bound(s) and cars");
 		carbon = new JButton("Carbon footprint");
 		analyzes = new JButton("Analyzes");
 		
 		tram.addActionListener(this);
 		sensor.addActionListener(this);
-		bount.addActionListener(this);
+		bound.addActionListener(this);
 		carbon.addActionListener(this);
 		analyzes.addActionListener(this);
 
@@ -62,7 +62,7 @@ public class ClientMain extends JFrame implements ActionListener {
 		panel.add(sensor, g);
 		
 		g.gridx = 2;
-		panel.add(bount, g);
+		panel.add(bound, g);
 		
 		g.gridx = 0;
 		g.gridy = 1;
@@ -84,7 +84,7 @@ public class ClientMain extends JFrame implements ActionListener {
 			ClientFrame cf = new ClientFrame();
 			SensorListener s = new SensorListener(cf, c);
 		}
-		if(e.getSource() == bount) {
+		if(e.getSource() == bound) {
 			BoundCarListner bcl= new BoundCarListner(c);
 		}
 		if(e.getSource() == carbon) {
