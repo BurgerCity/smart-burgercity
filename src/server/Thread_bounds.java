@@ -9,19 +9,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import common.Request;
-/**
- * 
- * @author Idriss Zerai
- *
- */
+
 public class Thread_bounds extends Thread {
 	ArrayList<Integer> alerts;
 	ArrayList<Integer> alertcar;
 	int i=0;
 	Socket s; 
 	DataSource data; 
-	boolean t=true; //acts as a switch for the thread
-	Thread_bounds(DataSource data) throws ClassNotFoundException{
+	Crud crud;
+	boolean t=true;
+	Thread_bounds(Crud crud,DataSource data) throws ClassNotFoundException{
+		this.crud=crud;
 		this.data=data;
 		alerts=new ArrayList<Integer>();
 		alertcar=new ArrayList<Integer>();
@@ -99,6 +97,9 @@ public class Thread_bounds extends Thread {
 	}
 	public void setData(DataSource data) {
 		this.data = data;
+	}
+	public void setCrud(Crud crud) {
+		this.crud = crud;
 	}
 	public void setT(boolean t) {
 		this.t = t;

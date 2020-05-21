@@ -68,7 +68,7 @@ public class Server {
 		new Thread(new ThreadCollectData(serverSocket, s, serverSocket2018)).start();
 		tc=new Thread_car(crud,data);
 		tc.start();
-		tb=new Thread_bounds(data);
+		tb=new Thread_bounds(crud,data);
 		tb.start();		
 	}
 	
