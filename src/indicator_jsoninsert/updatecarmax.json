@@ -1,0 +1,10 @@
+{
+    "operation_type":"UPDATE",
+    "table":"alertcar",
+    "a":[
+        "1",
+    "50",
+    "1"
+    ]
+    
+}

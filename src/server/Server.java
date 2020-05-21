@@ -196,6 +196,8 @@ public class Server {
 		else if(r.getOperation_type().equals("FILLMAXCAR")){
 			
 			crud.fillmaxcar(r,data);
+		else if(r.getOperation_type().equals("CARMAX")){
+						rp=crud.carmax(data);
 		}
 
 		return rp;

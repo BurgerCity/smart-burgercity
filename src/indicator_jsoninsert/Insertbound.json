@@ -3,7 +3,8 @@
     "table":"bound",
     "a":[
     "true",
-    "west",
-    "3"
+    "south",
+    "1",
+    "2"
     ]
 }

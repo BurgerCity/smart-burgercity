@@ -64,7 +64,7 @@ String s1 ="";
 			 
 			 if (((b1 == true)&&(b2 == true)&&(b3 == true)&&(b4 == true))  && ((d1 == true)&&(d2 == true)&&(d3 == true)&&(d4 == true)) )  {
 				 System.out.println("OKKKKKK");
-				 // emp = f.emp(targetDay);
+				 emp = f.getEmp();
 				 car = f.getCarinthetown();
 				 tp1 = f.getTpn(targetDay, "north");
 				 tp2 = f.getTpn(targetDay, "south");
