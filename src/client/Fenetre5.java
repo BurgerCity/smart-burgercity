@@ -11,7 +11,11 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This is the final page with all the choice and show us what you want
+ */
 public class Fenetre5 extends Ihmindic {
 	
 

@@ -28,7 +28,11 @@ import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This page is the main page
+ */
 class Fenetre extends Ihmindic   {
 		
     public Fenetre(  )throws SQLException, ClassNotFoundException, IOException, InterruptedException {
@@ -39,7 +43,7 @@ class Fenetre extends Ihmindic   {
   
     	String s =d; 
     	String s1="";
-    	
+    	//here we recove db values
     	AideIhm aide = new AideIhm(s,s1);
         int maxcar = aide.getCar();
 		int nbcap = aide.getCaptor();
@@ -129,10 +133,7 @@ class Fenetre extends Ihmindic   {
         p2.add(l2,BorderLayout.CENTER);
         p2.add(b1,BorderLayout.SOUTH);
 
-        // if you want have border to the jpanel
-        Border blackline = BorderFactory.createLineBorder(Color.white);
-         p1.setBorder(blackline);
-         p2.setBorder(blackline);
+     
 
 
         getContentPane().add(p1);

@@ -16,7 +16,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This is the final page for the periode with all the choice and show us what you want
+ */
 public class Fenetre5p extends Ihmindic{
 	
 
