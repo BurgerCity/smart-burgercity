@@ -107,6 +107,12 @@ public class BoundCarListner implements ActionListener {
 			
 	}
 	
+	public int getMaxcar() {
+		return maxcar;
+	}
+	public void setMaxcar(int maxcar) {
+		this.maxcar = maxcar;
+	}
 	public void manumode() {
 		Request rq=new Request();
 		rq.setOperation_type("MANUAL_BOUNDS");
