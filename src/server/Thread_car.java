@@ -9,8 +9,9 @@ public class Thread_car extends Thread {
 	private DataSource data;
 	private int maxCar=0;
 	private boolean t=true;
-	public Thread_car(){
-		crud=new Crud();
+	public Thread_car(Crud crud,DataSource data) throws ClassNotFoundException{
+		this.crud=crud;
+		this.data=data;
 	}
 	
 	public void run() {
