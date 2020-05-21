@@ -1,4 +1,4 @@
-package streetcar;
+package client;
 
 import java.util.ArrayList;
 import java.lang.Math;

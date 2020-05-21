@@ -1,4 +1,4 @@
-package streetcar;
+package client;
 import javax.swing.JPanel;
 
 
