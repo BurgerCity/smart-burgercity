@@ -14,12 +14,6 @@ import common.Message;
 import common.Request;
 import common.Response;
 
-/**
- * 
- * @author Idriss Zerai
- *
- */
-
 public class BoundCarListner implements ActionListener {
 	BoundMainPanel bmp=new BoundMainPanel();
 	Client_socket client=new Client_socket();
