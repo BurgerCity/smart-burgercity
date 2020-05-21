@@ -165,6 +165,11 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		result.setEditable(false);
 		this.setVisible(true);
 		 */
+		/*
+		 /*CarbonJPanel cj = new CarbonJPanel();
+		cj.add(panel);
+		this.add(cj);
+		 */
 		this.add(panel);
 		this.setVisible(true);
 	}
