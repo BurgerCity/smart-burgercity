@@ -23,14 +23,13 @@ public class ClientFrame extends JFrame {
 		this.setSize(400, 200);
 		this.p.setLayout(cl);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		this.p.add("f1", f1.getJ());
 		this.p.add("f2", f2.getJ());
 		this.p.add("f3", f3.getJ());
 		this.p.add("f5", f5.getJ());
 		this.getContentPane().add(p);
-		
 		
 		this.setVisible(true);
 	}

@@ -20,9 +20,14 @@ import java.util.Iterator;
 import common.Message;
 import common.Request;
 import common.Response;
-
+/**
+ * 
+ * @author Mathias
+ * This class enable to do the simulation of one sensor
+ */
 
 public class ThreadSensor extends Thread{
+	
 	private int i;
 	private Socket socket;
 	private Message msg;
@@ -34,6 +39,7 @@ public class ThreadSensor extends Thread{
 	private Crud crud;
 	private ServerSocket ss;
 	private Response rp;
+	
 	public ThreadSensor(int i, Socket s, DataSource data, Crud crud, ServerSocket ss) {
 		this.i = i;
 		this.socket = s;
@@ -47,42 +53,42 @@ public class ThreadSensor extends Thread{
 			try {	
 				Statement s = c.createStatement();
 				crud = new Crud();
-				this.connectionSensor(socket);
+				this.connectionSensor(socket);					
 				server = new Server();
 				r = new Request();
 				msg = new Message();
 				
-				r = server.deserialize(msg.readMessage(in));
+				r = server.deserialize(msg.readMessage(in));	
 	
 				rp = this.sendRow(s);
 				data.returnConnection(c);
-				this.sendResponse(rp);
-				Socket client = ss.accept();
+				this.sendResponse(rp);							//the server send in the socket the values of the sensor
+				Socket client = ss.accept();					//a new socket is created for each sensor between the simulator and the thread of the sensor
 				out = new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8);
 				in = new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
 				while(true) {
 					r = new Request();
 
-					r = server.deserialize(msg.readMessage(in));
+					r = server.deserialize(msg.readMessage(in));		//the server receives the statement of the simulation
 					
-					if(r == null) {
+					if(r == null) {										//if the simulation is finished, it comes out the while(true)
 						break;
 					}
 					
 					System.out.println(r.getA());
-					r.getA().add("now()");
+					r.getA().add("now()");								//the order in the arraylist is important because in the class Crud
 					r.setTable("statements");
 					r.getA().add("1");
-					if(this.NumberLine() == Integer.parseInt(rp.getA().get(2))) {
-						this.deleteRow();
+					//this if test if the number of line for the sensor in the table statements is equal to the column timebeforealert in the table sensor
+					if(this.NumberLine() == Integer.parseInt(rp.getA().get(2))) { 
+						this.deleteRow(); //if it's the case, the oldest row is deleted
 					}
-					crud.insert(r, data);
+					crud.insert(r, data);			//this method insert the statement of the simulator in the table statements
 				
-					int alert = this.testAlert();
+					int alert = this.testAlert();	//this method get the type of alert
 					if(alert == 1) {
 						this.updateAlert(alert);
 					} else if(alert == 2) {
-						//System.out.println("There is an alerte for the capteur " + i);
 						this.updateAlert(alert);
 					} else {
 						this.updateAlert(alert);
@@ -91,12 +97,13 @@ public class ThreadSensor extends Thread{
 					System.out.println("*************************************");
 					System.out.println("  ");
 					rp = this.sendRow(s);
-					msg.sendMessage(out, server.serializeServeur(rp));
+					msg.sendMessage(out, server.serializeServeur(rp));		//the server send the row of the sensor to the simulator, 
+																			//for that the simulator knows the type of alert
 				}
 			} catch (SQLException | IOException | NumberFormatException e) {}
 	}
 	
-	public Response sendRow(Statement s) throws SQLException {
+	public Response sendRow(Statement s) throws SQLException {				//this method recover the data of the sensor and its threshold
 		ResultSet rs = s.executeQuery("SELECT * FROM sensor WHERE id_sensor = " + i + ";");
 		ResultSetMetaData rmd = rs.getMetaData();
 		rp = new Response();
@@ -117,7 +124,7 @@ public class ThreadSensor extends Thread{
 		return rp;
 	}
 	
-	public void updateAlert(int k) throws SQLException {
+	public void updateAlert(int k) throws SQLException {			//this method update the alert
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("UPDATE sensor SET alert = " + k + " WHERE id_sensor = " + i + ";");
@@ -125,29 +132,28 @@ public class ThreadSensor extends Thread{
 		data.returnConnection(c);
 	}
 
-	public Integer testAlert() throws SQLException {
+	public Integer testAlert() throws SQLException {		//this method test if the statement give an alert depending threshold of the sensor
 		Connection c = data.takeConnection();
 		Statement stmt = c.createStatement();
 		ResultSet rst = stmt.executeQuery("SELECT * FROM sensor s, statements st WHERE s.id_sensor = st.id_sensor and s.id_sensor = " + i + ";");
 	
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		while(rst.next()) {
+			//these double are weighted averages
 			double alert = (rst.getInt(5) * 0.3 + rst.getDouble(7) * 0.1 + rst.getDouble(9) * 0.3 + rst.getInt(11) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
 			double info = (rst.getInt(6) * 0.3 + rst.getDouble(8) * 0.1 + rst.getDouble(10) * 0.3 + rst.getInt(12) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
 			double test = (rst.getInt(16) * 0.3 + rst.getDouble(17) * 0.1 + rst.getDouble(18) * 0.3 + rst.getInt(19) * 0.3) / (0.3 + 0.1 + 0.3 + 0.3);
-			//System.out.println(rst.getInt(16) + " " + rst.getDouble(17)+ " " + rst.getDouble(18)+ " " + rst.getInt(19));
-			//System.out.println(rst.getInt(5) + " " + rst.getDouble(7)+ " " + rst.getDouble(9)+ " " + rst.getInt(11));
 			int k = 11;	
 			int cpt = 0;
-			if(test > alert) {
+			if(test > alert) {				//if the weighted average of the test is superior than the weighted average of the alert, 2 is added to the arraylist
 				a.add(2);
 				System.out.println(test + " > " + alert + " ALERT");
 			}
-			else if (test > info) {
+			else if (test > info) {		//if the weighted average of the test is superior than the weighted average of the information, 1 is added to the arraylist
 				a.add(1);
 				System.out.println(test + " > " +  info + "INFO");
 			}
-			else {
+			else {						//if a statement of a pollutant is bigger than a threshold, 1 or 2 is added to the arraylist
 				for(int j = 5; j < 9; j++) {
 					if(rst.getDouble(j + cpt + 1) <= rst.getDouble(j + k)) {
 						a.add(2);			
@@ -193,6 +199,8 @@ public class ThreadSensor extends Thread{
 		return 1;
 	}
 	
+	//if the arraylist isn't equal to the number of timeberforealert (that means, the number of statements in alert before launch the alert)
+	//then 0 is added to the arraylist 
 	public ArrayList<Integer> testTimeBeforeAlert(ArrayList<Integer> a) throws SQLException {
 		ResultSet rs = this.selectSensor();
 		rs.next();
@@ -235,6 +243,7 @@ public class ThreadSensor extends Thread{
 		return nb;	
 	}
 	
+	//this method recovers the oldest line and delete it
 	public void deleteRow() throws SQLException {
 		Connection con = data.takeConnection();
 		Statement stmt = con.createStatement();

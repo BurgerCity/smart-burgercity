@@ -16,7 +16,7 @@ import common.Response;
 /**
  * 
  * @author Mathias
- *
+ *	This class is the simulator
  */
 public class Normal extends Thread {
 	private Socket socket;
@@ -43,6 +43,7 @@ public class Normal extends Thread {
 		this.x = x;
 	}
 	
+	//this method is used to launch the simulator, 
 	public void GiveStatement(String ip, int port, int x) throws IOException, SQLException, NumberFormatException, InterruptedException {
 		socket = new Socket(ip, port);
 		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
@@ -54,14 +55,14 @@ public class Normal extends Thread {
 		rdm = new Random();
 		r.setOperation_type("GIVE");
 		while(true) {
-			msg.sendMessage(out, json.serialize(r));
-			new Normal(json.deserialize(msg.readMessage(in)), x).start();
+			msg.sendMessage(out, json.serialize(r));						//the simulator sends to the server
+			new Normal(json.deserialize(msg.readMessage(in)), x).start();	//when the server answers, a thread is created
 		}
 	}
 	
-	public void run() {
+	public void run() {						
 		try {
-		socket = new Socket("127.0.0.1", 2018);
+		socket = new Socket("127.0.0.1", 2018);											//a socket is created for each sensor
 		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
 		} catch (IOException e) {}
@@ -72,20 +73,27 @@ public class Normal extends Thread {
 		while(true) {
 			
 			r = new Request();
-			r.getA().add(rp.getA().get(0));
+			r.getA().add(rp.getA().get(0));	
 			
-			this.statement();
+			this.statement();			//this method do the statement with an appropriate random 
+			
 			System.out.println(rp.getA());
 			try {
-			Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000);
+			Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000); 		//this line allows to do a statement every x minutes
+			
 			r.setOperation_type("GIVE");
 			System.out.println(json.serialize(r));
-			msg.sendMessage(out, json.serialize(r));
+			
+			msg.sendMessage(out, json.serialize(r));		//this method allows to send statements to the server
+			
 			rp = new Response();
-			rp = json.deserialize(msg.readMessage(in));
-			counter = counter + 1;
+			
+			rp = json.deserialize(msg.readMessage(in));		//the simulator recovers data of the sensor
+			
+			counter = counter + 1;						//this variable is used for the test
 			System.out.println("ALERTE EST DE " + rp.getA().get(rp.getA().size() - 1));
-			this.switchFrame(rp);
+			
+			this.switchFrame(rp);				//this method enable to switch JPanel depending of the level of alert, if it's 0, 1 or 2
 
 			} catch (NumberFormatException | InterruptedException | IOException | SQLException e1) {}
 		}
@@ -93,51 +101,59 @@ public class Normal extends Thread {
 	
 	public void random(int i) {
 		int k;
-		if(x == 6) {
-			k = Integer.parseInt(rp.getA().get(i + 4));
-		} else {
+		if(x == 6) {										//
+			k = Integer.parseInt(rp.getA().get(i + 4));		//	conditions are used for the test
+		} else {				
 			k = Integer.parseInt(rp.getA().get(i + x));
 		}
-		int rm = rdm.nextInt(k/* - (k/4)*/);
+		int rm = rdm.nextInt(k);
 		r.getA().add(Integer.toString(rm));
 	}
 	
 	public void statement() {
 		for(int i = 0;  i < 8; i += 2) {
 			if(i == 2) {
-				double y = Double.parseDouble(rp.getA().get(6));
+				
+				double y = Double.parseDouble(rp.getA().get(6));		//it's double because there is a threshold between 0 and 0.5
 				y = y * 100;
 				int z = 100 - (100 - (int)y);
 				int xx = rdm.nextInt(z);
 				y = Double.valueOf(xx) / 100;
 				r.getA().add(Double.toString(y));
+			
 			} else {
+				
 				if(x == 4 || x == 6) {
+					
 					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
+						
 						if(counter >= 2 && counter < 8) {
+							
 							if(i == 0) {
+								
 								int k = 0;
 								if(x == 6) {
-									System.out.println("je suis la fdp");
 									k = Integer.parseInt(rp.getA().get(i + 5));
 								} else if(x == 4){
 									k = Integer.parseInt(rp.getA().get(i + x));
 								}	
-									System.out.println(k);
-									int rm = rdm.nextInt(k) + k;
-									System.out.println(rm);
-									r.getA().add(Integer.toString(rm));
+								System.out.println(k);
+								int rm = rdm.nextInt(k) + k;
+								System.out.println(rm);		
+								r.getA().add(Integer.toString(rm));
+							
 							} else {
 								this.random(i);
 							}
+						
 						} else {
 							this.random(i);
-
 						}
 
 					} else {	
-						this.random(i);
+						this.random(i);				
 					}
+					
 				} else {
 					this.random(i);
 				}

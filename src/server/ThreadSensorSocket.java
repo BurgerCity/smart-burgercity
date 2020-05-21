@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-
+/**
+ * 
+ * @author Mathias
+ *This class allows to run the thread which is associated with the connection of socket = serverSocket2.accept() in Server 
+ */
 public class ThreadSensorSocket extends Thread {
 	private Socket socket;
 	private DataSource data;

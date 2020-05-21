@@ -11,7 +11,11 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Mathias
+ *	This is the frame when an alert occurs
+ */
 public class FrameAlert extends JFrame {
 	private Panel p0 = new Panel("There is no more alert", Color.GREEN);
 	private Panel p1 = new Panel("Statements are too high", Color.ORANGE);
