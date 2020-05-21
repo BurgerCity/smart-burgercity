@@ -17,7 +17,7 @@ public class ThreadClient implements Runnable {
 			s.start(clientSocket);
 		} catch (ClassNotFoundException | IOException | SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 }
