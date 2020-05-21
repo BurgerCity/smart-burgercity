@@ -31,7 +31,8 @@ public class InsertData2 {
 	String chain = "";
 	//lecture du fichier texte
     try{
-       InputStream ip = new FileInputStream("src/indicator_jsoninsert/Insertstations.json");
+      // InputStream ip = new FileInputStream("src/indicator_jsoninsert/Insertstations.json");
+       InputStream ip = new FileInputStream("Insertstations.json");
        InputStreamReader i = new InputStreamReader(ip);
        BufferedReader b = new BufferedReader(i);
        String lign;
@@ -50,7 +51,8 @@ public class InsertData2 {
 	String chai = "";
 	//lecture du fichier texte
     try{
-       InputStream ipt = new FileInputStream("src/indicator_jsoninsert/Insertcar.json");
+    	//InputStream ipt = new FileInputStream("src/indicator_jsoninsert/Insertcar.json");
+       InputStream ipt = new FileInputStream("Insertcar.json");
        InputStreamReader is = new InputStreamReader(ipt);
        BufferedReader bs = new BufferedReader(is);
        String lig;

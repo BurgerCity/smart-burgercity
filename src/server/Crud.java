@@ -319,7 +319,7 @@ public class Crud {
 	public Response tabb(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("SELECT distinct(to_char(date_heure,'YYYY-MM-DD')) FROM statements where to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("SELECT distinct(to_char(date_heure,'YYYY-MM-DD')) FROM statements  where to_char(date_heure,'YYYY-MM-DD') BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(rslt.getString(1));
