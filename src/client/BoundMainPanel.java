@@ -6,7 +6,11 @@ import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
 public class BoundMainPanel extends JFrame{
 	CardLayout c=new CardLayout();
 	JPanel jp=new JPanel();
