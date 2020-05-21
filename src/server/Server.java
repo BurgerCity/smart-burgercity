@@ -66,10 +66,10 @@ public class Server {
 		ServerSocket serverSocket2018 = s.startServer(2018);	
 		new Thread(new ThreadClientSocket(serverSocket2)).start();
 		new Thread(new ThreadCollectData(serverSocket, s, serverSocket2018)).start();
-		tc=new Thread_car(crud,data);
+	/*	tc=new Thread_car(crud,data);
 		tc.start();
 		tb=new Thread_bounds(crud,data);
-		tb.start();		
+		tb.start();		*/
 	}
 	
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {

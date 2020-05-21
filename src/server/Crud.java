@@ -10,21 +10,12 @@ import common.Response;
 public class Crud {
 	
 	Crud() {}
-	
-	/*public String insert(String firstname, String lastname, DataSource data) throws SQLException {
-		Connection c = data.takeConnection();
-		Statement stmt = c.createStatement();
-		stmt.executeUpdate("INSERT INTO test1(lastname, firstname) values('" + lastname + "','" + firstname + "');");
-		stmt.close();
-		data.returnConnection(c);
-		return "Successful operation";
-	}*/
+
 	public ResultSetMetaData getTable(String table, Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
 		ResultSetMetaData rd = rs.getMetaData();
 		return rd;
 	}
-	
 	
 	public String insert(Request r, DataSource data) throws SQLException {
 		Connection c = data.takeConnection();
@@ -34,18 +25,18 @@ public class Crud {
 		int n = rmd.getColumnCount();
 		String st = "(";
 		for(i = 2; i <= n; i++) {		
-			if(i != n) st = st + rmd.getColumnName(i) + ",";
+			if(i != n) st = st + rmd.getColumnName(i) + ",";		//this loop allows to create the list 
 			else st = st + rmd.getColumnName(i) + ")";
 		}
 		String s = "(";
 		i = 1;
 		String k;
 		int cpt = 0;
-		int cp = (r.getA().size()) / (n - 1); // nb de string dans l'arraylist par rapport au nombre d'insertion
+		int cp = (r.getA().size()) / (n - 1); 		// nb de string dans l'arraylist par rapport au nombre d'insertion
 		while(i <= cp) {
 			for(int j = 0; j < n - 1; j++) {
 				k = rmd.getColumnTypeName(cpt + 2);
-				if(k.equals("varchar")) {
+				if(k.equals("varchar")) {			//if it's a varchar then it's between quote
 					if (j < n - 2) {
 						s = s + "'"+  r.getA().get(cpt) + "'" + ","; 
 					} else if(j == n - 2){ 
