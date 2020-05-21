@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.Message;
-import jdk.internal.org.jline.reader.impl.DefaultParser.ArgumentList;
 
 public class AideIhm {
 	
@@ -20,16 +19,16 @@ public class AideIhm {
 	
 	public AideIhm(String s,String s1) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 	Client_socket c = new Client_socket();
-	c.startConnection("127.0.0.1", 2015);
+	c.startConnection("172.31.249.164", 2015);
+	//c.startConnection("127.0.0.0", 2015);
+
     this.f = new Indicator(c);  
     this.s=s;
     this.s1=s1;
 
 	}
 	
-    public int getCar() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
-        return f.car();
-    }
+   
     public int getBorne() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return f.borne();
     }
@@ -39,8 +38,8 @@ public class AideIhm {
     public int getTram() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.tram();
     }
-   public Double getEmp() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
-	   Double v = f.emp(s);
+   public int getEmp() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+	   int v = f.emp(s);
 	   return v;
    }
     public int getCarinthetown() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
@@ -63,7 +62,7 @@ public class AideIhm {
     public int getCarinthetowndate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return   f.carinthetowndate(s,s1);
     }
-    public Double getEmpdate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+    public int getEmpdate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.empdate(s,s1);
     }
     public Double getTddate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
@@ -79,6 +78,14 @@ public class AideIhm {
     public boolean getOk(String s) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.ok(s);
     }
+
+	public boolean okdate(String s1, String s2) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+		return f.okdate(s1,s2);
+	}
+
+	public ArrayList<String> geTab(String s1, String s2) throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+		return f.tab(s1, s2);
+	}
          
           
            

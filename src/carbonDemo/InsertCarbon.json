@@ -1,0 +1,9 @@
+{
+"operation_type":"INSERT",
+"table":"client",
+"a":[
+"100",
+"10",
+"1"
+]
+}

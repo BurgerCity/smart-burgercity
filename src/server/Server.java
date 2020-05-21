@@ -69,14 +69,9 @@ public class Server {
 		tc=new Thread_car();
 		tc.start();
 		ServerSocket serverSocket2 = s.startServer(2015);
-			try {
-				while(true) {	
-					Socket clientSocket = serverSocket2.accept();					
-					new Thread(new ThreadClient(clientSocket)).start();
-				}
-			} catch (Exception e) {
-				serverSocket2.close();
-			}
+		ServerSocket serverSocket2018 = s.startServer(2018);	
+		new Thread(new ThreadClientSocket(serverSocket2)).start();
+		new Thread(new ThreadCollectData(serverSocket, s, serverSocket2018)).start();
 	}
 	
 	public ServerSocket startServer(int port) throws IOException, ClassNotFoundException {
@@ -96,11 +91,11 @@ public class Server {
 		}
 	}
 	
-	public void ThreadStatement(ServerSocket serverSocket2, Server s) throws IOException {
+	public void ThreadStatement(ServerSocket serverSocket2, Server s, ServerSocket ss2018) throws IOException {
 		try {
 			while(true) {	
-				Socket clientSocket = serverSocket2.accept();
-				new Thread(new ThreadSensorSocket(clientSocket, data, crud, s)).start();
+				Socket socket = serverSocket2.accept();
+				new Thread(new ThreadSensorSocket(socket, data, crud, s, ss2018)).start();
 			}
 		} catch (Exception e) {
 			serverSocket2.close();
@@ -128,36 +123,19 @@ public class Server {
 		else if(r.getOperation_type().equals("COUNT_CAR")){
 			rp=crud.countcar(data);
 		}
-
-		/*else if(r.getOperation_type().equals("SELECT_ALERT")) {
-			rp=crud.getAlert(data);
-		}*/
-
-		else if(r.getOperation_type().equals("CARMAX")){
+		else if(r.getOperation_type().equals("CarbonSelect")){
 			
-			System.out.println("if");
-			rp=crud.carmax(data);
-		}
-		else if(r.getOperation_type().equals("CarbonRequest")){
-			
-			System.out.println("Dans Server, if CarbonRequest");
+			//System.out.println("Dans Server, if CarbonRequest");
 			//rp=crud.CarbonRequest(data);
-			rp=crud.CarbonRequest(r,data);
+			rp=crud.CarbonSelect(r,data);
 		}
-		else if(r.getOperation_type().equals("BORNES")){
-			rp=crud.nbborne(data);
-		}
-		else if(r.getOperation_type().equals("CAPTORS")){
-			rp=crud.getnbcap(data);
-		}
-		else if(r.getOperation_type().equals("TRAMS")){
-			rp=crud.nbtram(data);
-		}
-	else if(r.getOperation_type().equals("CARMAX")){
+		/*else if(r.getOperation_type().equals("CarbonInsert")){
 			
-			System.out.println("if");
-			rp=crud.carmax(data);
-		}
+			//System.out.println("Dans Server, if CarbonRequest");
+			//rp=crud.CarbonRequest(data);
+			rp=crud.CarbonInsert(r,data);
+			
+		}*/
 		else if(r.getOperation_type().equals("BORNES")){
 			rp=crud.nbborne(data);
 		}
@@ -166,13 +144,6 @@ public class Server {
 		}
 		else if(r.getOperation_type().equals("TRAMS")){
 			rp=crud.nbtram(data);
-		}
-		else if(r.getOperation_type().equals("INTHETOWN")){
-			rp=crud.carnow(data,r.getA().get(0));
-			System.out.println("methide"+r.getA().get(0));
-		}
-		else if(r.getOperation_type().equals("POLL")){
-			rp=crud.tpa(data,r.getA().get(0));
 		}
 		else if(r.getOperation_type().equals("THERE")){
 			rp=crud.tpb(data);
@@ -218,6 +189,13 @@ public class Server {
 		else if(r.getOperation_type().equals("GET_MAXCAR")) {
 			rp.getA().add(Integer.toString(tc.getMaxCar()));
 		}
+		else if(r.getOperation_type().equals("INTHETOWN")){
+			rp=crud.carnow(data,r.getA().get(0));
+		}
+		else if(r.getOperation_type().equals("POLL")){
+			rp=crud.tpa(data,r.getA().get(0));
+		}
+
 		return rp;
 	}
 

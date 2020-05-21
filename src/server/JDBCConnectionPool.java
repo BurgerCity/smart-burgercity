@@ -23,6 +23,7 @@ public class JDBCConnectionPool {
 				Class.forName(prop.getProperty("driver")); // loaded the driver (use properties)
 				cn=DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
 				a.add(cn); //connection
+				//System.out.println("OK");
 			}
 			prop.close();
 		} catch (Exception e){

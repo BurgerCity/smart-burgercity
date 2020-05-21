@@ -12,8 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 public class Frame3 extends Container {
-	/*String[] items = {"north", "south", "west", "east"};
-	JComboBox localisation;*/
+	JButton b2;
 	JRadioButton[] jr;
 	JPanel j;
 	JPanel j1;
@@ -22,22 +21,23 @@ public class Frame3 extends Container {
 	JPanel jp1;
 	JLabel jl1;
 	Frame3() {
-		//localisation = new JComboBox(items);
 		j = new JPanel(new GridBagLayout());
-		j1 = new JPanel(new GridLayout(1,2));
+		j1 = new JPanel(new GridLayout(1,3));
 		GridBagConstraints g = new GridBagConstraints();
 		jl = new JLabel("Choose the location of the sensor(s)");
 		jl1 = new JLabel("");
 		b = new JButton("Validate");
+		b2 = new JButton("Return");
 		jr = new JRadioButton[4];
 		jp1 = new JPanel(new GridLayout(2,2));
 		jr[0] = new JRadioButton("north");
 		jr[1] = new JRadioButton("south");
 		jr[2] = new JRadioButton("east");
 		jr[3] = new JRadioButton("west");
+		j1.add(b2);
 		j1.add(jl1);
 		j1.add(b);
-		g.weightx = 0.5;
+		//g.weightx = 0.5;
 		g.weighty = 0.8;
 		j.add(jl, g);
 		
@@ -46,16 +46,13 @@ public class Frame3 extends Container {
 			jp1.add(jr[i]);
 		}
 		j.add(jp1);
-		//j.add(localisation, g);
 		g.gridy = 2;
-		g.gridx = 1;
-		g.weightx = 0.3;
+		//g.gridx = 1;
+	//	g.weightx = 0.3;
 		g.weighty = 0.8;
 		j.add(j1, g);
 	}
-	/*public JComboBox getLocalisation() {
-		return localisation;
-	}*/
+
 	public JPanel getJ() {
 		return j;
 	}
@@ -67,5 +64,13 @@ public class Frame3 extends Container {
 	}
 	public void setJl1(JLabel jl1) {
 		this.jl1 = jl1;
+	}
+
+	public JButton getB2() {
+		return b2;
+	}
+
+	public JLabel getJl1() {
+		return jl1;
 	}
 }

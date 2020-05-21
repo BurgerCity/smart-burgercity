@@ -7,16 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ClientFrame extends JFrame {
-	CardLayout cl = new CardLayout();
-	JPanel p = new JPanel();
-	Frame1 f1 = new Frame1();
-	Frame2 f2 = new Frame2("insert");
-	Frame3 f3 = new Frame3();
+	private CardLayout cl = new CardLayout();
+	private JPanel p = new JPanel();
+	private Frame1 f1 = new Frame1();
+	private Frame2 f2 = new Frame2("insert");
+	private Frame3 f3 = new Frame3();
 	Frame4 f4;
-	Frame2 f5 = new Frame2("update");
+	private Frame2 f5 = new Frame2("update");
 	ClientFrame() {
 		super("Configuration");
-		this.setSize(400, 300);
+		this.setSize(400, 200);
 		this.p.setLayout(cl);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
