@@ -27,7 +27,7 @@ public class Ihmindic extends JFrame {
 
         this.setLocationRelativeTo(null);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         this.setVisible(true);
 
