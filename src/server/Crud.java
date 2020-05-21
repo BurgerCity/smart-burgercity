@@ -532,5 +532,11 @@ public class Crud {
 		
 	}
 
-	
+	public void fillmaxcar(Request r,DataSource data) throws SQLException {
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		stmt.executeUpdate("UPDATE alertcar set maxcar="+r.getA().get(0)+";");
+		stmt.close();
+		data.returnConnection(c);		
+	}
 }

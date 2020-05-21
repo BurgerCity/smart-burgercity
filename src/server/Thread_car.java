@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
+
 public class Thread_car extends Thread {
 	private Crud crud;
 	private DataSource data;

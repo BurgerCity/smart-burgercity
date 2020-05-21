@@ -8,6 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
+
+// Manual mode frame opens all bounds/closes all bounds
 public class BoundCarFrame3 extends Container{
 	JButton openall;
 	JButton closeall;
