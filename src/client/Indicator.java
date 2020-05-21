@@ -43,14 +43,14 @@ public class Indicator {
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("CAPTORS");
-		r.setTable("Sensor");
+		r.setTable("Ssensor");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		n=Integer.parseInt(rp.getA().get(0));
-		//System.out.println("RÉSULTAT CAPTOR : "+n);
+		System.out.println("RÉSULTAT CAPTOR : "+n);
 		return n;
 	}
 	
@@ -60,7 +60,6 @@ public class Indicator {
 		Json j=new Json(client);
 		r.setOperation_type("BORNES");
 		r.setTable("bound");
-	//	r.setDate("");
 		j.sendRequest(r);
 		Message m=new Message();
 		Response rp = new Response();
@@ -84,7 +83,7 @@ public class Indicator {
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		n=Integer.parseInt(rp.getA().get(0));
-		//System.out.println("RÉSULTAT TRAM : "+n);
+		System.out.println("RÉSULTAT TRAM : "+n);
 		return n;
 	}
 	
@@ -94,7 +93,6 @@ public class Indicator {
 		Json j=new Json(client);
 		r.setOperation_type("EMPC");
 		r.setTable("carbonfootprint");
-	//	r.setDate(s);
 		r.getA().add(s);
 		j.sendRequest(r);
 		Message m=new Message();
@@ -341,7 +339,7 @@ public class Indicator {
 	
 	 public boolean ok(String s)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
 	    	boolean x = true;
-	    	if( this.emp(s) == 0 && this.carinthetown(s) == 0 || this.tp(s)  == 0 || this.td(s)  == 0 ) {
+	    	if( this.emp(s) == 0 || this.carinthetown(s) == 0 || this.tp(s)  == 0 || this.td(s)  == 0 ) {
 	    	x = false;
 	    	}
 	    	//System.out.println(x);
@@ -350,7 +348,7 @@ public class Indicator {
 
 	  public boolean okdate(String s,String s1)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
 	    	boolean x = true;
-	    	if( this.empdate(s,s1) == 0 && this.carinthetowndate(s,s1) == 0 || this.tpdate(s,s1)  == 0 || this.tddate(s,s1)  == 0) {
+	    	if( this.empdate(s,s1) == 0 || this.carinthetowndate(s,s1) == 0 || this.tpdate(s,s1)  == 0 || this.tddate(s,s1)  == 0) {
 	    		x = false;
 	    	}
 	    	//System.out.println(x);
