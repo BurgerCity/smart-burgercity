@@ -1,11 +1,24 @@
 package client;
-
+/**
+ * Marine Bucaille
+ */
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+import client_common.Json;
+import common.Message;
+import common.Request;
+import common.Response;
+
+import java.io.IOException;
 import java.lang.Math;
 
 class Station {
-	
+	private Client_socket client;
 	City burger = new City();
+
 	
 	  int height = burger.getA();
 	  int width = burger.getB();
@@ -137,7 +150,40 @@ class Station {
 		    		 
 		    		 
 		     }
-		     
+	
+	 public void inserting_stations()throws JsonMappingException, JsonProcessingException, IOException {
+		 for (int h=0; h< xs.size();h++) {
+	  Json j = new Json();
+	  Request r1 = new Request();
+	r1.setOperation_type("INSERT");
+	r1.setTable("stations");
+	r1.getA().add(Double.toString(xs.get(h)));
+	r1.getA().add(Double.toString(ys.get(h)));
+	r1.getA().add("1");
+	j.sendRequest(r1);
+	Message m = new Message();
+	Json js = new Json(client);
+	Response res = new Response();
+	res = j.deserialize(m.readMessage(client.getIn()));
+}
+	 }
+	 
+	 public void inserting_network() throws JsonMappingException, JsonProcessingException, IOException{
+		 for( int z = 0 ; z < final_beg.size();z++) {
+			 Json j = new Json();
+			  Request r2 = new Request();
+			  r2.setOperation_type("INSERT");
+				r2.setTable("network");
+				r2.getA().add(Integer.toString(final_beg.get(z)));
+				r2.getA().add(Integer.toString(final_end.get(z)));
+				r2.getA().add("1");
+				j.sendRequest(r2);
+				Message m = new Message();
+	
+				Response res = new Response();
+				res = j.deserialize(m.readMessage(client.getIn()));
+			}
+		 }
 	 
 	
 	public ArrayList<Integer> getFinal_beg() {
