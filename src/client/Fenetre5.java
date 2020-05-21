@@ -18,7 +18,7 @@ public class Fenetre5 extends Ihmindic {
 	public Fenetre5(String s,Boolean a,Boolean b,Boolean c,Boolean d,Boolean b1,Boolean b2,Boolean b3,Boolean b4,Boolean b5,Boolean d1,Boolean d2,Boolean d3,Boolean d4,Boolean d5) throws SQLException, ClassNotFoundException, IOException, InterruptedException { 
 		
 		 
-	      String targetDay = s;
+		      String targetDay = s;
 String s1 ="";
 	      AideIhm f = new AideIhm(s,s1);
 		 JPanel container = new JPanel();
@@ -26,22 +26,13 @@ String s1 ="";
 		 GridBagConstraints co = new GridBagConstraints();
 		 int n = 1;
 		 
-		 co.gridx = 0;
-		 co.gridy = n;
-	     JLabel titre = new JLabel();
-	     titre.setText("<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +
-	             "<h1 style=\"text-align: center;\"><span style=\"text-decoration: underline;\">" +
-	             "<b>STATISTIQUE POUR LA DATE DU " +targetDay+ "</b></span></h1>\n" +
-	             "<p style=\"text-align: center;\"><b><i></i></b></p>\n");
-		 container.add(titre, co);
-	     System.out.println(n);
-		 n++;
+		  //System.out.println(list.get(i));
+         System.out.println(targetDay);
 		 
-			 
-		     String nord = "nord";
-			 String sud = "sud";
-			 String ouest = "ouest";
-			 String est = "est";
+         String nord = "north";
+			 String sud = "south";
+			 String ouest = "west";
+			 String est = "east";
 
 			 int emp = f.getEmp();
 			 int car = f.getCarinthetown();
@@ -59,6 +50,17 @@ String s1 ="";
 			 Double td4=0.0;
 
 			 this.setTitle("AFFICHAGE DE LA DATE");
+			 
+			 co.gridx = 0;
+			 co.gridy = n;
+		     JLabel titre = new JLabel();
+		     titre.setText("<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +
+		             "<h1 style=\"text-align: center;\"><span style=\"text-decoration: underline;\">" +
+		             "<b>STATISTIQUE POUR LA DATE DU " +targetDay+ "</b></span></h1>\n" +
+		             "<p style=\"text-align: center;\"><b><i></i></b></p>\n");
+			 container.add(titre, co);
+		     System.out.println(n);
+			 n++;
 			 
 			 if (((b1 == true)&&(b2 == true)&&(b3 == true)&&(b4 == true))  && ((d1 == true)&&(d2 == true)&&(d3 == true)&&(d4 == true)) )  {
 				 System.out.println("OKKKKKK");
@@ -95,7 +97,7 @@ String s1 ="";
 					 l1.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour la présence de voiture en ville.");
 				 } else {
 					 l1.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
-				                "Le nombre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
+				                "Le mobre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
 				                "<p style=\"text-align: center;\"></p>\n" );
 				 }
 				 container.add(l1, co);
@@ -108,7 +110,7 @@ String s1 ="";
 					 co.gridy = n;
 				     JLabel l41 = new JLabel();
 					 if(tp0 == 0) {
-						 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution pour le secteur nord de la ville.");
+						 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution de la ville.");
 					 } else {
 						 l41.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
 					                "Le taux de pollution  de la ville : "+ tp0 +"&nbsp;</span></p>\n" +
@@ -292,7 +294,7 @@ String s1 ="";
 				 l1.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour la présence de voiture en ville.");
 			 } else {
 				 l1.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
-			                "Le nombre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
+			                "Le mobre de voiture en ville : "+ car +"&nbsp;</span></p>\n" +
 			                "<p style=\"text-align: center;\"></p>\n" );
 			 }
 			 container.add(l1, co);
@@ -300,6 +302,11 @@ String s1 ="";
 			 n++;
 			 
 			 }
+			 
+	
+			 
+			 
+			
 			 
 			 if (b == true  ||(b5==true)  ) {
 				 
@@ -309,7 +316,7 @@ String s1 ="";
 				 co.gridy = n;
 			     JLabel l41 = new JLabel();
 				 if(tp0 == 0) {
-					 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution de la ville.");
+					 l41.setText("Pour cette date, nous n'avons pas de donnée enregistrée pour le taux de pollution pour le secteur nord de la ville.");
 				 } else {
 					 l41.setText( "<html> <head> <style> p{color:#404040;} h1{color:  #993333}</style> </head> <body> " +"<p style=\"text-align: center;\"><span style=\"font-weight: 400;\">" +
 				                "Le taux de pollution  de la ville : "+ tp0 +"&nbsp;</span></p>\n" +
@@ -498,12 +505,8 @@ String s1 ="";
 		
 			 }
 			 
-
-		      
-		 
-		 this.setContentPane(container);
-
-
+	 
+	 this.setContentPane(container);
 
 }
 

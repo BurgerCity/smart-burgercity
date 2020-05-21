@@ -1,0 +1,11 @@
+{
+    "operation_type":"INSERT",
+    "table":"car",
+    "a":[
+    "true",
+    "south",
+    "'2020-05-21'",
+    "3"
+    ]
+    
+}

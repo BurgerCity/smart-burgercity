@@ -1,0 +1,9 @@
+{
+    "operation_type":"INSERT",
+    "table":"bound",
+    "a":[
+    "true",
+    "west",
+    "3"
+    ]
+}

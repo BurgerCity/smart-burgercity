@@ -303,7 +303,7 @@ public class Crud {
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		Crud ss = new Crud();
-		ResultSet rslt=stmt.executeQuery("select count (*)  from network ; ");
+		ResultSet rslt=stmt.executeQuery("select count (*)  from stations ; ");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -359,7 +359,7 @@ public class Crud {
 	public Response empca(DataSource data,String s) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select avg(result) from carbonfootprint where date = ' "+s+" ';");
+		ResultSet rslt=stmt.executeQuery("select cast(avg(result) as int) as moy from carbonfootprint where date = ' "+s+" ';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));
@@ -400,7 +400,7 @@ public class Crud {
 	public Response empperi(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select avg(result) from carbonfootprint where  date BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("select cast(avg(result) as int) as moy from carbonfootprint where  date BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
 			rp.getA().add(Integer.toString(rslt.getInt(1)));

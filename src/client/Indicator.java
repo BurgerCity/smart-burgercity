@@ -174,18 +174,24 @@ public class Indicator {
 	
 	public Double tp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		Double n = a.tpac(s) / a.tpbc();
+		Double n;
+		if (a.tpac(s)==0.0) { n=0.0;}else {
+		 n = a.tpac(s) / a.tpbc();
 		System.out.println("RÉSULTAT TAUX DE POLLUTION : "+n);
-
+		}
 		return n;
 	}
 	
 	public Double td(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
+		Double n;
+		if (a.tp(s)==0.0) { n=0.0;}else {
 		Double b =a.tp(s) -1;
-		Double n = b*100;
+		 n = b*100;
 		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT DE POLLUTION : "+n);
 
+		}
+	
 		return n;
 	}
 	
@@ -222,10 +228,11 @@ public class Indicator {
 	
 	public Double tdn(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
+		Double n;
+		if (a.tpn(s,s1)==0.0) { n=0.0;}else {
 		Double b = (a.tpn(s,s1) - 1);
-		Double n = b*100;
-		if (n == -100) {n=0.0;}
-		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION SECTEUR : "+n);
+		 n = b*100;
+		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION SECTEUR : "+n);}
 		return n;
 	}
 	
@@ -299,16 +306,19 @@ public class Indicator {
 	}
 	public Double tpdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
-		Double n = a.tpadate(s,s1) / a.tpbc();
-		System.out.println("RÉSULTAT TAUX DE POLLUTION  DATE : "+n);
+		Double n ;
+		if (a.tpn(s,s1)==0.0) { n=0.0;}else {
+		 n = a.tpadate(s,s1) / a.tpbc();
+		System.out.println("RÉSULTAT TAUX DE POLLUTION  DATE : "+n);}
 		return n;
 	}
 	
 	public Double tddate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		Indicator a = new Indicator(client);
+		Double n ;
+		if (a.tpdate(s,s1)==0.0) { n=0.0;}else {
 		Double b =a.tpdate(s,s1) -1;
-		Double n = b*100;
-		if (n == -100) {n=0.0;}
+		 n = b*100;}
 		//System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION DATE: "+n);
 		return n;
 	}
@@ -319,8 +329,6 @@ public class Indicator {
 		Json j=new Json(client);
 		r.setOperation_type("TAB");
 		r.setTable("statements");
-	//	r.setDate(s);
-	//	r.setDate2(s1);
 		r.getA().add(s);
 		r.getA().add(s1);
 		j.sendRequest(r);
@@ -338,18 +346,18 @@ public class Indicator {
 	}
 	
 	 public boolean ok(String s)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
-	    	boolean x = true;
-	    	if( this.emp(s) == 0 || this.carinthetown(s) == 0 || this.tp(s)  == 0 || this.td(s)  == 0 ) {
-	    	x = false;
+	    	boolean x = false;
+	    	if( this.emp(s) != 0 || this.carinthetown(s) != 0 || this.tp(s)  != 0.0 || this.td(s)  != 0.0 ) {
+	    	x = true;
 	    	}
 	    	//System.out.println(x);
 			return x;
 	  }
 
 	  public boolean okdate(String s,String s1)  throws SQLException, ClassNotFoundException, IOException, InterruptedException {
-	    	boolean x = true;
-	    	if( this.empdate(s,s1) == 0 || this.carinthetowndate(s,s1) == 0 || this.tpdate(s,s1)  == 0 || this.tddate(s,s1)  == 0) {
-	    		x = false;
+	    	boolean x = false;
+	    	if( this.empdate(s,s1) != 0 || this.carinthetowndate(s,s1) != 0 || this.tpdate(s,s1)  != 0 || this.tddate(s,s1)  != 0) {
+	    		x = true;
 	    	}
 	    	//System.out.println(x);
 			return x;
