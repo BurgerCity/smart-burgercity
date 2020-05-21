@@ -32,6 +32,8 @@ public class Server {
 	private Message msg;
 	private Crud crud;
 	private static DataSource data;
+	private static Thread_bounds tb;
+	private static Thread_car tc;
 	
 
 	
@@ -48,9 +50,7 @@ public class Server {
 						r = this.deserialize(msg.readMessage(in));
 						System.out.println(r.getOperation_type());
 						rp = this.launchCrud(r, crud, data);
-						System.out.println("aprescrud");
 						msg.sendMessage(out, this.serializeServeur(rp));
-						System.out.println("reponselancee");
 						if(r.getOperation_type().equals("STOP")) {
 							this.closeClient();
 						}
@@ -60,10 +60,14 @@ public class Server {
 		}
 	}
 		
-	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, Exception {
 		Server s = new Server();
 		ServerSocket serverSocket = s.startServer(2013);
 		new Thread(new ThreadCollectData(serverSocket, s)).start();
+		tb=new Thread_bounds();
+		tb.start();
+		tc=new Thread_car();
+		tc.start();
 		ServerSocket serverSocket2 = s.startServer(2015);
 			try {
 				while(true) {	
@@ -191,7 +195,29 @@ public class Server {
 		else if(r.getOperation_type().equals("TAB")){
 			rp=crud.tabb(data,r.getA().get(0),r.getA().get(1));
 		}
-
+		else if(r.getOperation_type().equals("SELECT_BOUND_STATUS")) {
+			rp=crud.boundstatus(r,data);
+		}
+		else if(r.getOperation_type().equals("OPEN_BOUNDS")) {
+			crud.manual(r,data);
+		}
+		else if(r.getOperation_type().equals("CLOSE_BOUNDS")) {
+			crud.manual(r,data);
+		}
+		else if(r.getOperation_type().equals("MANUAL_BOUNDS")) {
+			tb.setT(false);
+			tc.setT(false);
+		}
+		else if(r.getOperation_type().equals("AUTO_BOUNDS")) {
+			tb.setT(true);
+			rp.getA().add("true");
+		}
+		else if(r.getOperation_type().equals("SET_MAXCAR")) {
+			tc.setMaxCar(Integer.parseInt(r.getA().get(0)));
+		}
+		else if(r.getOperation_type().equals("GET_MAXCAR")) {
+			rp.getA().add(Integer.toString(tc.getMaxCar()));
+		}
 		return rp;
 	}
 

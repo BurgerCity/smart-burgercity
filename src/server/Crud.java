@@ -189,6 +189,7 @@ public class Crud {
 		return rp;
 	}
 	public Response countcar(DataSource data) throws SQLException{
+		int n=0;
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		ResultSet rslt=stmt.executeQuery("SELECT count(*) from car where inthetown=true;");
@@ -199,6 +200,7 @@ public class Crud {
 		stmt.close();
  		rslt.close();
  		data.returnConnection(c);
+ 		
  		return rp;
 	}
 	
@@ -490,4 +492,29 @@ public class Crud {
 		}
 		return 1;
 	}
+	
+	public Response boundstatus(Request r,DataSource data) throws SQLException {
+		Response rp=new Response();
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		ResultSet rslt=stmt.executeQuery("select status from bound where id="+Integer.parseInt(r.getA().get(0))+";");
+		while(rslt.next()) {		
+			rp.getA().add(Boolean.toString(rslt.getBoolean(1)));
+		}
+		stmt.close();
+ 		rslt.close();
+ 		data.returnConnection(c);
+		return rp;
+	}
+
+	public void manual(Request r,DataSource data) throws SQLException {
+		Connection c=data.takeConnection();
+		Statement stmt=c.createStatement();
+		stmt.executeUpdate("UPDATE bound set status="+r.getA().get(0)+";");
+		stmt.close();
+		data.returnConnection(c);
+		
+	}
+
+	
 }
