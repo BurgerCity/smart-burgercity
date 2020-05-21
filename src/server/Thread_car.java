@@ -27,7 +27,9 @@ public class Thread_car extends Thread {
 	}
 	public int carsupervisor(DataSource data) throws SQLException {
 		int n=0;
-		int a=Integer.parseInt(crud.countcar(data).getA().get(0));
+		int a=0;
+		try{ a=Integer.parseInt(crud.countcar(data).getA().get(0));}
+		catch(NullPointerException e) {}
 		if(a>=maxCar*0.7 && a<=maxCar*0.9) {
 			n=1;
 		}
