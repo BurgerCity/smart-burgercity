@@ -13,7 +13,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.*;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ *This page ask a begin date and a end date and if the format is not correct or is not in base its ask again to enter it by a new window
+ */
 public class Fenetrep1  extends Ihmindic {
    
 private String date= "";

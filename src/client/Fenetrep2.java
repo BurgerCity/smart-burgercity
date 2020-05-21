@@ -22,7 +22,11 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.io.IOException;
 import java.sql.SQLException;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ *this page ask us what indicator we want and all the boolean that you can see will serve us later its all the check box status to know exactly what the user want
+ */
 public class Fenetrep2 extends Ihmindic {
 	
 
@@ -43,7 +47,7 @@ public Fenetrep2(String s,String s1) throws SQLException, ClassNotFoundException
 	 
 	 c.gridx = 0;
 	 c.gridy = 1;
-	 JCheckBox b = new JCheckBox("Le taux de pollution pour : ");
+	 JCheckBox b = new JCheckBox("Le taux de pollution ");
 	 container.add(b, c);
 
 	 c.gridx = 0;

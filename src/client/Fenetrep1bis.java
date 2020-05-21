@@ -12,7 +12,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.*;
-
+/**
+ * 
+ * @author tarshiniparameswaran
+ * This page ask to enter an other begin and a end date or a correct date with the good format
+ */
 public class Fenetrep1bis  extends Ihmindic {
    
 private String date= "";
