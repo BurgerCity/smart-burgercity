@@ -1,6 +1,7 @@
 package client;
 
 import java.io.IOException;
+
 import java.sql.SQLException;
 
 import client_common.Json;
@@ -28,7 +29,6 @@ import client_common.Json;
 import common.Message;
 import common.Request;
 import common.Response;
-import sun.security.action.GetIntegerAction;
 
 public class Indicator {
 	Client_socket client;
@@ -37,6 +37,22 @@ public class Indicator {
 		this.client=c;
 	}
 	
+	public int car() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		int n=0;
+		Request r = new Request();
+		Json j=new Json(client);
+		r.setOperation_type("CARMAX");
+		r.setTable("car");
+		j.sendRequest(r);
+		Message m=new Message();
+		Response rp = new Response();
+		String stt=m.readMessage(client.getIn());
+		//System.out.println("dfgh");
+		rp=j.deserialize(stt);
+		n=Integer.parseInt(rp.getA().get(0));
+		//System.out.println("RÉSULTAT CAR : "+n);
+		return n;
+	}
 	
 	public int captor() throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		int n=0;
@@ -235,6 +251,8 @@ public class Indicator {
 		System.out.println("RÉSULTAT TAUX DE DEPASSEMENT POLLUTION SECTEUR : "+n);}
 		return n;
 	}
+	
+	
 	
 	public int carinthetowndate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
 		int n=0;

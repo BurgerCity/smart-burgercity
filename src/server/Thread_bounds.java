@@ -10,6 +10,13 @@ import java.util.ArrayList;
 
 import common.Request;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
+
+//updates the status of bounds 
 public class Thread_bounds extends Thread {
 	ArrayList<Integer> alerts;
 	ArrayList<Integer> alertcar;

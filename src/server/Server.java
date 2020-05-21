@@ -193,6 +193,11 @@ public class Server {
 		else if(r.getOperation_type().equals("POLL")){
 			rp=crud.tpa(data,r.getA().get(0));
 		}
+		else if(r.getOperation_type().equals("FILLMAXCAR")){			
+			crud.fillmaxcar(r,data);}
+		else if(r.getOperation_type().equals("CARMAX")){
+						rp=crud.carmax(data);
+		}
 
 		return rp;
 	}

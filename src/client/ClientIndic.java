@@ -16,15 +16,15 @@ public class ClientIndic {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 	Client_socket c = new Client_socket();
-	//c.startConnection("172.31.249.164", 2015);
-	c.startConnection("127.0.0.1", 2015);
+	c.startConnection("172.31.249.164", 2015);
+	//c.startConnection("127.0.0.1", 2015);
      Fenetre fenetre = new Fenetre();
       Indicator f = new Indicator(c);
-      System.out.println("OKKK" + f.ok("2020-05-21"));
+     /* System.out.println("OKKK" + f.ok("2020-05-21"));
       System.out.println("OKKK" +  f.emp("2020-05-21") ) ;
       System.out.println("OKKK" +  f.carinthetown("2020-05-21")) ;
       System.out.println("OKKK" + 	 f.tp("2020-05-21") ) ;
-  	 f.td("2020-05-21") ;
+  	 f.td("2020-05-21") ;*/
 
       
  /* 	String s  = "2020-05-21";

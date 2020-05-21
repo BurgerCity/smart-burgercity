@@ -14,13 +14,20 @@ import common.Message;
 import common.Request;
 import common.Response;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
+
+//class listner 
 public class BoundCarListner implements ActionListener {
 	BoundMainPanel bmp=new BoundMainPanel();
 	Client_socket client=new Client_socket();
 	ThreadAutomode thread;
 	boolean tt=true;
 	boolean tc=true;
-	private int maxcar;
+	private int maxCar;
 	BoundCarListner(Client_socket client){
 		bmp.getB1().getAuto().addActionListener(this);
 		bmp.getB1().getManu().addActionListener(this);
@@ -80,16 +87,19 @@ public class BoundCarListner implements ActionListener {
 				}
 			}
 			if(e.getSource()==bmp.getB1().maxcar) {
-				
-				maxcar=Integer.parseInt(bmp.getB1().maxcar.getText());
+				if(Integer.parseInt(bmp.getB1().maxcar.getText())<0 ) {
+					bmp.getB1().maxcar.setText("ERROR ENTREZ UN NOMBRE ENTIER");
+				}
+				maxCar=Integer.parseInt(bmp.getB1().maxcar.getText());
 				try {
-						setmaxcar(client,maxcar);
+						setmaxcar(client,maxCar);
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
 				
 				try {				
-					bmp.getB1().car.setText(""+currcar(client));
+					fillmaxcar(client,maxCar);
+					bmp.getB1().car.setText("nbr de voitures dans la ville : "+currcar(client));
 					System.out.println("*****************");				
 
 				} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e1) {
@@ -106,13 +116,8 @@ public class BoundCarListner implements ActionListener {
 			
 	}
 	
-	public int getMaxcar() {
-		return maxcar;
-	}
-	public void setMaxcar(int maxcar) {
-		this.maxcar = maxcar;
-	}
 	public void manumode() {
+		// launches manual mode and desactivates automode
 		Request rq=new Request();
 		rq.setOperation_type("MANUAL_BOUNDS");
 		rq.setTable("bound");
@@ -137,6 +142,10 @@ public class BoundCarListner implements ActionListener {
 		json.sendRequest(rq);
 	}
 	public void textfill(Client_socket client) throws IOException {
+		
+		//false = closed bound, true = open bound
+		
+		
 		bmp.b2.borne1.setText(""+borne(1,client));
 		bmp.b2.borne2.setText(""+borne(2,client));
 		bmp.b2.borne3.setText(""+borne(3,client));
@@ -148,6 +157,7 @@ public class BoundCarListner implements ActionListener {
 		
 	}
 	public boolean borne(int id,Client_socket client) throws IOException {
+		//retrieves borne status 
 		boolean b=true;
 		String s;
 		Request r=new Request();
@@ -206,5 +216,16 @@ public class BoundCarListner implements ActionListener {
 		n=Integer.parseInt(rp.getA().get(0));
 		System.out.println(n);
 		return n;
+	}
+	public void fillmaxcar(Client_socket client, int maxcar) throws JsonMappingException, JsonProcessingException, IOException {
+		Request r=new Request();
+		Json j=new Json(client);
+		r.setOperation_type("FILLMAXCAR");
+		r.setTable("alertcar");
+		r.getA().add(""+maxcar);
+		j.sendRequest(r);
+		Response rp=new Response();
+		Message m=new Message();
+		rp=j.deserialize(m.readMessage(client.getIn()));
 	}
 }

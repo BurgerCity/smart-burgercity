@@ -10,7 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
 
+// Home frame of ihm
 public class BoundCarFrame1 extends Container {
 	JPanel jp;
 	JLabel car;
