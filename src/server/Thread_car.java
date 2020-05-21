@@ -1,14 +1,22 @@
 package server;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import common.Response;
 
 public class Thread_car extends Thread {
 	private Crud crud;
 	private DataSource data;
 	private int maxCar=0;
-	private boolean t=true;
+	private boolean t=true; //acts as a switch for the thread
 	public Thread_car(Crud crud,DataSource data) throws ClassNotFoundException{
 		this.crud=crud;
 		this.data=data;
@@ -26,8 +34,14 @@ public class Thread_car extends Thread {
 			
 	}
 	public int carsupervisor(DataSource data) throws SQLException {
+		//returns 1 if "a" is superior to 
 		int n=0;
-		int a=Integer.parseInt(crud.countcar(data).getA().get(0));
+		int a =0; //number of cars in the town
+		try {
+		a=Integer.parseInt(crud.countcar(data).getA().get(0));}
+		catch(NullPointerException e) {
+		}
+		
 		if(a>=maxCar*0.7 && a<=maxCar*0.9) {
 			n=1;
 		}

@@ -11,6 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author Idriss Zerai
+ *
+ */
 public class BoundCarFrame2 extends Container{
 	JPanel boundpanel1;
 	JPanel boundpanel2;
