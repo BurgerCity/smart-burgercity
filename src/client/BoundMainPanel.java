@@ -25,7 +25,7 @@ public class BoundMainPanel extends JFrame{
 		this.setSize(500, 500);
 		this.jp.setLayout(c);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 
 		this.jp.add("f1",b1.getJp());
