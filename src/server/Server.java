@@ -24,7 +24,6 @@ public class Server {
 	private Socket clientSocket;
 	private OutputStreamWriter out;
 	private BufferedReader in;
-	private String select;
 	private Request r;
 	private Response rp;
 	private ObjectMapper objectMapper;
