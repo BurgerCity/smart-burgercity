@@ -66,7 +66,6 @@ public class Crud {
 	}
 	
 	public Response CarbonSelect(Request r, DataSource data) throws SQLException{
-		System.out.println("Welcome to carbonSelect");
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
 		String rr = r.getA().get(0);
