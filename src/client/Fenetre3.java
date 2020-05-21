@@ -3,7 +3,6 @@ package client;
 import javax.swing.*;
 
 
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +18,7 @@ public class Fenetre3  extends Ihmindic {
    
 private String date= "";
 
-    public Fenetre3()throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+    public Fenetre3() throws SQLException, ClassNotFoundException, IOException, InterruptedException {
     	
         this.setTitle("CHOIX DE LA DATE");
         
@@ -30,14 +29,14 @@ private String date= "";
 
         c.gridx = 0;
         c.gridy = 0;
-        JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé: ");
+        JLabel a = new JLabel("Veuillez renseigner une date (aaaa-mm-jj), si le format n'est pas respecté l'accès ne sera pas autorisé, ainsi que la cohérence des mois et jours: ");
         container.add(a, c);
         
         c.gridx = 1;
         c.gridy = 0;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     	JFormattedTextField field = new JFormattedTextField(dateFormat);
-       // JTextField field = new JTextField();
+        //JTextField field = new JTextField();
         field.setPreferredSize( new Dimension( 200, 24 ) );
       //  field.setFocusLostBehavior(JFormattedTextField.REVERT);
         container.add(field,c);
@@ -52,12 +51,11 @@ private String date= "";
         d.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 String getValue = field.getText().toString(); 
-                String s2 ="";
+                
                 Date date = null;
 				try {
 					date = dateFormat.parse(getValue);
 				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				
@@ -67,20 +65,17 @@ private String date= "";
  					a.setText("Le format de la date n'est pas correcte, VEUILLEZ ENTRER UNE DATE DE NOUVEAU avec le bon format (aaaa-mm-dd) :");
                  
                  } 
-				
+
                 try {
-                	AideIhm f = new AideIhm(getValue,s2);
-					boolean o = f.getOk(getValue);
-                    if ( f.getOk(getValue) == true ) { 
+                	String s2 = null;
+					AideIhm f = new AideIhm(getValue,s2);
+                    boolean o = f.getOk(getValue);
+                    if ( f.getOk(getValue) == true) { 
                     	
                     	Fenetre4 nw = new Fenetre4(getValue);
                     
                     } else {
-                    	
-						a.setText("La date choisit n'a pas de données enregistrées, VEUILLEZ ENTRER UNE DATE DE NOUVEAU avec le bon format (aaaa-mm-dd) :");
-					
-                    }
-                    
+					Fenetre3bis a = new Fenetre3bis(getValue);}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -107,7 +102,3 @@ private String date= "";
 
 }
     
-   
-	        
-
-

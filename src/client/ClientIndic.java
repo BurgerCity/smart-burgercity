@@ -23,7 +23,7 @@ public class ClientIndic {
   	String s  = "2020-05-19";
     String s1 = "2020-05-20";
     
-      Indicator f = new Indicator(c);
+    /*  Indicator f = new Indicator(c);
       System.out.println("BORNE "+f.borne());
       System.out.println("CAPTERU "+f.captor());
       System.out.println("Carinthetown " + f.carinthetown(s));
@@ -42,6 +42,6 @@ public class ClientIndic {
       System.out.println("tpadate " +f.tpadate(s, s1));
       System.out.println("tpbc " +f.tpbc());
       System.out.println("tpdate " +f.tpdate(s, s1));
-      System.out.println("tpn " +f.tpn(s, "north"));
+      System.out.println("tpn " +f.tpn(s, "north"));*/
 	}
 }
