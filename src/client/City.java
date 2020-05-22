@@ -55,6 +55,7 @@ class City {
 		r.getA().add(Integer.toString(b));
 		r.getA().add(Integer.toString((int) Math.round((Double) surface)));
 		r.getA().add(Integer.toString(budget));
+		r.getA().add(Integer.toString(station_price));
 		r.getA().add(Integer.toString(theorical_num_stat));
 		r.getA().add("1");
 		j.sendRequest(r);
