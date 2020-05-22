@@ -78,7 +78,14 @@ public class ClientMain extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == tram) {
-			
+			Tram t = new Tram();
+			String[] args = null;
+			try {
+				t.main(args);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if(e.getSource() == sensor) {
 			ClientFrame cf = new ClientFrame();
@@ -107,7 +114,6 @@ public class ClientMain extends JFrame implements ActionListener {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
 		c = new Client_socket();
 		c.startConnection("172.31.249.164", 2015);
-		//c.startConnection("127.0.0.1", 2015);
 		ClientMain client = new ClientMain();
 	}
 	
