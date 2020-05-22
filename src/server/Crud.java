@@ -407,6 +407,7 @@ public class Crud {
 		ResultSet rslt=stmt.executeQuery("select status from bound where id="+Integer.parseInt(r.getA().get(0))+";");
 		while(rslt.next()) {		
 			rp.getA().add(Boolean.toString(rslt.getBoolean(1)));
+			System.out.println(rslt.getBoolean(1));
 		}
 		stmt.close();
  		rslt.close();
