@@ -3,7 +3,7 @@ package test_usecase_sensor;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import SimulatorStatement.Normal;
+import simulator_statement.Normal;
 
 public class SimulationAlert {
 

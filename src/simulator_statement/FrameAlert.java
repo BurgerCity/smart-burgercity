@@ -1,4 +1,4 @@
-package SimulatorStatement;
+package simulator_statement;
 
 import java.awt.CardLayout;
 import java.awt.Color;

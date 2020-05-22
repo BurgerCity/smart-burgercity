@@ -221,12 +221,11 @@ public class SensorListener implements ActionListener {
 			if(r.getOperation_type().equals("UPDATE")) i++;
 			while(i < n) {
 				if(f.getTf()[i].getText().toString().length() == 0) {			//this if, test if all TextField are fill up
-					System.out.println(f.getTf()[i].getText().length()); 		
 					f.getJ12().setText("Please fill in all fields");
 					return false;
 				}
 				if(Double.parseDouble(f.getTf()[i].getText()) <= 0 ) {			//this if, test if there is no negative number in all Text Field
-					f.getJ12().setText("Please don't put a negative number");
+					f.getJ12().setText("<html><center>Please don't put a <br> negative number</center></html>");
 					return false;
 				}
 				i++;
@@ -241,7 +240,7 @@ public class SensorListener implements ActionListener {
 			if(Integer.parseInt(f.getTf()[1].getText()) > 400 || Integer.parseInt(f.getTf()[2].getText()) > 400 || Double.parseDouble(f.getTf()[3].getText()) > 0.5
 					|| Double.parseDouble(f.getTf()[4].getText()) > 0.5 || Integer.parseInt(f.getTf()[5].getText()) > 80 || Integer.parseInt(f.getTf()[6].getText()) > 80
 					|| Integer.parseInt(f.getTf()[7].getText()) > 10000 || Integer.parseInt(f.getTf()[8].getText()) > 10000) {
-				f.getJ12().setText("Threshold can't be bigger than the standard");
+				f.getJ12().setText("<html><center>Threshold can't be bigger <br> than the standard</center></html>");
 				return false;
 			}
 			return true;	
