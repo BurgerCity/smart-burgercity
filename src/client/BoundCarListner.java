@@ -102,9 +102,14 @@ public class BoundCarListner implements ActionListener {
 				if(Integer.parseInt(bmp.getB1().maxcar.getText())<0 ) {
 					bmp.getB1().maxcar.setText("ERROR ENTREZ UN NOMBRE ENTIER");
 				}
+				try {
+					autobounds(client);
+				} catch (IOException e3) {
+					e3.printStackTrace();
+				}
 				maxCar=Integer.parseInt(bmp.getB1().maxcar.getText());
 				try {
-						setmaxcar(client,maxCar);
+					setmaxcar(client,maxCar);
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					}
