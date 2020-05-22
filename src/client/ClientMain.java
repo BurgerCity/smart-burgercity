@@ -32,7 +32,7 @@ public class ClientMain extends JFrame implements ActionListener {
 	private static Client_socket c;
 	
 	ClientMain() {
-		super("Configuration");
+		super("Smart Burger City");
 		this.setSize(500, 250);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
