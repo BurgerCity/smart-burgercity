@@ -155,9 +155,13 @@ public class Server {
 			rp=crud.boundstatus(r,data);
 		}
 		else if(r.getOperation_type().equals("OPEN_BOUNDS")) {
+			tb.setT(false);
+			tc.setT(false);
 			crud.manual(r,data);
 		}
 		else if(r.getOperation_type().equals("CLOSE_BOUNDS")) {
+			tb.setT(false);
+			tc.setT(false);
 			crud.manual(r,data);
 		}
 		else if(r.getOperation_type().equals("MANUAL_BOUNDS")) {
