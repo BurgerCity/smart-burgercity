@@ -141,7 +141,7 @@ public class Normal extends Thread {
 				
 				if(x == 4 || x == 6) {										//this condition is for the test
 					
-					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
+					if(Integer.parseInt(rp.getA().get(0)) == 1) {
 						
 						if(counter >= 2 && counter < 6) {
 							
