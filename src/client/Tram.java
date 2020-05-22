@@ -13,7 +13,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 
-public class Tram extends JPanel {
+public class Tram extends JFrame {
 	  public static void main(String[] args) throws JsonMappingException, JsonProcessingException, IOException {
 	  JFrame frame = new JFrame();
 	    frame.setTitle("Your tram network");

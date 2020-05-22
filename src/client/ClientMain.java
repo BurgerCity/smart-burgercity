@@ -79,13 +79,6 @@ public class ClientMain extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == tram) {
 			Tram t = new Tram();
-			String[] args = null;
-			try {
-				t.main(args);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 		if(e.getSource() == sensor) {
 			ClientFrame cf = new ClientFrame();
