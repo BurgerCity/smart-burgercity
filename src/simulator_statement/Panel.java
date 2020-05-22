@@ -1,4 +1,4 @@
-package simulatorStatement;
+package simulator_statement;
 
 import java.awt.Color;
 import java.awt.Container;
