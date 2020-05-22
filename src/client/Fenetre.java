@@ -52,7 +52,7 @@ class Fenetre extends Ihmindic   {
         Double tt = aide.getTp();
         Double tdd = aide.getTd();
         int cit = aide.getCarinthetown();
-        int eemp = aide.getEmp();
+        long eemp = aide.getEmp();
      
 
         this.setTitle("Analyser des indicateurs relatifs \u00e0 l'activit\u00e9 de la ville");
