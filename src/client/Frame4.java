@@ -39,8 +39,9 @@ public class Frame4 extends Container {
 		jr = new JRadioButton[rp.getA().size()];
 		label = new JLabel();
 		for(int i = 0; i < rp.getA().size(); i++) {
-			jl[i] = new JLabel(rp.getA().get(i));
+			jl[i] = new JLabel("<html><center> " + rp.getA().get(i) + "</center></html>");
 			jr[i] = new JRadioButton();
+			jl[i].setHorizontalAlignment(JLabel.CENTER);
 			jp1.add(jl[i]);
 			jp1.add(jr[i]);
 		}

@@ -74,15 +74,20 @@ public class ThreadSensor extends Thread{
 					if(r == null) {										//if the simulation is finished, it comes out the while(true)
 						break;
 					}
-					
-					System.out.println(r.getA());
+
 					r.getA().add("now()");								//the order in the arraylist is important because in the class Crud
 					r.setTable("statements");
 					r.getA().add("1");
+					
 					//this if test if the number of line for the sensor in the table statements is equal to the column timebeforealert in the table sensor
-					if(this.NumberLine() == Integer.parseInt(rp.getA().get(2))) { 
+					if(this.NumberLine() >= Integer.parseInt(rp.getA().get(2))) { 
 						this.deleteRow(); //if it's the case, the oldest row is deleted
 					}
+					
+					System.out.println("  ");
+					System.out.println("*************************************");
+					System.out.println("  ");
+					
 					crud.insert(r, data);			//this method insert the statement of the simulator in the table statements
 				
 					int alert = this.testAlert();	//this method get the type of alert
@@ -93,9 +98,7 @@ public class ThreadSensor extends Thread{
 					} else {
 						this.updateAlert(alert);
 					}
-					System.out.println("  ");
-					System.out.println("*************************************");
-					System.out.println("  ");
+
 					rp = this.sendRow(s);
 					msg.sendMessage(out, server.serializeServeur(rp));		//the server send the row of the sensor to the simulator, 
 																			//for that the simulator knows the type of alert
@@ -169,9 +172,7 @@ public class ThreadSensor extends Thread{
 				
 			}
 		}
-		System.out.println(" ");
 		a = this.testTimeBeforeAlert(a);
-		System.out.println(a + " apres this.alerttime");
 		//System.out.println(this.alert(a));
 		data.returnConnection(c);
 		return this.alert(a);
@@ -194,6 +195,7 @@ public class ThreadSensor extends Thread{
 			}
 		}
 		if(alert == a.size()) {
+			System.out.println("There is en alert for the sensor : " + i);
 			return 2;
 		}
 		return 1;

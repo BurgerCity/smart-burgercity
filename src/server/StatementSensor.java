@@ -44,7 +44,6 @@ public class StatementSensor extends Thread {
 						int x = a2.get(i);
 						a1.add(x);
 						new Thread(new ThreadSensor(x, ss, data, crud, ss2018)).start();
-						System.out.println("j'ajoute a2 = " + a2 + "   a1 = " + a1);
 					}
 				}
 			}

@@ -62,15 +62,19 @@ public class Normal extends Thread {
 	
 	public void run() {						
 		try {
-		socket = new Socket("127.0.0.1", 2018);											//a socket is created for each sensor
-		out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+			socket = new Socket("127.0.0.1", 2018);											//a socket is created for each sensor
+			out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
 		} catch (IOException e) {}
+		
 		msg = new Message();
 		json = new Json();
 		r = new Request();
 		rdm = new Random();
+		
 		while(true) {
+			
+
 			
 			r = new Request();
 			r.getA().add(rp.getA().get(0));	
@@ -78,20 +82,32 @@ public class Normal extends Thread {
 			this.statement();			//this method do the statement with an appropriate random 
 			
 			System.out.println(rp.getA());
+			
+
+			
 			try {
 			Thread.sleep(Long.parseLong(rp.getA().get(3)) * 1000); 		//this line allows to do a statement every x minutes
 			
 			r.setOperation_type("GIVE");
+			
+			System.out.println(" ");
+			System.out.println("********************************************");
+			System.out.println(" ");
+			
 			System.out.println(json.serialize(r));
 			
+
+			
 			msg.sendMessage(out, json.serialize(r));		//this method allows to send statements to the server
+			
+
 			
 			rp = new Response();
 			
 			rp = json.deserialize(msg.readMessage(in));		//the simulator recovers data of the sensor
 			
 			counter = counter + 1;						//this variable is used for the test
-			System.out.println("ALERTE EST DE " + rp.getA().get(rp.getA().size() - 1));
+			System.out.println("Type of the alert " + rp.getA().get(rp.getA().size() - 1) + " for the sensor " + rp.getA().get(0));
 			
 			this.switchFrame(rp);				//this method enable to switch JPanel depending of the level of alert, if it's 0, 1 or 2
 
@@ -99,7 +115,7 @@ public class Normal extends Thread {
 		}
 	}
 	
-	public void random(int i) {
+	public void random(int i) {			//this method do a random
 		int k;
 		if(x == 6) {										//
 			k = Integer.parseInt(rp.getA().get(i + 4));		//	conditions are used for the test
@@ -111,7 +127,7 @@ public class Normal extends Thread {
 	}
 	
 	public void statement() {
-		for(int i = 0;  i < 8; i += 2) {
+		for(int i = 0;  i < 8; i += 2) {			//this loop add in the arraylist each random statement depending of the data of the sensor
 			if(i == 2) {
 				
 				double y = Double.parseDouble(rp.getA().get(6));		//it's double because there is a threshold between 0 and 0.5
@@ -123,7 +139,7 @@ public class Normal extends Thread {
 			
 			} else {
 				
-				if(x == 4 || x == 6) {
+				if(x == 4 || x == 6) {										//this condition is for the test
 					
 					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
 						
@@ -137,9 +153,9 @@ public class Normal extends Thread {
 								} else if(x == 4){
 									k = Integer.parseInt(rp.getA().get(i + x));
 								}	
-								System.out.println(k);
+								//System.out.println(k);
 								int rm = rdm.nextInt(k) + k;
-								System.out.println(rm);		
+								//System.out.println(rm);		
 								r.getA().add(Integer.toString(rm));
 							
 							} else {
@@ -155,28 +171,28 @@ public class Normal extends Thread {
 					}
 					
 				} else {
-					this.random(i);
+					this.random(i);				//this method do a random 
 				}
 			}
 		}
 	}
 
-	public void switchFrame(Response r) {
+	public void switchFrame(Response r) {				//this method create a frame when the alert is either 1 or 2
 		if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1 || Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
 			if(frame == true) {
 				f = new FrameAlert();
 				frame = false;
 			}
-			if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {
-				if(bb == false) {
+			if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 1) {		//when the alert is 1 then the frame is displayed
+				if(bb == false) {		//there is a boolean, it's for not add "<br>for the sensor" everytime
 					this.getF().getP1().getL().setText("<html><center><h1> " + this.getF().getP1().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
 					this.getF().getCl().show(f.getP(), "p1");
 					bb = true;
 				} else {
 					this.getF().getCl().show(f.getP(), "p1");
 				}
-			} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {
-				if(b == false) {
+			} else if(Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 2) {		//when the alert is 2 then the frame is displayed
+				if(b == false) {			//there is a boolean, it's for not add "<br>for the sensor" everytime
 					this.getF().getP2().getL().setText("<html><center><h1> " + this.getF().getP2().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
 					this.getF().getCl().show(f.getP(), "p2");
 					b = true;
@@ -186,9 +202,9 @@ public class Normal extends Thread {
 			}
 			boo = false;
 		}
-		else if (Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {
+		else if (Integer.parseInt(rp.getA().get(rp.getA().size() - 1)) == 0) {		//when the alert is 0 then the frame is displayed
 			if(boo == false) {
-				if(bool == true) {
+				if(bool == true) {		//there is a boolean, it's for not add "<br>for the sensor" everytime
 					this.getF().getP0().getL().setText("<html><center><h1> " + this.getF().getP0().getL().getText() + " <br>for the sensor " + rp.getA().get(0) + "</h1></center></html>");
 					this.getF().getCl().show(f.getP(), "p0");
 					bool = false;
