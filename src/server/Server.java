@@ -170,6 +170,7 @@ public class Server {
 		}
 		else if(r.getOperation_type().equals("AUTO_BOUNDS")) {
 			tb.setT(true);
+			tc.setT(true);
 			rp.getA().add("true");
 		}
 		else if(r.getOperation_type().equals("SET_MAXCAR")) {
