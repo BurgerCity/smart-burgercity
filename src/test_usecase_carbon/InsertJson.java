@@ -1,4 +1,4 @@
-package carbonDemo;
+package test_usecase_carbon;
 
 
 import java.io.BufferedReader;

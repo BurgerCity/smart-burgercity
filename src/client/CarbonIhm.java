@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -63,7 +65,7 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		response.setEditable(false);
 		
 		setTitle("CarbonIhm"); 
-		setSize(1000,500); 
+		setSize(1300,160); 
 		setLocationRelativeTo(null); 
 		setResizable(true); 
 		this.setLocationRelativeTo(null);
@@ -81,24 +83,21 @@ public class CarbonIhm extends JFrame implements ActionListener{
 		liste2 = new JComboBox<String>(percents);
 		liste3 = new JComboBox<String>(percents);
 		
-
-				
-		JTextArea car = new JTextArea("Entrez le pourcentage d'utilisation de VOITURE souhaité");
+		JTextArea car = new JTextArea("Enter the desired CAR usage percentage");
 		car.setEditable(false);
 		panel.add(car);
 		panel.add(liste1);
 		
-		JTextArea velib = new JTextArea("Entrez le pourcentage d'utilisation de VELIB souhaité");
+		JTextArea velib = new JTextArea("Enter the desired VELIB usage percentage");
 		velib.setEditable(false);
 		panel.add(velib);
 		panel.add(liste2);
 		
-		JTextArea tramway = new JTextArea("Entrez le pourcentage d'utilisation de TRAMWAY souhaité");
+		JTextArea tramway = new JTextArea("Enter the desired TRAMWAY usage percentage");
 		tramway.setEditable(false);
 		panel.add(tramway);
 		panel.add(liste3);
-		
-		bouton = new JButton("Confirmer");
+		bouton = new JButton("Validate");
 		panel.add(bouton);
 		bouton.addActionListener(this);
 		this.add(panel);

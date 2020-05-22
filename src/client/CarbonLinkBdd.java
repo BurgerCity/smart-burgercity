@@ -11,7 +11,6 @@ import common.Response;
 
 public class CarbonLinkBdd {
 	int[] valueRequest;
-	
 	private Client_socket client;
 	
 	CarbonLinkBdd() throws IOException, ClassNotFoundException, SQLException, InterruptedException{
