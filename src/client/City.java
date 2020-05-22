@@ -33,7 +33,7 @@ class City {
 	  public City() throws JsonMappingException, JsonProcessingException, IOException{
 		  System.out.println("eee");
 		  this.client = new Client_socket();
-		  this.client.startConnection("127.0.0.1", 2015);
+		  this.client.startConnection("172.31.249.164", 2015);
 		  a = Integer.parseInt(JOptionPane.showInputDialog("Hauteur de la ville"));  /*width*/
 		  b = Integer.parseInt(JOptionPane.showInputDialog("Largeur de la ville"));   /*Height*/
 		  
