@@ -1,4 +1,4 @@
-package SimulatorStatement;
+package simulatorStatement;
 
 import java.io.BufferedReader;
 import java.io.IOException;

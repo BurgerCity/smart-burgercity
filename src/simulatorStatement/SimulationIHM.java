@@ -1,4 +1,4 @@
-package SimulatorStatement;
+package simulatorStatement;
 
 import java.io.IOException;
 import java.sql.SQLException;
