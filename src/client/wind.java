@@ -17,8 +17,8 @@ public class wind  extends JPanel{
 			try {
 				station = new Station();
 				station.create_network();
-				  station.inserting_stations();
-				  station.inserting_network();
+				 // station.inserting_stations();
+				 // station.inserting_network();
 	      super.paintComponent(g);
 	      Color lightgrey = new Color(215,215,215);
 	      g.setColor(lightgrey);

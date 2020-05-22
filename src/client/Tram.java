@@ -18,12 +18,8 @@ public class Tram extends JFrame {
 	  JFrame frame = new JFrame();
 	    frame.setTitle("Your tram network");
 	    frame.setSize(1600, 800);
-	    frame.addWindowListener(new WindowAdapter() {
-	       public void windowClosing(WindowEvent e) {
-	          System.exit(0);
-	       }
-	       
-	    });
+	    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 	    Container contentPane = frame.getContentPane();
 	    contentPane.add(new wind());
 	   // Station s = new Station();
