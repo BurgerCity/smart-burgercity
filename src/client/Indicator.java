@@ -108,8 +108,9 @@ public class Indicator {
 		return n;
 	}
 	// calculate an average of carbonfootprint for a date
-	public int emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		int n = 0;
+	public long emp(String s) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		System.out.println("OKK");
+		long n = 0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPC");
@@ -122,7 +123,8 @@ public class Indicator {
 		rp=j.deserialize(stt);
 		System.out.println(rp);
 		if ( rp.getA().size() != 0) {
-			 n = Integer.parseInt(rp.getA().get(0));
+			 n = Long.parseLong(rp.getA().get(0));
+			 System.out.println("long test"+n);
 
 		} else {
 			n = 0;
@@ -275,8 +277,9 @@ public class Indicator {
 		return n;
 	}
 	//it calculate the carbonfootprint between a periode 
-	public int empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
-		int n=0;
+	public long empdate(String s,String s1) throws SQLException, ClassNotFoundException, IOException, InterruptedException{
+		System.out.println("OKK");
+		long n=0;
 		Request r = new Request();
 		Json j=new Json(client);
 		r.setOperation_type("EMPDATE");
@@ -289,8 +292,8 @@ public class Indicator {
 		String stt=m.readMessage(client.getIn());
 		rp=j.deserialize(stt);
 		if ( rp.getA().size() != 0) {
-			 n = Integer.parseInt(rp.getA().get(0));
-
+			 n = Long.parseLong(rp.getA().get(0));
+System.out.println("long tesy"+n);
 		} else {
 			n = 0;
 		}

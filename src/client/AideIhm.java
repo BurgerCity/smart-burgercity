@@ -47,8 +47,8 @@ public class AideIhm {
     public int getTram() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.tram();
     }
-   public int getEmp() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
-	   int v = f.emp(s);
+   public long getEmp() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+	   long v = f.emp(s);
 	   return v;
    }
     public int getCarinthetown() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
@@ -71,7 +71,7 @@ public class AideIhm {
     public int getCarinthetowndate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return   f.carinthetowndate(s,s1);
     }
-    public int getEmpdate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
+    public long getEmpdate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
         return  f.empdate(s,s1);
     }
     public Double getTddate() throws ClassNotFoundException, SQLException, IOException, InterruptedException {
