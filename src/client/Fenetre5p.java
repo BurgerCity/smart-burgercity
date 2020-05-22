@@ -48,7 +48,7 @@ public class Fenetre5p extends Ihmindic{
    			 String ouest = "west";
    			 String est = "east";
 
-   			 int emp = f.getEmp();
+   			 long emp = f.getEmp();
    			 int car = f.getCarinthetown();
    			 Double tp= f.getTp();
    			 Double td=f.getTd();

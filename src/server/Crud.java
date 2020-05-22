@@ -251,10 +251,11 @@ public class Crud {
 	public Response empca(DataSource data,String s) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select cast(avg(result) as int) as moy from carbonfootprint where date = ' "+s+" ';");
+		ResultSet rslt=stmt.executeQuery("select avg(result) from carbonfootprint where date = ' "+s+" ';");
 		Response rp=new Response();
 		while(rslt.next()) {
-			rp.getA().add(Integer.toString(rslt.getInt(1)));
+			rp.getA().add(Long.toString(rslt.getLong(1)));
+			System.out.println(Long.toString(rslt.getLong(1)));
 		}
 		stmt.close();
  		rslt.close();
@@ -293,10 +294,11 @@ public class Crud {
 	public Response empperi(DataSource data,String s,String s1) throws SQLException{
 		Connection c=data.takeConnection();
 		Statement stmt=c.createStatement();
-		ResultSet rslt=stmt.executeQuery("select cast(avg(result) as int) as moy from carbonfootprint where  date BETWEEN '"+s+"' and '"+s1+"';");
+		ResultSet rslt=stmt.executeQuery("select avg(result) from carbonfootprint where  date BETWEEN '"+s+"' and '"+s1+"';");
 		Response rp=new Response();
 		while(rslt.next()) {
-			rp.getA().add(Integer.toString(rslt.getInt(1)));
+			rp.getA().add(Long.toString(rslt.getLong(1)));
+			System.out.println(Long.toString(rslt.getLong(1)));
 		}
 		stmt.close();
  		rslt.close();
@@ -407,6 +409,7 @@ public class Crud {
 		ResultSet rslt=stmt.executeQuery("select status from bound where id="+Integer.parseInt(r.getA().get(0))+";");
 		while(rslt.next()) {		
 			rp.getA().add(Boolean.toString(rslt.getBoolean(1)));
+			System.out.println(rslt.getBoolean(1));
 		}
 		stmt.close();
  		rslt.close();
