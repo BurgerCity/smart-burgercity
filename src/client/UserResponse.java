@@ -96,7 +96,7 @@ class UserResponse{
 		"AvgDistTrav Car : " + info.getAvgDistTravCar() + " km" + '\n' +
 		"AvgDistTrav Velib : " + info.getAvgDistTravVelib() +  " km" + '\n' +
 		"AvgDistTrav Tram : " + info.getAvgDistTravTram() + " km" + '\n' +
-		"AvgDistTrav Walking : " + info.getAvgDistTravWalker() + " km"+ '\n' +
+		//"AvgDistTrav Walking : " + info.getAvgDistTravWalker() + " km"+ '\n' +
 		"CF Array : ";
 		
 		for(int i = 0 ; i < 4; i++) {
