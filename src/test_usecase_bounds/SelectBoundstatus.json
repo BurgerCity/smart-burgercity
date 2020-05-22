@@ -1,0 +1,7 @@
+{
+"operation_type":"SELECT_BOUND_STATUS",
+"table":"bound",
+"a":[
+"1"
+]
+}

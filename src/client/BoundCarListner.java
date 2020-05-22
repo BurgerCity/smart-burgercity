@@ -59,15 +59,27 @@ public class BoundCarListner implements ActionListener {
 
 			}
 			if(e.getSource()==bmp.getB1().getManu()) {
-				manumode();
+				try {
+					manumode();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				(bmp.getC()).show(bmp.getJp(), "f3");
 			
 			}
 			if(e.getSource()==bmp.b3.openall) {
-				this.openAll(client);
+				try {
+					this.openAll(client);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 			if(e.getSource()==bmp.b3.closeall) {
-				this.closeAll(client);
+				try {
+					this.closeAll(client);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 			if(e.getSource()==bmp.b2.back) {
 				(bmp.getC()).show(bmp.getJp(), "f1");
@@ -100,7 +112,6 @@ public class BoundCarListner implements ActionListener {
 				try {				
 					fillmaxcar(client,maxCar);
 					bmp.getB1().car.setText("nbr de voitures dans la ville : "+currcar(client));
-					System.out.println("*****************");				
 
 				} catch (ClassNotFoundException | SQLException | IOException | InterruptedException e1) {
 					e1.printStackTrace();
@@ -116,7 +127,7 @@ public class BoundCarListner implements ActionListener {
 			
 	}
 	
-	public void manumode() {
+	public void manumode() throws IOException {
 		// launches manual mode and desactivates automode
 		Request rq=new Request();
 		rq.setOperation_type("MANUAL_BOUNDS");
@@ -124,22 +135,28 @@ public class BoundCarListner implements ActionListener {
 		rq.getA().add("0");
 		Json json=new Json(client);
 		json.sendRequest(rq);
+		Message m=new Message();
+		m.readMessage(client.getIn());
 		}
-	public void openAll(Client_socket client) {
+	public void openAll(Client_socket client) throws IOException {
 		Request rq=new Request();
 		rq.setOperation_type("OPEN_BOUNDS");
 		rq.setTable("bound");
 		rq.getA().add("true");
 		Json json=new Json(client);
 		json.sendRequest(rq);
+		Message m=new Message();
+		m.readMessage(client.getIn());
 	}
-	public void closeAll(Client_socket client) {
+	public void closeAll(Client_socket client) throws IOException {
 		Request rq=new Request();
 		rq.setOperation_type("CLOSE_BOUNDS");
 		rq.setTable("bound");
 		rq.getA().add("false");
 		Json json=new Json(client);
 		json.sendRequest(rq);
+		Message m=new Message();
+		m.readMessage(client.getIn());
 	}
 	public void textfill(Client_socket client) throws IOException {
 		
@@ -214,7 +231,6 @@ public class BoundCarListner implements ActionListener {
 		rp=j.deserialize(stt);
 
 		n=Integer.parseInt(rp.getA().get(0));
-		System.out.println(n);
 		return n;
 	}
 	public void fillmaxcar(Client_socket client, int maxcar) throws JsonMappingException, JsonProcessingException, IOException {
