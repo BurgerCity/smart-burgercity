@@ -24,7 +24,7 @@ public class AddSensor {
 		Request r = new Request();
 		ObjectMapper ob = new ObjectMapper();
 		Client_socket c = new Client_socket();
-		OutputStreamWriter out = c.startConnection("127.0.0.1", 2015);
+		OutputStreamWriter out = c.startConnection("172.31.249.164", 2015);
 		
 		String chaine="";
 	       

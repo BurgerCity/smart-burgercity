@@ -62,7 +62,7 @@ public class Normal extends Thread {
 	
 	public void run() {						
 		try {
-			socket = new Socket("127.0.0.1", 2018);											//a socket is created for each sensor
+			socket = new Socket("172.31.249.164", 2018);											//a socket is created for each sensor
 			out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
 		} catch (IOException e) {}
@@ -143,7 +143,7 @@ public class Normal extends Thread {
 					
 					if(Integer.parseInt(rp.getA().get(0)) == 14967) {
 						
-						if(counter >= 2 && counter < 8) {
+						if(counter >= 2 && counter < 6) {
 							
 							if(i == 0) {
 								
