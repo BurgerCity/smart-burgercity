@@ -153,9 +153,7 @@ public class Normal extends Thread {
 								} else if(x == 4){
 									k = Integer.parseInt(rp.getA().get(i + x));
 								}	
-								//System.out.println(k);
 								int rm = rdm.nextInt(k) + k;
-								//System.out.println(rm);		
 								r.getA().add(Integer.toString(rm));
 							
 							} else {

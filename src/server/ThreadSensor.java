@@ -173,7 +173,6 @@ public class ThreadSensor extends Thread{
 			}
 		}
 		a = this.testTimeBeforeAlert(a);
-		//System.out.println(this.alert(a));
 		data.returnConnection(c);
 		return this.alert(a);
 	}
